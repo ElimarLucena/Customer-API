@@ -1,0 +1,32 @@
+version: '3.4'
+
+networks:
+  customerapi:
+
+services:
+  customer.api:
+    container_name: customer_api
+    image: ${DOCKER_REGISTRY-}customerapi
+    build:
+      context: .  
+      dockerfile: src/v1/Customer.API/Dockerfile
+    ports:
+      - 8001:80
+    depends_on:
+      - sqldata
+    environment:
+      - DB_HOST=sqldata
+      - DB_NAME=Customer
+      - DB_SA_PASSWORD=password@12345#
+    networks: 
+      - customerapi
+  sqldata:
+    container_name: sql_server_db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=password@12345#
+    networks: 
+      - customerapi
