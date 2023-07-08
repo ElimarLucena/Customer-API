@@ -1,15 +1,9 @@
 using Application.Swagger;
-//using Customer.API.Validators;
-using FluentValidation;
 using Infra.IoC.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Reflection;
-using MediatR;
 using Application.UseCases.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);

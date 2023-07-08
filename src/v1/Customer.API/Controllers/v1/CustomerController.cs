@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using FluentValidation;
 using MediatR;
 using Application.Models.CustomerModels.Request;
 
@@ -13,17 +12,14 @@ public class CustomerController : ControllerBase
 {
     private readonly ILogger<CustomerController> _logger;
     private readonly IMediator _mediator;
-    //private readonly IValidator<CreateCustomerCommand> _validator;
 
     public CustomerController(
         ILogger<CustomerController> logger,
         IMediator mediator
-       // IValidator<CreateCustomerCommand> validator
     )
     {
         _logger = logger;
         _mediator = mediator;
-        //_validator = validator;
     }
     [HttpGet("getAllCustomer")]
     public async Task<IActionResult> Get(
