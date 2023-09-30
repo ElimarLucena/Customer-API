@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Application.Models.CustomerModels.Request;
+using Application.Models.CustomerModels.Response;
 
 namespace Customer.API.Controllers.v1;
 
@@ -10,48 +11,37 @@ namespace Customer.API.Controllers.v1;
 
 public class CustomerController : ControllerBase
 {
-    private readonly ILogger<CustomerController> _logger;
     private readonly IMediator _mediator;
 
-    public CustomerController(
-        ILogger<CustomerController> logger,
-        IMediator mediator
-    )
-    {
-        _logger = logger;
-        _mediator = mediator;
-    }
+    public CustomerController(IMediator mediator) => _mediator = mediator;
+
     [HttpGet("getAllCustomer")]
-    public async Task<IActionResult> Get(
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> Get(CancellationToken cancellationToken)
     {
         GetAllCustomersRequest command = new();
 
-        var customers = await _mediator.Send(command, cancellationToken);
+        List<GetAllCustomerResponse> customers = await _mediator.Send(command, cancellationToken);
 
         return Ok(customers);
     }
 
-
     [HttpGet("getCustomerById/{customerId}")]
-    public async Task<ActionResult> Get(
-        [FromRoute] int customerId, 
-        CancellationToken cancellationToken)
+    public async Task<ActionResult> Get([FromRoute] int customerId, 
+                                        CancellationToken cancellationToken)
     {
         GetCustomerByIdRequest query = new()
         {
             CustomerId = customerId
         };
 
-        var customer = await _mediator.Send(query, cancellationToken);
+        GetCustomerByIdResponse customer = await _mediator.Send(query, cancellationToken);
 
         return Ok(customer);
     }
 
     [HttpPost("createCustomer")]
-    public async Task<IActionResult> Post(
-        CreateCustomerRequest command, 
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> Post(CreateCustomerRequest command, 
+                                          CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
 
@@ -59,9 +49,8 @@ public class CustomerController : ControllerBase
     }
 
     [HttpPut("updateCustomer")]
-    public async Task<IActionResult> Put(
-        UpdateCustomerRequest command,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> Put(UpdateCustomerRequest command,
+                                         CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
 
@@ -69,16 +58,15 @@ public class CustomerController : ControllerBase
     }
 
     [HttpDelete("deleteCustomerById/{customerId}")]
-    public async Task<ActionResult> Delete(
-        [FromRoute] int customerId,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult> Delete([FromRoute] int customerId,
+                                           CancellationToken cancellationToken)
     {
-        DeleteCustomerByIdRequest query = new()
+        DeleteCustomerByIdRequest command = new()
         {
             CustomerId = customerId
         };
 
-        await _mediator.Send(query, cancellationToken);
+        await _mediator.Send(command, cancellationToken);
 
         return Ok();
     }

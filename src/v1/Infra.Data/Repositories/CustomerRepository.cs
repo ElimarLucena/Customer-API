@@ -2,6 +2,8 @@
 using Domain.Entities;
 using Domain.Interfaces;
 using Infra.Data.DbContext;
+using Infra.Data.Repositories.Sql;
+using System.Data;
 
 namespace Infra.Data.Repositories
 {
@@ -9,119 +11,71 @@ namespace Infra.Data.Repositories
     {
         private readonly ISqlServerDataBaseContext _dbContext;
 
-        public CustomerRepository(ISqlServerDataBaseContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public CustomerRepository(ISqlServerDataBaseContext dbContext) => _dbContext = dbContext;
 
         public async Task<List<Customer>> GetAllCustomers()
         {
-            string query = 
-                @"SELECT 
-                        [CustomerId],
-                        [Name],
-                        [Email],
-                        [Age],
-                        [Phone],
-                        [Document]
-                   FROM 
-                        [Customer].[dbo].[TB_CUSTOMERS]";
+            string query = SqlServer.GetAllCustomers_query();
 
-            var response = await _dbContext.Connection.QueryAsync<Customer>(query);
+            IEnumerable<Customer> response = await _dbContext.Connection.QueryAsync<Customer>(query);
 
             return response.ToList();
         }
 
         public async Task<Customer> GetCustomerById(int customerId)
         {
-            string query =
-                @"SELECT 
-                        [CustomerId],
-                        [Name],
-                        [Email],
-                        [Age],
-                        [Phone],
-                        [Document]
-                  FROM  
-                        [Customer].[dbo].[TB_CUSTOMERS] 
-                  WHERE 
-                        CustomerId = @customerId";
+            string query = SqlServer.GetCustomerById_query();
 
-            var response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CustomerId = customerId });
+            Customer response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CustomerId = customerId });
 
             return response;
         }
 
         public async Task<Customer> GetCustomerByDocument(string document)
         {
-            string query =
-                @"SELECT 
-                        [CustomerId],
-                        [Name],
-                        [Email],
-                        [Age],
-                        [Phone],
-                        [Document]
-                  FROM 
-                        [Customer].[dbo].[TB_CUSTOMERS] 
-                  WHERE 
-                        Document = @document";
+            string query = SqlServer.GetCustomerByDocument_query();
 
-            var response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { Document = document });
+            Customer response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { Document = document });
 
             return response;
         }
 
         public async Task CreateCustomer(Customer customer)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("name", customer.Name, System.Data.DbType.String);
-            parameters.Add("email", customer.Email, System.Data.DbType.String);
-            parameters.Add("document", customer.Document, System.Data.DbType.String);
-            parameters.Add("phone", customer.Phone, System.Data.DbType.Int64);
-            parameters.Add("age", customer.Age, System.Data.DbType.Int32);
+            DynamicParameters parameters = new();
 
-            string command =
-                @"INSERT INTO 
-                        [Customer].[dbo].[TB_CUSTOMERS](Name, Email, Document, Phone, Age) 
-                  VALUES
-                        (@name, @email, @document, @phone, @age)";
+            parameters.Add("name", customer.Name, DbType.String);
+            parameters.Add("email", customer.Email, DbType.String);
+            parameters.Add("document", customer.Document, DbType.String);
+            parameters.Add("phone", customer.Phone, DbType.Int64);
+            parameters.Add("age", customer.Age, DbType.Int32);
+            parameters.Add("password", customer.Password, DbType.String);
+
+            string command = SqlServer.CreateCustomer_command();
 
             await _dbContext.Connection.ExecuteAsync(command, parameters);
         }
 
         public async Task UpdateCustomer(Customer customer)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("CustomerId", customer.CustomerId, System.Data.DbType.Int32);
-            parameters.Add("name", customer.Name, System.Data.DbType.String);
-            parameters.Add("email", customer.Email, System.Data.DbType.String);
-            parameters.Add("document", customer.Document, System.Data.DbType.String);
-            parameters.Add("phone", customer.Phone, System.Data.DbType.Int64);
-            parameters.Add("age", customer.Age, System.Data.DbType.Int32);
+            DynamicParameters parameters = new();
 
-            string command =
-                @"UPDATE
-                        [Customer].[dbo].[TB_CUSTOMERS]
-                  SET
-                        Name = @name,
-                        Email = @email,
-                        Document = @document,
-                        Phone = @phone,
-                        Age =  @age
-                  WHERE 
-                        CustomerId = @CustomerId";
+            parameters.Add("customerId", customer.CustomerId, DbType.Int32);
+            parameters.Add("name", customer.Name, DbType.String);
+            parameters.Add("email", customer.Email, DbType.String);
+            parameters.Add("document", customer.Document, DbType.String);
+            parameters.Add("phone", customer.Phone, DbType.Int64);
+            parameters.Add("age", customer.Age, DbType.Int32);
+            parameters.Add("password", customer.Password, DbType.String);
+
+            string command = SqlServer.UpdateCustomer_command();
 
             await _dbContext.Connection.ExecuteAsync(command, parameters);
         }
 
         public async Task DeleteCustomer(int customerId)
         {
-            string command =
-                @"DELETE FROM 
-                        [Customer].[dbo].[TB_CUSTOMERS]
-                  WHERE
-                        CustomerId = @CustomerId";
+            string command = SqlServer.DeleteCustomer_command();
 
             await _dbContext.Connection.ExecuteAsync(command, new { CustomerId = customerId });
         }

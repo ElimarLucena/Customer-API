@@ -10,16 +10,27 @@ namespace Application.Services
     {
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerService(ICustomerRepository customerRepository)
-        {
-            _customerRepository = customerRepository;
-        }
+        public CustomerService(ICustomerRepository customerRepository) => _customerRepository = customerRepository;
 
-        public async Task<List<Customer>> GetAllCustomers()
+        public async Task<List<GetAllCustomerResponse>> GetAllCustomers()
         {
             try
             {
-                List<Customer> response = await _customerRepository.GetAllCustomers();
+                List<GetAllCustomerResponse> response = new();
+
+                List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
+
+                if (allCustomers.Any())
+                    foreach (Customer customer in allCustomers)
+                        response.Add(new GetAllCustomerResponse() 
+                                     {
+                                         CustomerId = customer.CustomerId,
+                                         Name = customer.Name,
+                                         Email = customer.Email,
+                                         Age = customer.Age,
+                                         Phone = customer.Phone,
+                                         Document = customer.Document
+                                     });
 
                 return response;
             }
@@ -45,7 +56,7 @@ namespace Application.Services
                     Email = customer.Email,
                     Age = customer.Age,
                     Phone = customer.Phone,
-                    Document = customer.Document,
+                    Document = customer.Document
                 };
 
                 return response;
@@ -71,7 +82,8 @@ namespace Application.Services
                     Email = command.Email,
                     Age = command.Age,
                     Phone = command.Phone,
-                    Document = command.Document
+                    Document = command.Document,
+                    Password = command.Password
                 };
 
                 await _customerRepository.CreateCustomer(newCustomer);
@@ -93,7 +105,8 @@ namespace Application.Services
                     Email = command.Email,
                     Age = command.Age,
                     Phone = command.Phone,
-                    Document = command.Document
+                    Document = command.Document,
+                    Password = command.Password
                 };
 
                 await _customerRepository.UpdateCustomer(updateCustomer);
@@ -104,11 +117,11 @@ namespace Application.Services
             }
         }
 
-        public async Task DeleteCustomer(int id)
+        public async Task DeleteCustomer(int customerId)
         {
             try
             {
-                await _customerRepository.DeleteCustomer(id);
+                await _customerRepository.DeleteCustomer(customerId);
             }
             catch (Exception ex)
             {

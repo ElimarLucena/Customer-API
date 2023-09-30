@@ -17,9 +17,10 @@ namespace Infra.IoC.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddSqlServerDataBaseContext(this IServiceCollection services, string sqlServerDataBaseContext) 
+        public static IServiceCollection AddSqlServerDataBaseContext(this IServiceCollection services, string connectionString) 
         { 
-            services.AddScoped<ISqlServerDataBaseContext>(program => new SqlServerDataBaseContext(sqlServerDataBaseContext));
+            services.AddScoped<ISqlServerDataBaseContext>(program => new SqlServerDataBaseContext(connectionString));
+
             return services;
         }
     }
