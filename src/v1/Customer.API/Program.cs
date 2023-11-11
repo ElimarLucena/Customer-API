@@ -1,10 +1,9 @@
 using Application.Swagger;
-using Infra.IoC.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Application.UseCases.Handlers;
+using Application.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +31,6 @@ builder.Services.AddSwaggerGen(swagger =>
 
 builder.Services.AddInfrastructureServices();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(CustomerHandler)));
 builder.Services.AddSqlServerDataBaseContext(builder.Configuration.GetConnectionString("SqlServer")!);
 
 var app = builder.Build();

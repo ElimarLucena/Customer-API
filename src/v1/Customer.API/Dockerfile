@@ -10,7 +10,6 @@ WORKDIR /src
 COPY ["src/v1/Customer.API/Customer.API.csproj", "src/v1/Customer.API/"]
 COPY ["src/v1/Application/Application.csproj", "src/v1/Application/"]
 COPY ["src/v1/Domain/Domain.csproj", "src/v1/Domain/"]
-COPY ["src/v1/Infra.IoC/Infra.IoC.csproj", "src/v1/Infra.IoC/"]
 COPY ["src/v1/Infra.Data/Infra.Data.csproj", "src/v1/Infra.Data/"]
 RUN dotnet restore "src/v1/Customer.API/Customer.API.csproj"
 COPY . .

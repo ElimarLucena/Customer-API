@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Infra.IoC\Infra.IoC.csproj" />
   </ItemGroup>
 
 </Project>
