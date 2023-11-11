@@ -31,12 +31,9 @@ builder.Services.AddSwaggerGen(swagger =>
 });
 
 builder.Services.AddInfrastructureServices();
-//builder.Services.AddTransient<IValidator<AddCustomerInputModel>, AddCustomerInputModelValidator>();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(CustomerHandler)));
-
-string connectionString = $"Server={Environment.GetEnvironmentVariable("DB_HOST")};Database={Environment.GetEnvironmentVariable("DB_NAME")};Encrypt=False;TrustServerCertificate=True;User=SA;Password={Environment.GetEnvironmentVariable("DB_SA_PASSWORD")}";
-builder.Services.AddSqlServerDataBaseContext(connectionString);
+builder.Services.AddSqlServerDataBaseContext(builder.Configuration.GetConnectionString("SqlServer")!);
 
 var app = builder.Build();
 var versionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
