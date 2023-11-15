@@ -64,5 +64,18 @@
                 [Customer].[dbo].[TB_CUSTOMERS]
             WHERE
                 CustomerId = @CustomerId;";
+
+        public static string GetCustomerByEmailPassword_query() =>
+           @"SELECT 
+                [CustomerId],
+                [Name],
+                [Email],
+                [Age],
+                [Phone],
+                [Document]
+            FROM  
+                [Customer].[dbo].[TB_CUSTOMERS] 
+            WHERE
+                Email = @email AND Password = @password;";
     }
 }

@@ -10,19 +10,18 @@ namespace Application.DependencyInjection
 {
     public static class ConfigureServices
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, string connectionString)
         {
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<ILoginService, LoginService>();
 
             // Add Mediator.
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(CustomerHandler)));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(LoginHandler)));
 
-            return services;
-        }
-
-        public static IServiceCollection AddSqlServerDataBaseContext(this IServiceCollection services, string connectionString)
-        {
+            // Add Database Context.
             services.AddScoped<ISqlServerDataBaseContext>(program => new SqlServerDataBaseContext(connectionString));
 
             return services;
