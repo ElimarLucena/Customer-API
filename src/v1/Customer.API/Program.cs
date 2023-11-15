@@ -1,8 +1,3 @@
-using Application.Swagger;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Application.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -33,41 +28,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     };
                 });
 
-//Swagger Version Url
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddApiVersioning(version => 
-{
-    version.AssumeDefaultVersionWhenUnspecified = true;
-    version.DefaultApiVersion = new ApiVersion(1, 0);
-});
-builder.Services.AddVersionedApiExplorer(setup =>
-{
-    setup.GroupNameFormat = "'v'VVV";
-    setup.SubstituteApiVersionInUrl = true;
-});
-builder.Services.AddSwaggerGen(swagger => 
-{
-    swagger.OperationFilter<SwaggerDefaultValues>();
-});
-
+builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionString("SqlServer")!);
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>();
 
 var app = builder.Build();
-var versionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        foreach (var description in versionDescriptionProvider.ApiVersionDescriptions)
-        {
-            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
-                $"Customer - {description.GroupName.ToUpper()}");
-        }
-    }); 
+    app.UseSwaggerUI(); 
 }
 
 app.UseHttpsRedirection();

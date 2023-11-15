@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Customer.API.Controllers.v1
 {
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/login")]
+    [Route("api/v1/login")]
     [ApiController]
 
     public class LoginController : Controller

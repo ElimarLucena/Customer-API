@@ -5,8 +5,7 @@ using Application.Models.CustomerModels.Response;
 
 namespace Customer.API.Controllers.v1;
 
-[ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/customer")]
+[Route("api/v1/customer")]
 [ApiController]
 
 public class CustomerController : ControllerBase
