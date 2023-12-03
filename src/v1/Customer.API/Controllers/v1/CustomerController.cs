@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Application.Models.CustomerModels.Request;
 using Application.Models.CustomerModels.Response;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Customer.API.Controllers.v1;
 
-[Route("api/v1/customer")]
 [ApiController]
+[Authorize]
+[Route("api/v1/customer")]
 
 public class CustomerController : ControllerBase
 {
@@ -14,6 +16,7 @@ public class CustomerController : ControllerBase
 
     public CustomerController(IMediator mediator) => _mediator = mediator;
 
+    [Authorize(Roles = "admin,manager")]
     [HttpGet("getAllCustomer")]
     public async Task<IActionResult> Get(CancellationToken cancellationToken)
     {
@@ -38,6 +41,7 @@ public class CustomerController : ControllerBase
         return Ok(customer);
     }
 
+    [AllowAnonymous]
     [HttpPost("createCustomer")]
     public async Task<IActionResult> Post(CreateCustomerRequest command, 
                                           CancellationToken cancellationToken)

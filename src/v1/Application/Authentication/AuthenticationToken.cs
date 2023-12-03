@@ -24,7 +24,7 @@ namespace Application.Authentication
                     new Claim(ClaimTypes.NameIdentifier, customer.CustomerId.ToString()),
                     new Claim(ClaimTypes.Name, customer.Name.ToString()),
                     new Claim(ClaimTypes.Email, customer.Email.ToString()),
-                    new Claim(ClaimTypes.MobilePhone, customer.Phone.ToString()),
+                    new Claim(ClaimTypes.MobilePhone, customer.Phone.ToString())
                 }),
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials
