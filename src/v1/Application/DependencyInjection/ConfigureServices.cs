@@ -29,7 +29,7 @@ namespace Application.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddSecretKeyAuthentication(this IServiceCollection services,
+        public static IServiceCollection AddAuthenticationSecretKey(this IServiceCollection services,
                                                                     string key) 
         {
             services.AddScoped<IAuthenticationToken>(program => new AuthenticationToken(key));
