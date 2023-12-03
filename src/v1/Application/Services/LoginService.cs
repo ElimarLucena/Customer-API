@@ -9,13 +9,13 @@ namespace Application.Services
     public class LoginService : ILoginService
     {
         private readonly ILoginRepository _loginRepository;
-        private readonly IAuthenticationToken _tokenAuthentication;
+        private readonly IAuthenticationToken _authenticationToken;
 
         public LoginService(ILoginRepository loginRepository, 
-                            IAuthenticationToken tokenAuthentication)
+                            IAuthenticationToken authenticationToken)
         {
             _loginRepository = loginRepository;
-            _tokenAuthentication = tokenAuthentication;
+            _authenticationToken = authenticationToken;
         }
 
         public async Task<LoginCustomerResponse> GetCustomerToken(LoginCustomerRequest request)
@@ -29,7 +29,7 @@ namespace Application.Services
 
                 return new LoginCustomerResponse()
                 {
-                    Token = _tokenAuthentication.GenerateToken(customer)
+                    Token = _authenticationToken.GenerateToken(customer)
                 };
             }
             catch (Exception ex)
