@@ -21,10 +21,10 @@ namespace Application.Authentication
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, customer.CustomerId.ToString()),
-                    new Claim(ClaimTypes.Name, customer.Name.ToString()),
-                    new Claim(ClaimTypes.Email, customer.Email.ToString()),
-                    new Claim(ClaimTypes.MobilePhone, customer.Phone.ToString())
+                    new(ClaimTypes.NameIdentifier, customer.CustomerId.ToString()),
+                    new(ClaimTypes.Name, customer.Name.ToString()),
+                    new(ClaimTypes.Email, customer.Email.ToString()),
+                    new(ClaimTypes.MobilePhone, customer.Phone.ToString())
                 }),
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials

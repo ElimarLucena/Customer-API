@@ -23,14 +23,14 @@ namespace Application.Services
                 if (allCustomers.Any())
                     foreach (Customer customer in allCustomers)
                         response.Add(new GetAllCustomerResponse() 
-                                     {
-                                         CustomerId = customer.CustomerId,
-                                         Name = customer.Name,
-                                         Email = customer.Email,
-                                         Age = customer.Age,
-                                         Phone = customer.Phone,
-                                         Document = customer.Document
-                                     });
+                                    {
+                                        CustomerId = customer.CustomerId,
+                                        Name = customer.Name,
+                                        Email = customer.Email,
+                                        Age = customer.Age,
+                                        Phone = customer.Phone,
+                                        Document = customer.Document
+                                    });
 
                 return response;
             }
