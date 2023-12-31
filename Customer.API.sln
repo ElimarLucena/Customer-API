@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.Data", "src\v1\Infra.
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A2DF22E9-35DF-4E4B-B6B1-88903EDB3FB0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FFECC500-3B26-4773-A9FD-D81D0B3CBBB8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FFECC500-3B26-4773-A9FD-D81D0B3CBBB8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "test\IntegrationTests\IntegrationTests.csproj", "{01E19DD6-2F74-475B-BF1E-1395C0F77961}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "tests\IntegrationTests\IntegrationTests.csproj", "{01E19DD6-2F74-475B-BF1E-1395C0F77961}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
