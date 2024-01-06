@@ -12,12 +12,15 @@ services:
       dockerfile: src/v1/Customer.API/Dockerfile
     ports:
       - 8001:80
+      - 8088:443
     depends_on:
       - sqldata
     environment:
       - DB_HOST=sqldata
       - DB_NAME=Customer
       - DB_SA_PASSWORD=password@12345#
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
     networks: 
       - customerapi
   sqldata:
