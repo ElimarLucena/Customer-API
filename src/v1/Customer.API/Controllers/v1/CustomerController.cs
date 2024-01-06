@@ -20,9 +20,9 @@ public class CustomerController : ControllerBase
     [HttpGet("getAllCustomer")]
     public async Task<IActionResult> Get(CancellationToken cancellationToken)
     {
-        GetAllCustomersRequest command = new();
+        GetAllCustomersRequest query = new();
 
-        List<GetAllCustomerResponse> customers = await _mediator.Send(command, cancellationToken);
+        List<GetAllCustomerResponse> customers = await _mediator.Send(query, cancellationToken);
 
         return Ok(customers);
     }
