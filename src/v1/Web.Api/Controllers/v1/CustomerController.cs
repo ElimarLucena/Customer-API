@@ -4,7 +4,7 @@ using Application.Models.CustomerModels.Request;
 using Application.Models.CustomerModels.Response;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Customer.API.Controllers.v1;
+namespace Web.Api.Controllers.v1;
 
 [ApiController]
 [Authorize]

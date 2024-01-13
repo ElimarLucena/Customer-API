@@ -3,7 +3,7 @@ using Application.Models.LoginModels.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Customer.API.Controllers.v1
+namespace Web.Api.Controllers.v1
 {
     [ApiController]
     [Route("api/v1/login")]
