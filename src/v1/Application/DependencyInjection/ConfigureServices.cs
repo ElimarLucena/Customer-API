@@ -12,7 +12,8 @@ namespace Application.DependencyInjection
     public static class ConfigureServices
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, 
-                                                                   string connectionString)
+                                                                   string connectionString,
+                                                                   string SecretKey)
         {
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
@@ -26,13 +27,8 @@ namespace Application.DependencyInjection
             // Add Database Context.
             services.AddScoped<ISqlServerDataBaseContext>(program => new SqlServerDataBaseContext(connectionString));
 
-            return services;
-        }
-
-        public static IServiceCollection AddAuthenticationSecretKey(this IServiceCollection services,
-                                                                    string key) 
-        {
-            services.AddScoped<IAuthenticationToken>(program => new AuthenticationToken(key));
+            // Add Authentication Secret Key.
+            services.AddScoped<IAuthenticationToken>(program => new AuthenticationToken(SecretKey));
 
             return services;
         }

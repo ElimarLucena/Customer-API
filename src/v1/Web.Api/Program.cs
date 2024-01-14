@@ -12,7 +12,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 // Add Authentication.
-builder.Services.AddAuthenticationSecretKey(builder.Configuration["JWTSettings:Secret"]!);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -58,7 +57,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionString("SqlServer")!);
+builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionString("SqlServer")!,
+                                           builder.Configuration["JWTSettings:Secret"]!);
 
 var app = builder.Build();
 
