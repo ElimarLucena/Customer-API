@@ -14,119 +14,84 @@ namespace Application.Services
 
         public async Task<List<GetAllCustomerResponse>> GetAllCustomers()
         {
-            try
-            {
-                List<GetAllCustomerResponse> response = new();
+            List<GetAllCustomerResponse> response = new();
 
-                List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
+            List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
 
-                if (allCustomers.Any())
-                    foreach (Customer customer in allCustomers)
-                        response.Add(new GetAllCustomerResponse() 
-                                    {
-                                        CustomerId = customer.CustomerId,
-                                        Name = customer.Name,
-                                        Email = customer.Email,
-                                        Age = customer.Age,
-                                        Phone = customer.Phone,
-                                        Document = customer.Document
-                                    });
+            if (allCustomers.Any())
+                foreach (Customer customer in allCustomers)
+                    response.Add(new GetAllCustomerResponse() 
+                                {
+                                    CustomerId = customer.CustomerId,
+                                    Name = customer.Name,
+                                    Email = customer.Email,
+                                    Age = customer.Age,
+                                    Phone = customer.Phone,
+                                    Document = customer.Document
+                                });
 
-                return response;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return response;
         }
 
         public async Task<GetCustomerByIdResponse> GetCustomerById(int customerId) 
         { 
-            try
+            Customer customer = await _customerRepository.GetCustomerById(customerId);
+
+            if (customer == null) 
+                throw new Exception("Ops! this customer not found.");
+
+            GetCustomerByIdResponse response = new()
             {
-                Customer customer = await _customerRepository.GetCustomerById(customerId);
+                CustomerId = customer.CustomerId,
+                Name = customer.Name,
+                Email = customer.Email,
+                Age = customer.Age,
+                Phone = customer.Phone,
+                Document = customer.Document
+            };
 
-                if (customer == null) 
-                    throw new Exception("Ops! this customer not found.");
-
-                GetCustomerByIdResponse response = new()
-                {
-                    CustomerId = customer.CustomerId,
-                    Name = customer.Name,
-                    Email = customer.Email,
-                    Age = customer.Age,
-                    Phone = customer.Phone,
-                    Document = customer.Document
-                };
-
-                return response;
-            }
-            catch (Exception ex) 
-            {
-                throw new Exception(ex.Message);
-            }
+            return response;
         }
 
         public async Task CreateCustomer(CreateCustomerRequest command)
         {
-            try
+            Customer existCustomer = await _customerRepository.GetCustomerByDocument(command.Document);
+
+            if (existCustomer != null)
+                throw new Exception("Ops! this customer already exists.");
+
+            Customer newCustomer = new()
             {
-                Customer existCustomer = await _customerRepository.GetCustomerByDocument(command.Document);
+                Name = command.Name,
+                Email = command.Email,
+                Age = command.Age,
+                Phone = command.Phone,
+                Document = command.Document,
+                Password = command.Password
+            };
 
-                if (existCustomer != null)
-                    throw new Exception("Ops! this customer already exists.");
-
-                Customer newCustomer = new()
-                {
-                    Name = command.Name,
-                    Email = command.Email,
-                    Age = command.Age,
-                    Phone = command.Phone,
-                    Document = command.Document,
-                    Password = command.Password
-                };
-
-                await _customerRepository.CreateCustomer(newCustomer);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            await _customerRepository.CreateCustomer(newCustomer);
         }
 
         public async Task UpdateCustomer(UpdateCustomerRequest command)
         {
-            try
+            Customer updateCustomer = new()
             {
-                Customer updateCustomer = new()
-                {
-                    CustomerId = command.CustomerId,
-                    Name = command.Name,
-                    Email = command.Email,
-                    Age = command.Age,
-                    Phone = command.Phone,
-                    Document = command.Document,
-                    Password = command.Password
-                };
+                CustomerId = command.CustomerId,
+                Name = command.Name,
+                Email = command.Email,
+                Age = command.Age,
+                Phone = command.Phone,
+                Document = command.Document,
+                Password = command.Password
+            };
 
-                await _customerRepository.UpdateCustomer(updateCustomer);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            await _customerRepository.UpdateCustomer(updateCustomer);
         }
 
         public async Task DeleteCustomer(int customerId)
         {
-            try
-            {
-                await _customerRepository.DeleteCustomer(customerId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            await _customerRepository.DeleteCustomer(customerId);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Web.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionString("SqlServer")!,
                                            builder.Configuration["JWTSettings:Secret"]!);
 
+builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,6 +71,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(); 
 }
+
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

@@ -20,22 +20,15 @@ namespace Application.Services
 
         public async Task<LoginCustomerResponse> GetCustomerToken(LoginCustomerRequest request)
         {
-            try
-            {
-                Customer customer = await _loginRepository.GetCustomerByEmailPassword(request.Email, request.Password);
+            Customer customer = await _loginRepository.GetCustomerByEmailPassword(request.Email, request.Password);
 
-                if (customer == null)
-                    throw new Exception("Incorrect email address or password.");
+            if (customer == null)
+                throw new Exception("Incorrect email address or password.");
 
-                return new LoginCustomerResponse()
-                {
-                    Token = _authenticationToken.GenerateToken(customer)
-                };
-            }
-            catch (Exception ex)
+            return new LoginCustomerResponse()
             {
-                throw new Exception(ex.Message);
-            }
+                Token = _authenticationToken.GenerateToken(customer)
+            };
         }
     }
 }

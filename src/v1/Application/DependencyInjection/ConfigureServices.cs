@@ -13,7 +13,7 @@ namespace Application.DependencyInjection
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, 
                                                                    string connectionString,
-                                                                   string SecretKey)
+                                                                   string secretKey)
         {
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
@@ -28,7 +28,7 @@ namespace Application.DependencyInjection
             services.AddScoped<ISqlServerDataBaseContext>(program => new SqlServerDataBaseContext(connectionString));
 
             // Add Authentication Secret Key.
-            services.AddScoped<IAuthenticationToken>(program => new AuthenticationToken(SecretKey));
+            services.AddScoped<IAuthenticationToken>(program => new AuthenticationToken(secretKey));
 
             return services;
         }
