@@ -26,18 +26,18 @@ namespace Infra.Data.Repositories
         {
             string query = SqlServer.GetCustomerById_query();
 
-            Customer response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CustomerId = customerId });
+            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CustomerId = customerId });
 
-            return response;
+            return response!;
         }
 
         public async Task<Customer> GetCustomerByDocument(string document)
         {
             string query = SqlServer.GetCustomerByDocument_query();
 
-            Customer response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { Document = document });
+            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { Document = document });
 
-            return response;
+            return response!;
         }
 
         public async Task CreateCustomer(Customer customer)
