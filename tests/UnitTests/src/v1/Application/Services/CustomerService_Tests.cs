@@ -73,5 +73,46 @@ namespace UnitTests.src.v1.Application.Services
             // Assert
             getAllCustomers.Should().BeEmpty();
         }
+
+        [Fact]
+        public async Task GetCustomerById_Success()
+        {
+            // Arrange
+            int customerId = 1;
+            _customerRepository.Setup(moq => moq.GetCustomerById(customerId)).ReturnsAsync(_dataBaseMock[0]);
+
+            CustomerService customerService = new(_customerRepository.Object);
+
+            // Act
+            GetCustomerByIdResponse getCustomerByIdResponse = await customerService.GetCustomerById(customerId);
+
+            // Assert
+            getCustomerByIdResponse.Should().BeOfType<GetCustomerByIdResponse>();
+            getCustomerByIdResponse.CustomerId.Should().Be(customerId);
+            getCustomerByIdResponse.Name.Should().Be("User_1");
+            getCustomerByIdResponse.Email.Should().Be("User_1@gmail.com");
+            getCustomerByIdResponse.Email.Should().Match("*@*.com");
+            getCustomerByIdResponse.Age.Should().Be(20);
+            getCustomerByIdResponse.Phone.Should().Be(123456789);
+            getCustomerByIdResponse.Document.Should().Be("cpf");
+        }
+
+        [Fact]
+        public async Task GetCustomerById_Failure()
+        {
+            // Arrange
+            int customerId = 3;
+            _customerRepository.Setup(moq => moq.GetCustomerById(customerId)).ReturnsAsync(() => null!);
+
+            CustomerService customerService = new(_customerRepository.Object);
+
+            // Act
+            Func<Task<GetCustomerByIdResponse>> getCustomerByIdResponse = async () => await customerService.GetCustomerById(customerId);
+
+            // Assert
+            await getCustomerByIdResponse.Should()
+                                         .ThrowAsync<Exception>()
+                                         .WithMessage("Ops! this customer not found.");
+        }
     }
 }
