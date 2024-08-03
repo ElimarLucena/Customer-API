@@ -63,6 +63,7 @@ namespace UnitTests.src.v1.Application.Services
         {
             // Arrange
             List<Customer> customerList = [];
+
             _customerRepository.Setup(moq => moq.GetAllCustomers()).ReturnsAsync(customerList);
 
             CustomerService customerService = new(_customerRepository.Object);
@@ -79,6 +80,7 @@ namespace UnitTests.src.v1.Application.Services
         {
             // Arrange
             int customerId = 1;
+
             _customerRepository.Setup(moq => moq.GetCustomerById(customerId)).ReturnsAsync(_dataBaseMock[0]);
 
             CustomerService customerService = new(_customerRepository.Object);
@@ -88,7 +90,7 @@ namespace UnitTests.src.v1.Application.Services
 
             // Assert
             getCustomerByIdResponse.Should().BeOfType<GetCustomerByIdResponse>();
-            getCustomerByIdResponse.CustomerId.Should().Be(customerId);
+            getCustomerByIdResponse.CustomerId.Should().Be(1);
             getCustomerByIdResponse.Name.Should().Be("User_1");
             getCustomerByIdResponse.Email.Should().Be("User_1@gmail.com");
             getCustomerByIdResponse.Email.Should().Match("*@*.com");
@@ -102,6 +104,7 @@ namespace UnitTests.src.v1.Application.Services
         {
             // Arrange
             int customerId = 3;
+
             _customerRepository.Setup(moq => moq.GetCustomerById(customerId)).ReturnsAsync(() => null!);
 
             CustomerService customerService = new(_customerRepository.Object);

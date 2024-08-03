@@ -1,6 +1,4 @@
-﻿using Application.Models.CustomerModels.Response;
-using Castle.Core.Resource;
-using Dapper;
+﻿using Dapper;
 using Domain.Entities;
 using FluentAssertions;
 using Infra.Data.DbContext;
