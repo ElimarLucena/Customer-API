@@ -30,12 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\v1\Web.Api\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\v1\Application\Application.csproj" />
     <ProjectReference Include="..\..\src\v1\Infra.Data\Infra.Data.csproj" />
+    <ProjectReference Include="..\..\src\v1\Web.Api\Web.Api.csproj" />
   </ItemGroup>
 
 </Project>
