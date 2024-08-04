@@ -18,7 +18,7 @@ public class CustomerController : ControllerBase
 
     [Authorize(Roles = "admin,manager")]
     [HttpGet("getAllCustomer")]
-    public async Task<IActionResult> Get(CancellationToken cancellationToken)
+    public async Task<ActionResult> Get(CancellationToken cancellationToken)
     {
         GetAllCustomersRequest query = new();
 
