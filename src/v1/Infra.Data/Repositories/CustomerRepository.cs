@@ -15,7 +15,7 @@ namespace Infra.Data.Repositories
 
         public async Task<List<Customer>> GetAllCustomers()
         {
-            string query = SqlServer.GetAllCustomers_query();
+            string query = SqlServer.GetAllCustomers_Query();
 
             IEnumerable<Customer> response = await _dbContext.Connection.QueryAsync<Customer>(query);
 
@@ -24,7 +24,7 @@ namespace Infra.Data.Repositories
 
         public async Task<Customer> GetCustomerById(int customerId)
         {
-            string query = SqlServer.GetCustomerById_query();
+            string query = SqlServer.GetCustomerById_Query();
 
             Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CustomerId = customerId });
 
@@ -33,7 +33,7 @@ namespace Infra.Data.Repositories
 
         public async Task<Customer> GetCustomerByDocument(string document)
         {
-            string query = SqlServer.GetCustomerByDocument_query();
+            string query = SqlServer.GetCustomerByDocument_Query();
 
             Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { Document = document });
 
@@ -51,7 +51,7 @@ namespace Infra.Data.Repositories
             parameters.Add("age", customer.Age, DbType.Int32);
             parameters.Add("password", customer.Password, DbType.String);
 
-            string command = SqlServer.CreateCustomer_command();
+            string command = SqlServer.CreateCustomer_Command();
 
             await _dbContext.Connection.ExecuteAsync(command, parameters);
         }
@@ -68,14 +68,14 @@ namespace Infra.Data.Repositories
             parameters.Add("age", customer.Age, DbType.Int32);
             parameters.Add("password", customer.Password, DbType.String);
 
-            string command = SqlServer.UpdateCustomer_command();
+            string command = SqlServer.UpdateCustomer_Command();
 
             await _dbContext.Connection.ExecuteAsync(command, parameters);
         }
 
         public async Task DeleteCustomer(int customerId)
         {
-            string command = SqlServer.DeleteCustomer_command();
+            string command = SqlServer.DeleteCustomer_Command();
 
             await _dbContext.Connection.ExecuteAsync(command, new { CustomerId = customerId });
         }
