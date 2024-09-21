@@ -40,13 +40,10 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             }
         }
 
-        public CustomerController_Tests()
-        {
-            _mockMediator = new Mock<IMediator>();
-        }
+        public CustomerController_Tests() => _mockMediator = new Mock<IMediator>();
 
         [Fact]
-        public async Task Controllers_GetAllCustomers_ReturnOK()
+        public async Task Get_ReturnsOkResult_WithAllCustomers()
         {
             // Arrange
             CancellationToken cancellationToken = new();
@@ -60,8 +57,27 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             ActionResult<List<GetAllCustomerResponse>> getAllCustomers = await customerController.Get(cancellationToken);
 
             // Assert
-            getAllCustomers.Result.Should().NotBeNull();
-            getAllCustomers.Result.Should().BeOfType(typeof(OkObjectResult));
+            OkObjectResult response = (OkObjectResult) getAllCustomers.Result!;
+            response.Should().NotBeNull();
+            response.Should().BeOfType(typeof(OkObjectResult));
+            response.StatusCode.Should().Be(200);
+
+            List<GetAllCustomerResponse> responseValue = (List<GetAllCustomerResponse>) response.Value!;
+            responseValue[0].CustomerId.Should().Be(1);
+            responseValue[0].Name.Should().Be("User_1");
+            responseValue[0].Email.Should().Be("User_1@gmail.com");
+            responseValue[0].Email.Should().Match("*@*.com");
+            responseValue[0].Age.Should().Be(20);
+            responseValue[0].Phone.Should().Be(123456789);
+            responseValue[0].Document.Should().Be("cpf");
+
+            responseValue[1].CustomerId.Should().Be(2);
+            responseValue[1].Name.Should().Be("User_2");
+            responseValue[1].Email.Should().Be("User_2@gmail.com");
+            responseValue[1].Email.Should().Match("*@*.com");
+            responseValue[1].Age.Should().Be(21);
+            responseValue[1].Phone.Should().Be(123456781);
+            responseValue[1].Document.Should().Be("cpf1");
         }
     }
 }
