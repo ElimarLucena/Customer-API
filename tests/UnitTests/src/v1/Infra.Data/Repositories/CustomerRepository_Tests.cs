@@ -53,7 +53,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
         {
             // Arrange
             _mockConnection.SetupDapperAsync(moq => moq.QueryAsync<Customer>(It.IsAny<string>(), null, null, null, null))
-                                                       .ReturnsAsync(_dataBaseMock);
+                           .ReturnsAsync(_dataBaseMock);
 
             _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
 
@@ -92,7 +92,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
             List<Customer> customerList = [];
 
             _mockConnection.SetupDapperAsync(moq => moq.QueryAsync<Customer>(It.IsAny<string>(), null, null, null, null))
-                                                       .ReturnsAsync(customerList);
+                           .ReturnsAsync(customerList);
 
             _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
 
