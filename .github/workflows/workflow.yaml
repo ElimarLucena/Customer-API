@@ -41,5 +41,5 @@ jobs:
     needs: [build]
     steps:
       - name: Unit Tests
-        run: dotnet test ./home/runner/work/Customer-API/Customer-API/tests/UnitTests/UnitTests.csproj
+        run: dotnet test /home/runner/work/Customer-API/Customer-API/tests/UnitTests/UnitTests.csproj
         
