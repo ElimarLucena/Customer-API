@@ -29,8 +29,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-      - name: Set working directory
-        run: cd workspace/projects/Customer-API
+      - name: Print working directory
+        run: pwd
       - name: Restore dependencies
         run: dotnet restore Web.Api.sln
       - name: Build
