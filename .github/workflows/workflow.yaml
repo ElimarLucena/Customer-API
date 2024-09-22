@@ -34,5 +34,5 @@ jobs:
       - name: Build
         run: dotnet build Web.Api.sln
       - name: Unit Tests
-        run: dotnet test .\tests\UnitTests\UnitTests.csproj
+        run: dotnet test ./tests/UnitTests/UnitTests.csproj
         
