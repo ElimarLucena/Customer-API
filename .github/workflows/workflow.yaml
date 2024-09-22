@@ -29,6 +29,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+      - name: Set working directory
+        run: cd workspace/projects/Customer-API
       - name: Restore dependencies
         run: dotnet restore Web.Api.sln
       - name: Build
@@ -38,6 +40,8 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - name: Set working directory
+        run: cd workspace/projects/Customer-API
       - name: Unit Tests
         run: dotnet test ./tests/UnitTests/UnitTests.csproj
         
