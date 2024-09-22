@@ -33,6 +33,11 @@ jobs:
         run: dotnet restore Web.Api.sln
       - name: Build
         run: dotnet build Web.Api.sln
+
+  tests:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
       - name: Unit Tests
         run: dotnet test ./tests/UnitTests/UnitTests.csproj
         
