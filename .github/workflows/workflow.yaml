@@ -37,11 +37,11 @@ jobs:
         run: dotnet build Web.Api.sln
 
   tests:
-    needs: [build]
     runs-on: ubuntu-latest
+    needs: [build]
     steps:
       - name: Set working directory
-        run: cd workspace/projects/Customer-API
+        run: cd /home/runner/work/Customer-API/Customer-API
       - name: Unit Tests
         run: dotnet test ./tests/UnitTests/UnitTests.csproj
         
