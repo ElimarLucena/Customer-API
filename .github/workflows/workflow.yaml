@@ -1,6 +1,18 @@
 name: Continuos Integration .NET
 
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The Environment to deploy to'
+        required: true
+        type: choice
+        default: 'development'
+        options:
+          - development
+          - stage 
+          - production
+
   pull_request:
     types:
       - opened
@@ -10,6 +22,7 @@ on:
     paths:
       - '**.cs'
       - '.github/workflows/**'
+
   push:
     branches:
       - main
