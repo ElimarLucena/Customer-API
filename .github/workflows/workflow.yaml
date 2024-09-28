@@ -19,6 +19,8 @@ on:
     branches:
       - main
       - 'release/**'
+      - 'feature/**'
+      - 'hotfix/**'
     paths:
       - '**.cs'
       - '.github/workflows/**'
@@ -29,6 +31,19 @@ on:
       - 'release/**'
       - 'feature/**'
       - 'hotfix/**'
+    paths:
+      - '**.cs'
+      - '.github/workflows/**'
+
+  issues:
+    types:
+      - opened
+      - edited
+    branches:
+      - main
+      - 'release/**'
+      - 'feature/**'
+      - 'hotfix/**' 
     paths:
       - '**.cs'
       - '.github/workflows/**'
@@ -55,4 +70,3 @@ jobs:
         uses: actions/checkout@v4
       - name: Unit Tests
         run: dotnet test ./tests/UnitTests/UnitTests.csproj
-        
