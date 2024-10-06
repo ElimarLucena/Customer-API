@@ -10,6 +10,7 @@ namespace UnitTests.src.v1.Application.Services
     public class CustomerService_Tests
     {
         private readonly Mock<ICustomerRepository> _customerRepository;
+        private static Guid _testId { get; set; }
 
         private static List<Customer> _dataBaseMock
         {
@@ -19,7 +20,7 @@ namespace UnitTests.src.v1.Application.Services
                 [
                     new Customer()
                     {
-                        CustomerId = 1,
+                        CustomerId = _testId,
                         Name = "User_1",
                         Email = "User_1@gmail.com",
                         Age = 20,
@@ -28,7 +29,7 @@ namespace UnitTests.src.v1.Application.Services
                     },
                     new Customer()
                     {
-                        CustomerId = 2,
+                        CustomerId = _testId,
                         Name = "User_2",
                         Email = "User_2@gmail.com",
                         Age = 21,
@@ -39,7 +40,12 @@ namespace UnitTests.src.v1.Application.Services
             }
         }
 
-        public CustomerService_Tests() => _customerRepository = new Mock<ICustomerRepository>();
+        public CustomerService_Tests()
+        {
+            _customerRepository = new Mock<ICustomerRepository>();
+            Guid guid = Guid.NewGuid();
+            _testId = guid;
+        }
 
         [Fact]
         public async Task GetAllCustomers_Success()
@@ -79,7 +85,7 @@ namespace UnitTests.src.v1.Application.Services
         public async Task GetCustomerById_Success()
         {
             // Arrange
-            int customerId = 1;
+            Guid customerId = _testId;
 
             _customerRepository.Setup(moq => moq.GetCustomerById(customerId)).ReturnsAsync(_dataBaseMock[0]);
 
@@ -90,7 +96,7 @@ namespace UnitTests.src.v1.Application.Services
 
             // Assert
             getCustomerByIdResponse.Should().BeOfType<GetCustomerByIdResponse>();
-            getCustomerByIdResponse.CustomerId.Should().Be(1);
+            getCustomerByIdResponse.CustomerId.Should().Be(_dataBaseMock[0].CustomerId);
             getCustomerByIdResponse.Name.Should().Be("User_1");
             getCustomerByIdResponse.Email.Should().Be("User_1@gmail.com");
             getCustomerByIdResponse.Email.Should().Match("*@*.com");
@@ -103,7 +109,7 @@ namespace UnitTests.src.v1.Application.Services
         public async Task GetCustomerById_Failure()
         {
             // Arrange
-            int customerId = 3;
+            Guid customerId = Guid.NewGuid();
 
             _customerRepository.Setup(moq => moq.GetCustomerById(customerId)).ReturnsAsync(() => null!);
 

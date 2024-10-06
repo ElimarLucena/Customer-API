@@ -6,9 +6,9 @@ namespace Application.Interfaces
     public interface ICustomerService
     {
         public Task<List<GetAllCustomerResponse>> GetAllCustomers();
-        public Task<GetCustomerByIdResponse> GetCustomerById(int customerId);
+        public Task<GetCustomerByIdResponse> GetCustomerById(Guid customerId);
         public Task CreateCustomer(CreateCustomerRequest customer);
         public Task UpdateCustomer(UpdateCustomerRequest customer);
-        public Task DeleteCustomer(int id);
+        public Task DeleteCustomer(Guid customerId);
     }
 }

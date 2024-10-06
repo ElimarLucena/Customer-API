@@ -11,6 +11,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
     public class CustomerController_Tests
     {
         private readonly Mock<IMediator> _mockMediator;
+        private static Guid _testId { get; set; }
 
         private static List<GetAllCustomerResponse> _dataBaseMock
         {
@@ -20,7 +21,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
                 [
                     new GetAllCustomerResponse()
                     {
-                        CustomerId = 1,
+                        CustomerId = _testId,
                         Name = "User_1",
                         Email = "User_1@gmail.com",
                         Age = 20,
@@ -29,7 +30,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
                     },
                     new GetAllCustomerResponse()
                     {
-                        CustomerId = 2,
+                        CustomerId = _testId,
                         Name = "User_2",
                         Email = "User_2@gmail.com",
                         Age = 21,
@@ -40,7 +41,12 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             }
         }
 
-        public CustomerController_Tests() => _mockMediator = new Mock<IMediator>();
+        public CustomerController_Tests()
+        {
+            _mockMediator = new Mock<IMediator>();
+            Guid guid = Guid.NewGuid();
+            _testId = guid;
+        }
 
         [Fact]
         public async Task Get_ReturnsOkResult_WithAllCustomers()
@@ -63,7 +69,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             response.StatusCode.Should().Be(200);
 
             List<GetAllCustomerResponse> responseValue = (List<GetAllCustomerResponse>) response.Value!;
-            responseValue[0].CustomerId.Should().Be(1);
+            responseValue[0].CustomerId.Should().Be(_dataBaseMock[0].CustomerId);
             responseValue[0].Name.Should().Be("User_1");
             responseValue[0].Email.Should().Be("User_1@gmail.com");
             responseValue[0].Email.Should().Match("*@*.com");
@@ -71,7 +77,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             responseValue[0].Phone.Should().Be(123456789);
             responseValue[0].Document.Should().Be("cpf");
 
-            responseValue[1].CustomerId.Should().Be(2);
+            responseValue[1].CustomerId.Should().Be(_dataBaseMock[1].CustomerId);
             responseValue[1].Name.Should().Be("User_2");
             responseValue[1].Email.Should().Be("User_2@gmail.com");
             responseValue[1].Email.Should().Match("*@*.com");

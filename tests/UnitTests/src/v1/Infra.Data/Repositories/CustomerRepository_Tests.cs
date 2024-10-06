@@ -13,6 +13,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
     {
         private readonly Mock<ISqlServerDataBaseContext> _sqlServerDataBaseContext;
         private readonly Mock<IDbConnection> _mockConnection;
+        private static Guid _testId { get; set; }
 
         private static List<Customer> _dataBaseMock
         {
@@ -22,7 +23,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
                 [
                     new Customer()
                     {
-                        CustomerId = 1,
+                        CustomerId = _testId,
                         Name = "User_1",
                         Email = "User_1@gmail.com",
                         Age = 20,
@@ -31,7 +32,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
                     },
                     new Customer()
                     {
-                        CustomerId = 2,
+                        CustomerId = _testId,
                         Name = "User_2",
                         Email = "User_2@gmail.com",
                         Age = 21,
@@ -46,6 +47,8 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
         {
             _sqlServerDataBaseContext = new Mock<ISqlServerDataBaseContext>();
             _mockConnection = new Mock<IDbConnection>();
+            Guid guid = Guid.NewGuid();
+            _testId = guid;
         }
         
         [Fact]
@@ -67,7 +70,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
             getAllCustomers.Should().HaveCount(2);
             getAllCustomers.Should().ContainItemsAssignableTo<Customer>();
 
-            getAllCustomers[0].CustomerId.Should().Be(1);
+            getAllCustomers[0].CustomerId.Should().Be(_dataBaseMock[0].CustomerId);
             getAllCustomers[0].Name.Should().Be("User_1");
             getAllCustomers[0].Email.Should().Be("User_1@gmail.com");
             getAllCustomers[0].Email.Should().Match("*@*.com");
@@ -75,7 +78,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
             getAllCustomers[0].Phone.Should().Be(123456789);
             getAllCustomers[0].Document.Should().Be("cpf");
 
-            getAllCustomers[1].CustomerId.Should().Be(2);
+            getAllCustomers[1].CustomerId.Should().Be(_dataBaseMock[1].CustomerId);
             getAllCustomers[1].Name.Should().Be("User_2");
             getAllCustomers[1].Email.Should().Be("User_2@gmail.com");
             getAllCustomers[1].Email.Should().Match("*@*.com");
