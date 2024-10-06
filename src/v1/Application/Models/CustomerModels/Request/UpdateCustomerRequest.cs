@@ -7,7 +7,7 @@ namespace Application.Models.CustomerModels.Request
     public class UpdateCustomerRequest : IRequest<UpdateCustomerResponse>
     {
         [Required(ErrorMessage = "The customerId is required.")]
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
 
         [Required(ErrorMessage = "The name is required.")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "The name needs to be longer than 3 characters.")]

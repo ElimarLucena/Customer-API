@@ -33,7 +33,7 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<GetCustomerByIdResponse> GetCustomerById(int customerId) 
+        public async Task<GetCustomerByIdResponse> GetCustomerById(Guid customerId) 
         { 
             Customer customer = await _customerRepository.GetCustomerById(customerId);
 
@@ -62,6 +62,7 @@ namespace Application.Services
 
             Customer newCustomer = new()
             {
+                CustomerId = Guid.NewGuid(),
                 Name = command.Name,
                 Email = command.Email,
                 Age = command.Age,
@@ -89,7 +90,7 @@ namespace Application.Services
             await _customerRepository.UpdateCustomer(updateCustomer);
         }
 
-        public async Task DeleteCustomer(int customerId)
+        public async Task DeleteCustomer(Guid customerId)
         {
             await _customerRepository.DeleteCustomer(customerId);
         }

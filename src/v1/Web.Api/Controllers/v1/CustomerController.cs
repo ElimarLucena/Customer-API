@@ -28,7 +28,7 @@ public class CustomerController : ControllerBase
     }
 
     [HttpGet("getCustomerById/{customerId}")]
-    public async Task<ActionResult> Get([FromRoute] int customerId, 
+    public async Task<ActionResult> Get([FromRoute] Guid customerId, 
                                         CancellationToken cancellationToken)
     {
         GetCustomerByIdRequest query = new()
@@ -61,7 +61,7 @@ public class CustomerController : ControllerBase
     }
 
     [HttpDelete("deleteCustomerById/{customerId}")]
-    public async Task<ActionResult> Delete([FromRoute] int customerId,
+    public async Task<ActionResult> Delete([FromRoute] Guid customerId,
                                            CancellationToken cancellationToken)
     {
         DeleteCustomerByIdRequest command = new()

@@ -22,7 +22,7 @@ namespace Infra.Data.Repositories
             return response.ToList();
         }
 
-        public async Task<Customer> GetCustomerById(int customerId)
+        public async Task<Customer> GetCustomerById(Guid customerId)
         {
             string query = SqlServer.GetCustomerById_Query();
 
@@ -44,6 +44,7 @@ namespace Infra.Data.Repositories
         {
             DynamicParameters parameters = new();
 
+            parameters.Add("customerId", customer.CustomerId, DbType.Guid);
             parameters.Add("name", customer.Name, DbType.String);
             parameters.Add("email", customer.Email, DbType.String);
             parameters.Add("document", customer.Document, DbType.String);
@@ -60,7 +61,7 @@ namespace Infra.Data.Repositories
         {
             DynamicParameters parameters = new();
 
-            parameters.Add("customerId", customer.CustomerId, DbType.Int32);
+            parameters.Add("customerId", customer.CustomerId, DbType.Guid);
             parameters.Add("name", customer.Name, DbType.String);
             parameters.Add("email", customer.Email, DbType.String);
             parameters.Add("document", customer.Document, DbType.String);
@@ -73,7 +74,7 @@ namespace Infra.Data.Repositories
             await _dbContext.Connection.ExecuteAsync(command, parameters);
         }
 
-        public async Task DeleteCustomer(int customerId)
+        public async Task DeleteCustomer(Guid customerId)
         {
             string command = SqlServer.DeleteCustomer_Command();
 

@@ -58,7 +58,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "INSERT INTO [Customer].[dbo].[TB_CUSTOMERS](Name, Email, Document, Phone, Age, Password) VALUES (@name, @email, @document, @phone, @age, @password);";
+                "INSERT INTO [Customer].[dbo].[TB_CUSTOMERS](CustomerId, Name, Email, Document, Phone, Age, Password) VALUES (@customerId, @name, @email, @document, @phone, @age, @password);";
 
             // Act
             string command = SqlServer.CreateCustomer_Command();
