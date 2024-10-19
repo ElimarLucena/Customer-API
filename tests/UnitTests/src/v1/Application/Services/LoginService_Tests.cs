@@ -64,8 +64,8 @@ namespace UnitTests.src.v1.Application.Services
 
             LoginCustomerRequest loginCustomerRequest = new()
             {
-                Email = Guid.NewGuid().ToString(),
-                Password = Guid.NewGuid().ToString()
+                Email = "test_email@gmail.com",
+                Password = "23ghrut804546ade@_test"
             };
 
             LoginService loginService = new(_loginRepository.Object, _authenticationToken.Object);
