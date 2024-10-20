@@ -77,5 +77,34 @@ namespace UnitTests.src.v1.Application.Services
             getCustomerTokenResponse.Should().BeOfType<LoginCustomerResponse>();
             getCustomerTokenResponse.Token.Should().Be(token);
         }
+
+        [Fact]
+        public async Task GetCustomerToken_Returns_Exception()
+        {
+            // Arrange
+            string token = Guid.NewGuid().ToString();
+
+            _loginRepository.Setup(moq => moq.GetCustomerByEmailPassword(It.IsAny<string>(), It.IsAny<string>()))
+                            .ReturnsAsync(() => null!);
+
+            _authenticationToken.Setup(moq => moq.GenerateToken(It.IsAny<Customer>()))
+                                .Returns(token);
+
+            LoginCustomerRequest loginCustomerRequest = new()
+            {
+                Email = "test_email@gmail.com",
+                Password = "23ghrut804546ade@_test"
+            };
+
+            LoginService loginService = new(_loginRepository.Object, _authenticationToken.Object);
+
+            // Act
+            Func<Task<LoginCustomerResponse>> getCustomerTokenResponse = async () => await loginService.GetCustomerToken(loginCustomerRequest);
+
+            // Assert
+            await getCustomerTokenResponse.Should()
+                                          .ThrowAsync<Exception>()
+                                          .WithMessage("Incorrect email address or password.");
+        }
     }
 }
