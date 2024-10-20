@@ -4,54 +4,24 @@ using Domain.Entities;
 using Domain.Interfaces;
 using FluentAssertions;
 using Moq;
+using UnitTests.util;
 
 namespace UnitTests.src.v1.Application.Services
 {
     public class CustomerService_Tests
     {
         private readonly Mock<ICustomerRepository> _customerRepository;
-        private static Guid _testId { get; set; }
 
-        private static List<Customer> _dataBaseMock
-        {
-            get
-            {
-                return
-                [
-                    new Customer()
-                    {
-                        CustomerId = _testId,
-                        Name = "User_1",
-                        Email = "User_1@gmail.com",
-                        Age = 20,
-                        Phone = 123456789,
-                        Document = "cpf"
-                    },
-                    new Customer()
-                    {
-                        CustomerId = _testId,
-                        Name = "User_2",
-                        Email = "User_2@gmail.com",
-                        Age = 21,
-                        Phone = 123456781,
-                        Document = "cpf1"
-                    },
-                ];
-            }
-        }
-
-        public CustomerService_Tests()
-        {
-            _customerRepository = new Mock<ICustomerRepository>();
-            Guid guid = Guid.NewGuid();
-            _testId = guid;
-        }
+        public CustomerService_Tests() => _customerRepository = new Mock<ICustomerRepository>();
 
         [Fact]
-        public async Task GetAllCustomers_Success()
+        public async Task GetAllCustomers_Returns_AllCustomers()
         {
             // Arrange
-            _customerRepository.Setup(moq => moq.GetAllCustomers()).ReturnsAsync(_dataBaseMock);
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
+
+            _customerRepository.Setup(moq => moq.GetAllCustomers())
+                               .ReturnsAsync(customerDBMock);
 
             CustomerService customerService = new(_customerRepository.Object);
 
@@ -65,7 +35,7 @@ namespace UnitTests.src.v1.Application.Services
         }
 
         [Fact]
-        public async Task GetAllCustomers_Failure()
+        public async Task GetAllCustomers_Returns_WithoutAllCustomers()
         {
             // Arrange
             List<Customer> customerList = [];
@@ -82,12 +52,15 @@ namespace UnitTests.src.v1.Application.Services
         }
 
         [Fact]
-        public async Task GetCustomerById_Success()
+        public async Task GetCustomerById_Returns_Customer()
         {
             // Arrange
-            Guid customerId = _testId;
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
 
-            _customerRepository.Setup(moq => moq.GetCustomerById(customerId)).ReturnsAsync(_dataBaseMock[0]);
+            Guid customerId = customerDBMock[0].CustomerId;
+
+            _customerRepository.Setup(moq => moq.GetCustomerById(customerId))
+                               .ReturnsAsync(customerDBMock[0]);
 
             CustomerService customerService = new(_customerRepository.Object);
 
@@ -96,7 +69,7 @@ namespace UnitTests.src.v1.Application.Services
 
             // Assert
             getCustomerByIdResponse.Should().BeOfType<GetCustomerByIdResponse>();
-            getCustomerByIdResponse.CustomerId.Should().Be(_dataBaseMock[0].CustomerId);
+            getCustomerByIdResponse.CustomerId.Should().Be(customerDBMock[0].CustomerId);
             getCustomerByIdResponse.Name.Should().Be("User_1");
             getCustomerByIdResponse.Email.Should().Be("User_1@gmail.com");
             getCustomerByIdResponse.Email.Should().Match("*@*.com");
@@ -106,7 +79,7 @@ namespace UnitTests.src.v1.Application.Services
         }
 
         [Fact]
-        public async Task GetCustomerById_Failure()
+        public async Task GetCustomerById_Returns_Exception()
         {
             // Arrange
             Guid customerId = Guid.NewGuid();

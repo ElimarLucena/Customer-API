@@ -6,6 +6,7 @@ using Domain.Entities;
 using Domain.Interfaces;
 using FluentAssertions;
 using Moq;
+using UnitTests.util;
 
 namespace UnitTests.src.v1.Application.Services
 {
@@ -13,51 +14,23 @@ namespace UnitTests.src.v1.Application.Services
     {
         private readonly Mock<ILoginRepository> _loginRepository;
         private readonly Mock<IAuthenticationToken> _authenticationToken;
-        private static Guid _testId { get; set; }
-        private static List<Customer> _dataBaseMock
-        {
-            get
-            {
-                return
-                [
-                    new Customer()
-                    {
-                        CustomerId = _testId,
-                        Name = "User_1",
-                        Email = "User_1@gmail.com",
-                        Age = 20,
-                        Phone = 123456789,
-                        Document = "cpf"
-                    },
-                    new Customer()
-                    {
-                        CustomerId = _testId,
-                        Name = "User_2",
-                        Email = "User_2@gmail.com",
-                        Age = 21,
-                        Phone = 123456781,
-                        Document = "cpf1"
-                    },
-                ];
-            }
-        }
 
         public LoginService_Tests()
         {
             _loginRepository = new Mock<ILoginRepository>();
             _authenticationToken = new Mock<IAuthenticationToken>();
-            Guid guid = Guid.NewGuid();
-            _testId = guid;
         }
 
         [Fact]
         public async Task GetCustomerToken_Returns_WithToken()
         {
             // Arrange
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
+
             string token = Guid.NewGuid().ToString();
 
             _loginRepository.Setup(moq => moq.GetCustomerByEmailPassword(It.IsAny<string>(), It.IsAny<string>()))
-                            .ReturnsAsync(_dataBaseMock[0]);
+                            .ReturnsAsync(customerDBMock[0]);
 
             _authenticationToken.Setup(moq => moq.GenerateToken(It.IsAny<Customer>()))
                                 .Returns(token);

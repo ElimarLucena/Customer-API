@@ -6,6 +6,7 @@ using Infra.Data.Repositories;
 using Moq;
 using Moq.Dapper;
 using System.Data;
+using UnitTests.util;
 
 namespace UnitTests.src.v1.Infra.Data.Repositories
 {
@@ -13,50 +14,21 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
     {
         private readonly Mock<ISqlServerDataBaseContext> _sqlServerDataBaseContext;
         private readonly Mock<IDbConnection> _mockConnection;
-        private static Guid _testId { get; set; }
-
-        private static List<Customer> _dataBaseMock
-        {
-            get
-            {
-                return
-                [
-                    new Customer()
-                    {
-                        CustomerId = _testId,
-                        Name = "User_1",
-                        Email = "User_1@gmail.com",
-                        Age = 20,
-                        Phone = 123456789,
-                        Document = "cpf"
-                    },
-                    new Customer()
-                    {
-                        CustomerId = _testId,
-                        Name = "User_2",
-                        Email = "User_2@gmail.com",
-                        Age = 21,
-                        Phone = 123456781,
-                        Document = "cpf1"
-                    },
-                ];
-            }
-        }
 
         public CustomerRepository_Tests()
         {
             _sqlServerDataBaseContext = new Mock<ISqlServerDataBaseContext>();
             _mockConnection = new Mock<IDbConnection>();
-            Guid guid = Guid.NewGuid();
-            _testId = guid;
         }
         
         [Fact]
-        public async Task GetAllCustomers_Success()
+        public async Task GetAllCustomers_Returns_AllCustomers()
         {
             // Arrange
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
+
             _mockConnection.SetupDapperAsync(moq => moq.QueryAsync<Customer>(It.IsAny<string>(), null, null, null, null))
-                           .ReturnsAsync(_dataBaseMock);
+                           .ReturnsAsync(customerDBMock);
 
             _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
 
@@ -70,7 +42,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
             getAllCustomers.Should().HaveCount(2);
             getAllCustomers.Should().ContainItemsAssignableTo<Customer>();
 
-            getAllCustomers[0].CustomerId.Should().Be(_dataBaseMock[0].CustomerId);
+            getAllCustomers[0].CustomerId.Should().Be(customerDBMock[0].CustomerId);
             getAllCustomers[0].Name.Should().Be("User_1");
             getAllCustomers[0].Email.Should().Be("User_1@gmail.com");
             getAllCustomers[0].Email.Should().Match("*@*.com");
@@ -78,7 +50,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
             getAllCustomers[0].Phone.Should().Be(123456789);
             getAllCustomers[0].Document.Should().Be("cpf");
 
-            getAllCustomers[1].CustomerId.Should().Be(_dataBaseMock[1].CustomerId);
+            getAllCustomers[1].CustomerId.Should().Be(customerDBMock[1].CustomerId);
             getAllCustomers[1].Name.Should().Be("User_2");
             getAllCustomers[1].Email.Should().Be("User_2@gmail.com");
             getAllCustomers[1].Email.Should().Match("*@*.com");
@@ -89,13 +61,13 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
 
 
         [Fact]
-        public async Task GetAllCustomers_Failure()
+        public async Task GetAllCustomers_Returns_WithoutAllCustomers()
         {
             // Arrange
-            List<Customer> customerList = [];
+            List<Customer> customerDBMock = [];
 
             _mockConnection.SetupDapperAsync(moq => moq.QueryAsync<Customer>(It.IsAny<string>(), null, null, null, null))
-                           .ReturnsAsync(customerList);
+                           .ReturnsAsync(customerDBMock);
 
             _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
 
