@@ -27,7 +27,7 @@ public class CustomerController : ControllerBase
         return Ok(customers);
     }
 
-    [HttpGet("getCustomerById/{customerId}")]
+    [HttpGet("getCustomerById/{customerId:guid}")]
     public async Task<ActionResult> Get([FromRoute] Guid customerId, 
                                         CancellationToken cancellationToken)
     {
@@ -60,7 +60,7 @@ public class CustomerController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("deleteCustomerById/{customerId}")]
+    [HttpDelete("deleteCustomerById/{customerId:guid}")]
     public async Task<ActionResult> Delete([FromRoute] Guid customerId,
                                            CancellationToken cancellationToken)
     {
