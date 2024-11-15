@@ -17,19 +17,19 @@ public class CustomerController : ControllerBase
     public CustomerController(IMediator mediator) => _mediator = mediator;
 
     [Authorize(Roles = "admin,manager")]
-    [HttpGet("getAllCustomer")]
-    public async Task<ActionResult> Get(CancellationToken cancellationToken)
+    [HttpGet("getAllCustomers")]
+    public async Task<ActionResult<List<GetAllCustomersResponse>>> GetAllCustomers(CancellationToken cancellationToken)
     {
         GetAllCustomersRequest query = new();
 
-        List<GetAllCustomerResponse> customers = await _mediator.Send(query, cancellationToken);
+        List<GetAllCustomersResponse> customers = await _mediator.Send(query, cancellationToken);
 
         return Ok(customers);
     }
 
     [HttpGet("getCustomerById/{customerId:guid}")]
-    public async Task<ActionResult> Get([FromRoute] Guid customerId, 
-                                        CancellationToken cancellationToken)
+    public async Task<ActionResult<GetCustomerByIdResponse>> GetCustomerById([FromRoute] Guid customerId, 
+                                                                             CancellationToken cancellationToken)
     {
         GetCustomerByIdRequest query = new()
         {
@@ -43,8 +43,8 @@ public class CustomerController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("createCustomer")]
-    public async Task<IActionResult> Post(CreateCustomerRequest command, 
-                                          CancellationToken cancellationToken)
+    public async Task<ActionResult> CreateCustomer(CreateCustomerRequest command, 
+                                                   CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
 
@@ -52,8 +52,8 @@ public class CustomerController : ControllerBase
     }
 
     [HttpPut("updateCustomer")]
-    public async Task<IActionResult> Put(UpdateCustomerRequest command,
-                                         CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateCustomer(UpdateCustomerRequest command,
+                                                   CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
 
@@ -61,8 +61,8 @@ public class CustomerController : ControllerBase
     }
 
     [HttpDelete("deleteCustomerById/{customerId:guid}")]
-    public async Task<ActionResult> Delete([FromRoute] Guid customerId,
-                                           CancellationToken cancellationToken)
+    public async Task<ActionResult> DeleteCustomerById([FromRoute] Guid customerId,
+                                                       CancellationToken cancellationToken)
     {
         DeleteCustomerByIdRequest command = new()
         {
