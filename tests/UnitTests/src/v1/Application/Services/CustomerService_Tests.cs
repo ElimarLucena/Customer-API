@@ -26,12 +26,12 @@ namespace UnitTests.src.v1.Application.Services
             CustomerService customerService = new(_customerRepository.Object);
 
             // Act
-            List<GetAllCustomerResponse> getAllCustomers = await customerService.GetAllCustomers();
+            List<GetAllCustomersResponse> getAllCustomers = await customerService.GetAllCustomers();
 
             // Assert
             getAllCustomers.Should().NotBeEmpty();
             getAllCustomers.Should().HaveCount(2);
-            getAllCustomers.Should().ContainItemsAssignableTo<GetAllCustomerResponse>();
+            getAllCustomers.Should().ContainItemsAssignableTo<GetAllCustomersResponse>();
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace UnitTests.src.v1.Application.Services
             CustomerService customerService = new(_customerRepository.Object);
 
             // Act
-            List<GetAllCustomerResponse> getAllCustomers = await customerService.GetAllCustomers();
+            List<GetAllCustomersResponse> getAllCustomers = await customerService.GetAllCustomers();
 
             // Assert
             getAllCustomers.Should().BeEmpty();
