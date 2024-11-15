@@ -33,7 +33,7 @@ namespace UnitTests.util
             }
         }
 
-        private static List<GetAllCustomersResponse> _getAllCustomerResponseMock
+        private static List<GetAllCustomersResponse> _getAllCustomersResponseMock
         {
             get
             {
@@ -80,7 +80,7 @@ namespace UnitTests.util
 
         public static List<Customer> CustomerDBMock() => _customerDBMock;
 
-        public static List<GetAllCustomersResponse> GetAllCustomerResponseMock() => _getAllCustomerResponseMock;
+        public static List<GetAllCustomersResponse> GetAllCustomersResponseMock() => _getAllCustomersResponseMock;
 
         public static GetCustomerByIdResponse GetCustomerByIdResponseMock() => _getCustomerByIdResponseMock;
     }

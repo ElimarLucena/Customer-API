@@ -19,12 +19,12 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
         public async Task GetAllCustomers_ReturnsOkResult_WithAllCustomers()
         {
             // Arrange
-            List<GetAllCustomersResponse> getAllCustomerResponseMock = DataBaseMock.GetAllCustomerResponseMock();
+            List<GetAllCustomersResponse> getAllCustomersResponseMock = DataBaseMock.GetAllCustomersResponseMock();
 
             CancellationToken cancellationToken = new();
 
             _mockMediator.Setup(moq => moq.Send(It.IsAny<GetAllCustomersRequest>(), It.IsAny<CancellationToken>()))
-                         .ReturnsAsync(getAllCustomerResponseMock);
+                         .ReturnsAsync(getAllCustomersResponseMock);
 
             CustomerController customerController = new(_mockMediator.Object);
 
@@ -38,7 +38,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             response.StatusCode.Should().Be(200);
 
             List<GetAllCustomersResponse> responseValue = (List<GetAllCustomersResponse>) response.Value!;
-            responseValue[0].CustomerId.Should().Be(getAllCustomerResponseMock[0].CustomerId);
+            responseValue[0].CustomerId.Should().Be(getAllCustomersResponseMock[0].CustomerId);
             responseValue[0].Name.Should().Be("User_1");
             responseValue[0].Email.Should().Be("User_1@gmail.com");
             responseValue[0].Email.Should().Match("*@*.com");
@@ -46,7 +46,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             responseValue[0].Phone.Should().Be(123456789);
             responseValue[0].Document.Should().Be("cpf");
 
-            responseValue[1].CustomerId.Should().Be(getAllCustomerResponseMock[1].CustomerId);
+            responseValue[1].CustomerId.Should().Be(getAllCustomersResponseMock[1].CustomerId);
             responseValue[1].Name.Should().Be("User_2");
             responseValue[1].Email.Should().Be("User_2@gmail.com");
             responseValue[1].Email.Should().Match("*@*.com");
