@@ -15,7 +15,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
         public LoginController_Tests() => _mockMediator = new Mock<IMediator>();
 
         [Fact]
-        public async Task Post_ReturnsOkResult_WithToken()
+        public async Task LoginToken_ReturnsOkResult_WithToken()
         {
             // Arrange
             CancellationToken cancellationToken = new();
@@ -37,7 +37,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             LoginController loginController = new(_mockMediator.Object);
 
             // Act
-            ActionResult<LoginCustomerResponse> getLoginToken = await loginController.Post(loginTest, cancellationToken);
+            ActionResult<LoginCustomerResponse> getLoginToken = await loginController.LoginToken(loginTest, cancellationToken);
 
             // Assert
             OkObjectResult response = (OkObjectResult) getLoginToken.Result!;

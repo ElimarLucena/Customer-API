@@ -5,7 +5,7 @@ using Application.Models.CustomerModels.Response;
 
 namespace Application.UseCases.Handlers
 {
-    public class CustomerHandler : IRequestHandler<GetAllCustomersRequest, List<GetAllCustomerResponse>>,
+    public class CustomerHandler : IRequestHandler<GetAllCustomersRequest, List<GetAllCustomersResponse>>,
                                    IRequestHandler<CreateCustomerRequest, CreateCustomerResponse>,
                                    IRequestHandler<GetCustomerByIdRequest, GetCustomerByIdResponse>,
                                    IRequestHandler<UpdateCustomerRequest, UpdateCustomerResponse>,
@@ -15,10 +15,10 @@ namespace Application.UseCases.Handlers
 
         public CustomerHandler(ICustomerService customerService) => _customerService = customerService;
 
-        public async Task<List<GetAllCustomerResponse>> Handle(GetAllCustomersRequest request,
+        public async Task<List<GetAllCustomersResponse>> Handle(GetAllCustomersRequest request,
                                                                CancellationToken cancellationToken)
         {
-            List<GetAllCustomerResponse> response = await _customerService.GetAllCustomers();
+            List<GetAllCustomersResponse> response = await _customerService.GetAllCustomers();
 
             return response;
         }

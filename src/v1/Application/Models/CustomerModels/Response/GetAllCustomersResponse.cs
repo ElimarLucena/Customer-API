@@ -1,6 +1,6 @@
 ﻿namespace Application.Models.CustomerModels.Response
 {
-    public class GetAllCustomerResponse
+    public class GetAllCustomersResponse
     {
         public Guid CustomerId { get; set; }
         public string Name { get; set; } = string.Empty;

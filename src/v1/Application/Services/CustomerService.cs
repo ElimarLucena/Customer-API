@@ -12,15 +12,15 @@ namespace Application.Services
 
         public CustomerService(ICustomerRepository customerRepository) => _customerRepository = customerRepository;
 
-        public async Task<List<GetAllCustomerResponse>> GetAllCustomers()
+        public async Task<List<GetAllCustomersResponse>> GetAllCustomers()
         {
-            List<GetAllCustomerResponse> response = new();
+            List<GetAllCustomersResponse> response = new();
 
             List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
 
             if (allCustomers.Any())
                 foreach (Customer customer in allCustomers)
-                    response.Add(new GetAllCustomerResponse() 
+                    response.Add(new GetAllCustomersResponse() 
                                 {
                                     CustomerId = customer.CustomerId,
                                     Name = customer.Name,
