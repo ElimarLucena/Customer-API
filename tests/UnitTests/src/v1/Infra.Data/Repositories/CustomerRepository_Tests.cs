@@ -79,5 +79,52 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
             // Assert
             getAllCustomers.Should().BeEmpty();
         }
+
+        [Fact]
+        public async Task GetCustomerById_Returns_Customer()
+        {
+            // Arrange
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
+
+            _mockConnection.SetupDapperAsync(moq => moq.QuerySingleOrDefaultAsync<Customer>(It.IsAny<string>(), null, null, null, null))
+                           .ReturnsAsync(customerDBMock[0]);
+
+            _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
+
+            CustomerRepository customerRepository = new(_sqlServerDataBaseContext.Object);
+
+            // Act
+            Customer? getCustomerById = await customerRepository.GetCustomerById(customerDBMock[0].CustomerId);
+
+            // Assert
+            getCustomerById.CustomerId.Should().Be(customerDBMock[0].CustomerId);
+            getCustomerById.Name.Should().Be("User_1");
+            getCustomerById.Email.Should().Be("User_1@gmail.com");
+            getCustomerById.Email.Should().Match("*@*.com");
+            getCustomerById.Age.Should().Be(20);
+            getCustomerById.Phone.Should().Be(123456789);
+            getCustomerById.Document.Should().Be("cpf");
+            getCustomerById.Password.Should().Be("123");
+        }
+
+        [Fact]
+        public async Task GetCustomerById_Returns_WithoutCustomer()
+        {
+            // Arrange
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
+
+            _mockConnection.SetupDapperAsync(moq => moq.QuerySingleOrDefaultAsync<Customer>(It.IsAny<string>(), null, null, null, null))
+                           .ReturnsAsync(() => null);
+
+            _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
+
+            CustomerRepository customerRepository = new(_sqlServerDataBaseContext.Object);
+
+            // Act
+            Customer? getCustomerById = await customerRepository.GetCustomerById(customerDBMock[0].CustomerId);
+
+            // Assert
+            getCustomerById.Should().BeNull();
+        }
     }
 }
