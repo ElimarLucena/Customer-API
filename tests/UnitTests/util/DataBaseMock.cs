@@ -18,7 +18,8 @@ namespace UnitTests.util
                         Email = "User_1@gmail.com",
                         Age = 20,
                         Phone = 123456789,
-                        Document = "cpf"
+                        Document = "cpf",
+                        Password = "123"
                     },
                     new Customer()
                     {
@@ -27,7 +28,8 @@ namespace UnitTests.util
                         Email = "User_2@gmail.com",
                         Age = 21,
                         Phone = 123456781,
-                        Document = "cpf1"
+                        Document = "cpf1",
+                        Password = "1234"
                     },
                 ];
             }
