@@ -26,7 +26,7 @@ namespace Application.Authentication
                     new(ClaimTypes.Email, customer.Email.ToString()),
                     new(ClaimTypes.MobilePhone, customer.Phone.ToString())
                 }),
-                Expires = DateTime.Now.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials
                 (
                     new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_key)),
