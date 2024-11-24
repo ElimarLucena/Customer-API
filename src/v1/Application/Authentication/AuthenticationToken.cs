@@ -22,9 +22,7 @@ namespace Application.Authentication
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new(ClaimTypes.NameIdentifier, customer.CustomerId.ToString()),
-                    new(ClaimTypes.Name, customer.Name.ToString()),
-                    new(ClaimTypes.Email, customer.Email.ToString()),
-                    new(ClaimTypes.MobilePhone, customer.Phone.ToString())
+                    new(ClaimTypes.Name, customer.Name.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials
