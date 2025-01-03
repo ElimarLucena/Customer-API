@@ -11,6 +11,7 @@ services:
       context: .  
       dockerfile: src/v1/Web.Api/Dockerfile
     ports:
+      - 8080:8080
       - 8001:80
     depends_on:
       - sqldata
