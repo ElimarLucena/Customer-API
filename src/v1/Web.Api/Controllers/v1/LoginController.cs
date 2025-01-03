@@ -14,7 +14,7 @@ namespace Web.Api.Controllers.v1
 
         public LoginController(IMediator mediator) => _mediator = mediator;
 
-        [HttpPost]
+        [HttpPost("getToken")]
         public async Task<ActionResult> LoginToken(LoginCustomerRequest login, CancellationToken cancellationToken)
         {
             LoginCustomerResponse token = await _mediator.Send(login, cancellationToken);
