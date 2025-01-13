@@ -16,7 +16,8 @@ public class CustomerController : ControllerBase
 
     public CustomerController(IMediator mediator) => _mediator = mediator;
 
-    [Authorize(Roles = "admin,manager")]
+    //[Authorize(Roles = "admin,manager")]
+    [AllowAnonymous]
     [HttpGet("getAllCustomers")]
     public async Task<ActionResult<List<GetAllCustomersResponse>>> GetAllCustomers(CancellationToken cancellationToken)
     {
