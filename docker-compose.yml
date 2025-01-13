@@ -4,7 +4,7 @@ networks:
   customerapi:
 
 services:
-  customer.api:
+  webapi:
     container_name: customer_api
     image: ${DOCKER_REGISTRY-}customerapi
     build:
@@ -14,15 +14,15 @@ services:
       - 8080:8080
       - 8001:80
     depends_on:
-      - sqldata
+      - db
     environment:
-      - DB_HOST=sqldata
+      - DB_HOST=db
       - DB_NAME=Customer
       - DB_SA_PASSWORD=password@12345#
       - ASPNETCORE_ENVIRONMENT=Development
     networks: 
       - customerapi
-  sqldata:
+  db:
     container_name: sql_server_db
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
