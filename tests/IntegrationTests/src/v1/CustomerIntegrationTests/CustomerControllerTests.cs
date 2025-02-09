@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
+﻿using Xunit;
 
 namespace IntegrationTests.src.v1.CustomerIntegrationTests
 {
-    public class CustomerControllerTests : IClassFixture<WebApplicationFactory<Program>>
+    public class CustomerControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
-        private readonly WebApplicationFactory<Program> _factory;
+        private readonly CustomWebApplicationFactory<Program> _factory;
 
-        public CustomerControllerTests(WebApplicationFactory<Program> factory) => 
-            _factory = factory;
-
+        public CustomerControllerTests(CustomWebApplicationFactory<Program> factory)
+            => _factory = factory;
+        
         [Fact]
         public async Task GetAllCustomers_Returns_AllCustomers()
         {
