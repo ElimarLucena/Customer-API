@@ -1,7 +1,8 @@
 # Customer-API
-## http://localhost:8001/swagger/index.html
+## http://localhost:8080/swagger/index.html
 
 ## docker-compose -f "docker-compose.yml" up -d --build
+## docker-compose -f "docker-compose-test.yml" up -d --build
 
 ### DataBase (SQL SERVER):
 <details>

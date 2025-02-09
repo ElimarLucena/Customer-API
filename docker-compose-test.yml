@@ -1,28 +1,27 @@
 version: '3.4'
 
 networks:
-  customerapi:
+  customer_api_test:
 
 services:
-  webapi:
-    container_name: customer_api
-    image: ${DOCKER_REGISTRY-}customerapi
+  test:
+    container_name: customer_test
+    image: ${DOCKER_REGISTRY-}test
     build:
       context: .  
-      dockerfile: src/v1/Web.Api/Dockerfile
+      dockerfile: tests/IntegrationTests/Dockerfile
     ports:
       - 8080:8080
-      - 8001:80
     depends_on:
-      - db
+      - db_test
     environment:
-      - DB_HOST=db
+      - DB_HOST=db_test
       - DB_NAME=Customer
       - DB_SA_PASSWORD=password@12345#
       - ASPNETCORE_ENVIRONMENT=Development
     networks: 
-      - customerapi
-  db:
+      -  customer_api_test
+  db_test:
     container_name: sql_server_db
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
@@ -31,4 +30,4 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=password@12345#
     networks: 
-      - customerapi
+      -  customer_api_test
