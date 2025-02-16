@@ -1,6 +1,6 @@
 <h1 align="center">Customer WebApi :information_desk_person: </h1>
 
-<p align="center">WebApi responsible for managing customer information, such as registration, update, search and deletion information.</p>
+<p align="center">WebApi responsible for managing all customer information, such as registration, update, search and deletion information.</p>
 
 <details>
   <summary>
@@ -8,59 +8,26 @@
   </summary>
   <ul>
     <li>
-      <strong>Visual Studio 2022</strong>
+      <a href="https://visualstudio.microsoft.com/vs/" target="_blank" title="https://visualstudio.microsoft.com/vs/">
+        Visual Studio 2022
+      </a>
     </li>
     <li>
-      <strong>Visual Studio Code</strong>
+      <a href="https://code.visualstudio.com/" target="_blank" title="https://code.visualstudio.com/">
+        Visual Studio Code
+      </a>
     </li>
     <li>
-      <strong>Azure Data Studio</strong>
+      <a href="https://azure.microsoft.com/pt-br/products/data-studio" target="_blank" title="https://azure.microsoft.com/pt-br/products/data-studio">
+        Azure Data Studio
+      </a>
     </li>
     <li>
-      <strong>Docker Desktop</strong>
+      <a href="https://www.docker.com/products/docker-desktop/" target="_blank" title="https://www.docker.com/products/docker-desktop/">
+        Docker Desktop
+      </a>
     </li>
   </ul>
-</details>
-
-
-<details>
-  <summary>
-    <h3>:running: Run Project</h3>
-  </summary>
-  <p><strong>Steps:</strong></p>
-  <p><strong>1.1 - Run Docker Compose command:</strong></p>
-
-```Dockerfile
-  docker-compose -f "docker-compose.yml" up -d --build
-```
-  <p><strong>1.2 - Run Link in your browser:</strong></p>
-  
-```js
-  http://localhost:8080/swagger/index.html
-```
-</details>
-
-
-<details>
-  <summary>
-    <h3>:test_tube: Run Integrations Tests</h3>
-  </summary>
-  <p><strong>Steps:</strong></p>
-  <p><strong>1.1 - Run Docker Compose command:</strong></p>
-
-```Dockerfile
-  docker-compose -f "docker-compose-test.yml" up -d --build
-```
-  <p><strong>1.2 - Navigate to test project directory:</strong></p>
-  
-```PowerShell
-  cd .\tests\IntegrationTests\
-```
-  <p><strong>1.3 - Run command:</strong></p>
-  
-```csharp
-  dotnet test
-```
 </details>
 
 
@@ -86,5 +53,64 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE NAME='TB_CUSTOMERS' AND xtype='U')
         Password NVARCHAR(255) NOT NULL
     )
 go
+```
+</details>
+
+
+<details>
+  <summary>
+    <h3>:running: Run Project</h3>
+  </summary>
+  <p><strong>Steps:</strong></p>
+  <p><strong>1.1 - Run Docker Compose command:</strong></p>
+
+```Dockerfile
+  docker-compose -f "docker-compose.yml" up -d --build
+```
+  <p><strong>1.2 - Run Link in your browser:</strong></p>
+  
+```js
+  http://localhost:8080/swagger/index.html
+```
+</details>
+
+
+<details>
+  <summary>
+    <h3>:test_tube: Run Unit Tests</h3>
+  </summary>
+  <p><strong>Steps:</strong></p>
+  <p><strong>1.1 - Navigate to test project directory:</strong></p>
+  
+```PowerShell
+  cd .\tests\UnitTests\
+```
+  <p><strong>1.2 - Run command:</strong></p>
+  
+```csharp
+  dotnet test
+```
+</details>
+
+
+<details>
+  <summary>
+    <h3>:test_tube: Run Integration Tests</h3>
+  </summary>
+  <p><strong>Steps:</strong></p>
+  <p><strong>1.1 - Run Docker Compose command:</strong></p>
+
+```Dockerfile
+  docker-compose -f "docker-compose-test.yml" up -d --build
+```
+  <p><strong>1.2 - Navigate to test project directory:</strong></p>
+  
+```PowerShell
+  cd .\tests\IntegrationTests\
+```
+  <p><strong>1.3 - Run command:</strong></p>
+  
+```csharp
+  dotnet test
 ```
 </details>
