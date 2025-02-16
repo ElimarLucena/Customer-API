@@ -8,16 +8,16 @@
   </summary>
   <ul>
     <li>
-      <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2022</a>
+      <a href="https://visualstudio.microsoft.com/vs/" target="_blank">Visual Studio 2022</a>
     </li>
     <li>
-      <a href="https://code.visualstudio.com/">Visual Studio Code</a>
+      <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a>
     </li>
     <li>
-      <a href="https://azure.microsoft.com/pt-br/products/data-studio">Azure Data Studio</a>
+      <a href="https://azure.microsoft.com/pt-br/products/data-studio" target="_blank">Azure Data Studio</a>
     </li>
     <li>
-      <a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a>
+      <a href="https://www.docker.com/products/docker-desktop/" target="_blank">Docker Desktop</a>
     </li>
   </ul>
 </details>
