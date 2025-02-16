@@ -8,7 +8,9 @@
   </summary>
   <ul>
     <li>
-      <strong>Visual Studio 2022</strong>
+      <strong>
+        [Visual Studio 2022](https://visualstudio.microsoft.com/vs/)
+      </strong>
     </li>
     <li>
       <strong>Visual Studio Code</strong>
