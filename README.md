@@ -77,6 +77,24 @@ go
 
 <details>
   <summary>
+    <h3>:test_tube: Run Unit Tests</h3>
+  </summary>
+  <p><strong>Steps:</strong></p>
+  <p><strong>1.1 - Navigate to test project directory:</strong></p>
+  
+```PowerShell
+  cd .\tests\UnitTests\
+```
+  <p><strong>1.2 - Run command:</strong></p>
+  
+```csharp
+  dotnet test
+```
+</details>
+
+
+<details>
+  <summary>
     <h3>:test_tube: Run Integration Tests</h3>
   </summary>
   <p><strong>Steps:</strong></p>
@@ -91,24 +109,6 @@ go
   cd .\tests\IntegrationTests\
 ```
   <p><strong>1.3 - Run command:</strong></p>
-  
-```csharp
-  dotnet test
-```
-</details>
-
-
-<details>
-  <summary>
-    <h3>:test_tube: Run Unit Tests</h3>
-  </summary>
-  <p><strong>Steps:</strong></p>
-  <p><strong>1.1 - Navigate to test project directory:</strong></p>
-  
-```PowerShell
-  cd .\tests\UnitTests\
-```
-  <p><strong>1.2 - Run command:</strong></p>
   
 ```csharp
   dotnet test
