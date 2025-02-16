@@ -8,7 +8,7 @@
   </summary>
   <ul>
     <li>
-        <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2022</a>
+      <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2022</a>
     </li>
     <li>
       <a href="https://code.visualstudio.com/">Visual Studio Code</a>
