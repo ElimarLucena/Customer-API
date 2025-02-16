@@ -77,7 +77,7 @@ go
 
 <details>
   <summary>
-    <h3>:test_tube: Run Integrations Tests</h3>
+    <h3>:test_tube: Run Integration Tests</h3>
   </summary>
   <p><strong>Steps:</strong></p>
   <p><strong>1.1 - Run Docker Compose command:</strong></p>
