@@ -1,6 +1,6 @@
 <h1 align="center">Customer WebApi :information_desk_person: </h1>
 
-<p align="center">WebApi responsible for managing customer information, such as registration, update, search and deletion information.</p>
+<p align="center">WebApi responsible for managing all customer information, such as registration, update, search and deletion information.</p>
 
 <details>
   <summary>
@@ -20,6 +20,32 @@
       <strong>Docker Desktop</strong>
     </li>
   </ul>
+</details>
+
+
+<details>
+  <summary>
+    <h3>:blue_book: DataBase</h3>
+  </summary>
+  <p>
+    <strong>Tables:</strong>
+  </p>
+
+```sql
+CREATE DATABASE Customer;
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE NAME='TB_CUSTOMERS' AND xtype='U')
+    CREATE TABLE TB_CUSTOMERS (
+        CustomerId UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+        Name NVARCHAR(255) NOT NULL,
+        Email NVARCHAR(255) NOT NULL,
+        Age INT NOT NULL,
+        Phone INT NOT NULL,
+        Document NVARCHAR(255) NOT NULL,
+        Password NVARCHAR(255) NOT NULL
+    )
+go
+```
 </details>
 
 
@@ -66,25 +92,17 @@
 
 <details>
   <summary>
-    <h3>:blue_book: DataBase</h3>
+    <h3>:test_tube: Run Unit Tests</h3>
   </summary>
-  <p>
-    <strong>Tables:</strong>
-  </p>
-
-```sql
-CREATE DATABASE Customer;
-
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE NAME='TB_CUSTOMERS' AND xtype='U')
-    CREATE TABLE TB_CUSTOMERS (
-        CustomerId UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-        Name NVARCHAR(255) NOT NULL,
-        Email NVARCHAR(255) NOT NULL,
-        Age INT NOT NULL,
-        Phone INT NOT NULL,
-        Document NVARCHAR(255) NOT NULL,
-        Password NVARCHAR(255) NOT NULL
-    )
-go
+  <p><strong>Steps:</strong></p>
+  <p><strong>1.1 - Navigate to test project directory:</strong></p>
+  
+```PowerShell
+  cd .\tests\UnitTests\
+```
+  <p><strong>1.2 - Run command:</strong></p>
+  
+```csharp
+  dotnet test
 ```
 </details>
