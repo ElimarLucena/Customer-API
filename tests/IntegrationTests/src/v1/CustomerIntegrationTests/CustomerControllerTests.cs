@@ -14,7 +14,6 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
         {
             // Arrange
             HttpClient client = _factory.CreateClient();
-            client.BaseAddress = new Uri("http://localhost:8080");
 
             const string URI = "/api/v1/customer/getAllCustomers";
 
@@ -23,6 +22,8 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
 
             // Assert
             response.EnsureSuccessStatusCode();
+
+            _factory.StopContainerAsync();
         }
     }
 }
