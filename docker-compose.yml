@@ -17,7 +17,7 @@ services:
       - db
     environment:
       - DB_HOST=db
-      - DB_NAME=Customer
+      - DB_NAME=CUSTOMER
       - DB_SA_PASSWORD=password@12345#
       - ASPNETCORE_ENVIRONMENT=Development
     networks: 
