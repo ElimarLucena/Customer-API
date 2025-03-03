@@ -32,7 +32,7 @@ namespace IntegrationTests.Util
                     Age, 
                     Password) 
                 VALUES (
-                    '{Guid.NewGuid()}', 
+                    '{Guid.Parse("b5125fed-3c62-4809-af18-8e201beaf4ec")}', 
                     'TestCustomer', 
                     'testcustomer@gmail.com', 
                     'cpf', 
@@ -49,7 +49,7 @@ namespace IntegrationTests.Util
                     Age, 
                     Password) 
                 VALUES (
-                    '{Guid.NewGuid()}', 
+                    '{Guid.Parse("3b848ecb-8611-409c-b741-634f8f053ba6")}', 
                     'TestCustomer2', 
                     'testcustomer2@gmail.com', 
                     'cpf', 
