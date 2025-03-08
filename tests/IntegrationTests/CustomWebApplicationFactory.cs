@@ -10,6 +10,11 @@ namespace IntegrationTests
     public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram 
                                                        : class
     {
+        private string _connectionString { get; set; } = string.Empty;
+
+        public CustomWebApplicationFactory()
+            => _connectionString = CreateTestDataBase.GetConnectionString();
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
@@ -17,7 +22,7 @@ namespace IntegrationTests
                 var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbConnection));
                 services.Remove(dbContextDescriptor!);
 
-                services.AddScoped<ISqlServerDataBaseContext>(db => new SqlServerDataBaseContext(CreateTestDataBase.GetConnectionString()));
+                services.AddScoped<ISqlServerDataBaseContext>(db => new SqlServerDataBaseContext(_connectionString));
             });
         }
     }
