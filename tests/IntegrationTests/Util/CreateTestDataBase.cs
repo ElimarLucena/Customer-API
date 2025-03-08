@@ -1,11 +1,31 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Testcontainers.MsSql;
 
 namespace IntegrationTests.Util
 {
     public static class CreateTestDataBase
     {
-        public static void CreateDataBase(string connectionString)
+        private static MsSqlContainer? _container;
+
+        private static string CreateContainer()
+        {
+            const ushort HttpPort = 1433;
+
+            var _container = new MsSqlBuilder()
+                .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+                .WithEnvironment("ACCEPT_EULA", "Y")
+                .WithPortBinding(HttpPort, true)
+                .Build();
+
+            _container.StartAsync().Wait();
+
+            CreateDataBase(_container.GetConnectionString());
+
+            return _container.GetConnectionString();
+        }
+
+        private static void CreateDataBase(string connectionString)
         {
             List<string> queries =
             [
@@ -79,5 +99,11 @@ namespace IntegrationTests.Util
             command.Dispose();
             connection.Dispose();
         }
+
+        public static string GetConnectionString()
+            => CreateContainer();
+
+        public static void StopContainerAsync()
+            => _container?.StopAsync().Wait();
     }
 }
