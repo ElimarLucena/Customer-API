@@ -3,6 +3,8 @@ using FluentAssertions;
 using System.Net;
 using Newtonsoft.Json;
 using Application.Models.CustomerModels.Response;
+using System.Net.Http.Headers;
+using IntegrationTests.Util;
 
 namespace IntegrationTests.src.v1.CustomerIntegrationTests
 {
@@ -18,6 +20,8 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
         {
             // Arrange
             HttpClient client = _factory.CreateClient();
+
+            // client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "token");
 
             const string URI = "/api/v1/customer/getAllCustomers";
 
@@ -45,7 +49,7 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
             contentValue[1].Phone.Should().Be(123493789);
             contentValue[1].Document.Should().Be("cpf2");
 
-            _factory.StopContainerAsync();
+            CreateTestDataBase.StopContainerAsync();
         }
     }
 }
