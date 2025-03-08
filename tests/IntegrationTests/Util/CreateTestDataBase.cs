@@ -12,7 +12,7 @@ namespace IntegrationTests.Util
         {
             const ushort HttpPort = 1433;
 
-            var _container = new MsSqlBuilder()
+            _container = new MsSqlBuilder()
                 .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
                 .WithEnvironment("ACCEPT_EULA", "Y")
                 .WithPortBinding(HttpPort, true)
