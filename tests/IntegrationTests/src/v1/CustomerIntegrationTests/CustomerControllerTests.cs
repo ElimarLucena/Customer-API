@@ -21,7 +21,9 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
             // Arrange
             HttpClient client = _factory.CreateClient();
 
-            // client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "token");
+            string token = TestTokenGenerator.GetToken();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             const string URI = "/api/v1/customer/getAllCustomers";
 
