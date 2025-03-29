@@ -1,32 +1,22 @@
 ﻿using Infra.Data.DbContext;
 using IntegrationTests.Util;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Data;
-using Testcontainers.MsSql;
+using System.Text;
 
 namespace IntegrationTests
 {
     public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram 
                                                        : class
     {
-        private MsSqlContainer _container;
+        private string _connectionString { get; set; } = string.Empty;
 
         public CustomWebApplicationFactory()
-        {
-            const ushort HttpPort = 1433;
-
-            _container = new MsSqlBuilder()
-                .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-                .WithEnvironment("ACCEPT_EULA", "Y")
-                .WithPortBinding(HttpPort, true)
-                .Build();
-
-            _container.StartAsync().Wait();
-
-            CreateTestDataBase.CreateDataBase(_container.GetConnectionString());
-        }
+            => _connectionString = CreateTestDataBase.GetConnectionString();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -35,13 +25,25 @@ namespace IntegrationTests
                 var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbConnection));
                 services.Remove(dbContextDescriptor!);
 
-                services.AddScoped<ISqlServerDataBaseContext>(db => new SqlServerDataBaseContext(_container.GetConnectionString()));
-            });
-        }
+                services.AddScoped<ISqlServerDataBaseContext>(db => new SqlServerDataBaseContext(_connectionString));
 
-        public void StopContainerAsync()
-        {
-             _container.StopAsync().Wait();
+                // override authentication configs.
+                services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = "http://localhost:63651",
+                        ValidAudience = "http://localhost:4200",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
+                        (
+                            "JWTAuthenticationSecuredTest7630b55d7c954cf293283686889427ec"
+                        )),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true
+                    };
+                });
+            });
         }
     }
 }
