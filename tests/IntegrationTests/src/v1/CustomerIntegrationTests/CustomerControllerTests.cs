@@ -8,13 +8,13 @@ using IntegrationTests.Util;
 
 namespace IntegrationTests.src.v1.CustomerIntegrationTests
 {
-    public class CustomerControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    public class CustomerControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>, IDisposable
     {
         private readonly CustomWebApplicationFactory<Program> _factory;
 
         public CustomerControllerTests(CustomWebApplicationFactory<Program> factory)
             => _factory = factory;
-        
+
         [Fact]
         public async Task GetAllCustomers_Returns_AllCustomers()
         {
@@ -50,7 +50,42 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
             contentValue[1].Age.Should().Be(37);
             contentValue[1].Phone.Should().Be(123493789);
             contentValue[1].Document.Should().Be("cpf2");
+        }
 
+        [Fact]
+        public async Task GetCustomerById_Returns_Customer()
+        {
+            // Arrange
+            HttpClient client = _factory.CreateClient();
+
+            string token = TestTokenGenerator.GetToken();
+
+            Guid customerId = Guid.Parse("3b848ecb-8611-409c-b741-634f8f053ba6");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            string URI = $"/api/v1/customer/getCustomerById/{customerId}";
+
+            // Act
+            HttpResponseMessage response = await client.GetAsync(URI);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Content.Should().NotBeNull();
+
+            string responseContent = await response.Content.ReadAsStringAsync();
+            GetCustomerByIdResponse contentValue = JsonConvert.DeserializeObject<GetCustomerByIdResponse>(responseContent)!;
+
+            contentValue.CustomerId.Should().Be(Guid.Parse("3b848ecb-8611-409c-b741-634f8f053ba6"));
+            contentValue.Name.Should().Be("TestCustomer");
+            contentValue.Email.Should().Be("testcustomer@gmail.com");
+            contentValue.Age.Should().Be(26);
+            contentValue.Phone.Should().Be(123456789);
+            contentValue.Document.Should().Be("cpf");
+        }
+
+        public void Dispose()
+        {
             CreateTestDataBase.StopContainerAsync();
         }
     }

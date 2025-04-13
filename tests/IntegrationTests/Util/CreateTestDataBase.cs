@@ -43,40 +43,11 @@ namespace IntegrationTests.Util
                     Password NVARCHAR(255) NOT NULL
                 );",
 
-                @$"INSERT INTO [CUSTOMER].[dbo].[TB_CUSTOMERS](
-                    CustomerId, 
-                    Name, 
-                    Email, 
-                    Document, 
-                    Phone, 
-                    Age, 
-                    Password) 
-                VALUES (
-                    '{Guid.Parse("3b848ecb-8611-409c-b741-634f8f053ba6")}', 
-                    'TestCustomer', 
-                    'testcustomer@gmail.com', 
-                    'cpf', 
-                    123456789, 
-                    26, 
-                    'testcustomer123');",
-
-                @$"INSERT INTO [CUSTOMER].[dbo].[TB_CUSTOMERS](
-                    CustomerId, 
-                    Name, 
-                    Email, 
-                    Document, 
-                    Phone, 
-                    Age, 
-                    Password) 
-                VALUES (
-                    '{Guid.Parse("b5125fed-3c62-4809-af18-8e201beaf4ec")}', 
-                    'TestCustomer2', 
-                    'testcustomer2@gmail.com', 
-                    'cpf2', 
-                    123493789, 
-                    37, 
-                    'testcustomer2123');
-                "
+                @$"INSERT INTO [CUSTOMER].[dbo].[TB_CUSTOMERS]
+                    (CustomerId, Name, Email, Document, Phone, Age, Password)
+                VALUES 
+                    ('{Guid.Parse("3b848ecb-8611-409c-b741-634f8f053ba6")}', 'TestCustomer', 'testcustomer@gmail.com', 'cpf', 123456789, 26, 'testcustomer123'),
+                    ('{Guid.Parse("b5125fed-3c62-4809-af18-8e201beaf4ec")}', 'TestCustomer2', 'testcustomer2@gmail.com', 'cpf2',  123493789, 37, 'testcustomer2123');",
             ];
 
             SqlConnection connection = new(connectionString);
