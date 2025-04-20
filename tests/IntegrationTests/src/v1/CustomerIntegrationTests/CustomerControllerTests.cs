@@ -10,7 +10,7 @@ using System.Text;
 
 namespace IntegrationTests.src.v1.CustomerIntegrationTests
 {
-    public class CustomerControllerTests : IClassFixture<CustomWebApplicationFactory<Program>> //, IDisposable
+    public class CustomerControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         private readonly CustomWebApplicationFactory<Program> _factory;
 
@@ -162,10 +162,5 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
-
-        // public void Dispose()
-        // {
-        //     CreateTestDataBase.StopContainerAsync();
-        // }
     }
 }
