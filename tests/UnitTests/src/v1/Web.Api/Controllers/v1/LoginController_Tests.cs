@@ -37,7 +37,7 @@ namespace UnitTests.src.v1.Web.Api.Controllers.v1
             LoginController loginController = new(_mockMediator.Object);
 
             // Act
-            ActionResult<LoginCustomerResponse> getLoginToken = await loginController.LoginToken(loginTest, cancellationToken);
+            ActionResult<LoginCustomerResponse> getLoginToken = await loginController.Login(loginTest, cancellationToken);
 
             // Assert
             OkObjectResult response = (OkObjectResult) getLoginToken.Result!;
