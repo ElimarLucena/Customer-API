@@ -67,6 +67,7 @@ CREATE TABLE TB_CUSTOMERS (
 ```Dockerfile
   docker-compose -f "docker-compose.yml" up -d --build
 ```
+> Attention! Before making requests, make sure that the database and its tables have been created correctly.
   <p><strong>1.2 - Run Link in your browser:</strong></p>
   
 ```js
@@ -98,17 +99,12 @@ CREATE TABLE TB_CUSTOMERS (
     <h3>:test_tube: Run Integration Tests</h3>
   </summary>
   <p><strong>Steps:</strong></p>
-  <p><strong>1.1 - Run Docker Compose command:</strong></p>
-
-```Dockerfile
-  docker-compose -f "docker-compose-test.yml" up -d --build
-```
-  <p><strong>1.2 - Navigate to test project directory:</strong></p>
+  <p><strong>1.1 - Navigate to test project directory:</strong></p>
   
 ```PowerShell
   cd ./tests/IntegrationTests
 ```
-  <p><strong>1.3 - Run command:</strong></p>
+  <p><strong>1.2 - Run command:</strong></p>
   
 ```csharp
   dotnet test
