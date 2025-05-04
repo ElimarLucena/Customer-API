@@ -62,9 +62,26 @@ jobs:
       - name: Build
         run: dotnet build Web.Api.sln
 
+  # fortify:
+  #   name: Fortify
+  #   runs-on: ubuntu-latest
+  #   needs: [build]
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  # sonarqube:
+  #   name: Sonarqube
+  #   runs-on: ubuntu-latest
+  #   needs: [build]
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
   tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    # needs: [fortify, sonarqube]
     needs: [build]
     steps:
       - name: Checkout code
@@ -75,6 +92,7 @@ jobs:
   integration_tests:
     name: Integration Tests
     runs-on: ubuntu-latest
+    # needs: [fortify, sonarqube]
     needs: [build]
     steps:
       - name: Checkout code
