@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IntegrationTests.Util
+namespace IntegrationTests.util
 {
     public static class TestTokenGenerator
     {
@@ -13,12 +13,12 @@ namespace IntegrationTests.Util
 
             SecurityTokenDescriptor tokenDescriptor = new()
             {
-                Subject = new ClaimsIdentity(
-                [
+                Subject = new ClaimsIdentity(new Claim[]
+                {
                     new(ClaimTypes.NameIdentifier, "3b848ecb-8611-409c-b741-634f8f053ba6"),
                     new(ClaimTypes.Name, "TestCustomer"),
                     new(ClaimTypes.Role, "Admin")
-                ]),
+                }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials
                 (
