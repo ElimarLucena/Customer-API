@@ -13,12 +13,12 @@ namespace IntegrationTests.util
 
             SecurityTokenDescriptor tokenDescriptor = new()
             {
-                Subject = new ClaimsIdentity(
-                [
+                Subject = new ClaimsIdentity(new Claim[]
+                {
                     new(ClaimTypes.NameIdentifier, "3b848ecb-8611-409c-b741-634f8f053ba6"),
                     new(ClaimTypes.Name, "TestCustomer"),
                     new(ClaimTypes.Role, "Admin")
-                ]),
+                }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials
                 (
