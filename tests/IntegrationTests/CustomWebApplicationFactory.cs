@@ -7,16 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Text;
+using Xunit;
 
 namespace IntegrationTests
 {
-    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram 
+    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram>, IAsyncLifetime where TProgram
                                                        : class
     {
         private string _connectionString { get; set; } = string.Empty;
-
-        public CustomWebApplicationFactory()
-            => _connectionString = CreateTestDataBase.GetConnectionString();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -44,6 +42,18 @@ namespace IntegrationTests
                     };
                 });
             });
+        }
+
+        public Task InitializeAsync()
+        {
+            _connectionString = CreateTestDataBase.GetConnectionString();
+            return Task.CompletedTask;
+        }
+
+        public Task DisposeAsync()
+        {
+            CreateTestDataBase.StopContainerAsync();
+            return Task.CompletedTask;
         }
     }
 }

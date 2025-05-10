@@ -3,13 +3,12 @@ using System.Text;
 using Application.Models.LoginModels.Request;
 using Application.Models.LoginModels.Response;
 using FluentAssertions;
-using IntegrationTests.util;
 using Newtonsoft.Json;
 using Xunit;
 
 namespace IntegrationTests.src.v1.LoginIntegrationTests
 {
-    public class LoginControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>, IDisposable
+    public class LoginControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         private readonly CustomWebApplicationFactory<Program> _factory;
 
@@ -47,11 +46,6 @@ namespace IntegrationTests.src.v1.LoginIntegrationTests
             LoginCustomerResponse loginCustomerResponse = JsonConvert.DeserializeObject<LoginCustomerResponse>(responseContent)!;
             loginCustomerResponse.Token.Should().NotBeNullOrEmpty()
                 .And.BeOfType(typeof(string));
-        }
-
-        public void Dispose()
-        {
-            CreateTestDataBase.StopContainerAsync();
         }
     }
 }
