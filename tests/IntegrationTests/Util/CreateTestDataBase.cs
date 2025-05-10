@@ -2,7 +2,7 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using Testcontainers.MsSql;
 
-namespace IntegrationTests.Util
+namespace IntegrationTests.util
 {
     public static class CreateTestDataBase
     {

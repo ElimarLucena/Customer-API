@@ -3,7 +3,7 @@ using System.Text;
 using Application.Models.LoginModels.Request;
 using Application.Models.LoginModels.Response;
 using FluentAssertions;
-using IntegrationTests.Util;
+using IntegrationTests.util;
 using Newtonsoft.Json;
 using Xunit;
 

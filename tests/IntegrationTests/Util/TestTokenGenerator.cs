@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IntegrationTests.Util
+namespace IntegrationTests.util
 {
     public static class TestTokenGenerator
     {

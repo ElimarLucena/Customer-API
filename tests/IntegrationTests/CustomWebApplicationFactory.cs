@@ -1,5 +1,5 @@
 ﻿using Infra.Data.DbContext;
-using IntegrationTests.Util;
+using IntegrationTests.util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;

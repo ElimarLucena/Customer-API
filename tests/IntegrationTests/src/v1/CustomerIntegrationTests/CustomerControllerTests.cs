@@ -4,7 +4,7 @@ using System.Net;
 using Newtonsoft.Json;
 using Application.Models.CustomerModels.Response;
 using System.Net.Http.Headers;
-using IntegrationTests.Util;
+using IntegrationTests.util;
 using Application.Models.CustomerModels.Request;
 using System.Text;
 
