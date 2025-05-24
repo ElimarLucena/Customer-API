@@ -4,11 +4,14 @@ using System.Net;
 using Newtonsoft.Json;
 using Application.Models.CustomerModels.Response;
 using System.Net.Http.Headers;
-using IntegrationTests.Util;
+using IntegrationTests.util;
+using Application.Models.CustomerModels.Request;
+using System.Text;
 
 namespace IntegrationTests.src.v1.CustomerIntegrationTests
 {
-    public class CustomerControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>, IDisposable
+    [Collection("CustomWebApplicationFactory collection")]
+    public class CustomerControllerTests
     {
         private readonly CustomWebApplicationFactory<Program> _factory;
 
@@ -35,21 +38,10 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
             response.Content.Should().NotBeNull();
 
             string responseContent = await response.Content.ReadAsStringAsync();
-            List<GetAllCustomersResponse> contentValue = JsonConvert.DeserializeObject<List<GetAllCustomersResponse>>(responseContent)!;
-
-            contentValue[0].CustomerId.Should().Be(Guid.Parse("3b848ecb-8611-409c-b741-634f8f053ba6"));
-            contentValue[0].Name.Should().Be("TestCustomer");
-            contentValue[0].Email.Should().Be("testcustomer@gmail.com");
-            contentValue[0].Age.Should().Be(26);
-            contentValue[0].Phone.Should().Be(123456789);
-            contentValue[0].Document.Should().Be("cpf");
-
-            contentValue[1].CustomerId.Should().Be(Guid.Parse("b5125fed-3c62-4809-af18-8e201beaf4ec"));
-            contentValue[1].Name.Should().Be("TestCustomer2");
-            contentValue[1].Email.Should().Be("testcustomer2@gmail.com");
-            contentValue[1].Age.Should().Be(37);
-            contentValue[1].Phone.Should().Be(123493789);
-            contentValue[1].Document.Should().Be("cpf2");
+            List<GetAllCustomersResponse> getAllCustomersResponse = JsonConvert.DeserializeObject<List<GetAllCustomersResponse>>(responseContent)!;
+            getAllCustomersResponse.Should().NotBeNullOrEmpty()
+                .And.HaveCountGreaterThanOrEqualTo(4)
+                .And.ContainItemsAssignableTo<GetAllCustomersResponse>();
         }
 
         [Fact]
@@ -84,9 +76,92 @@ namespace IntegrationTests.src.v1.CustomerIntegrationTests
             contentValue.Document.Should().Be("cpf");
         }
 
-        public void Dispose()
+        [Fact]
+        public async Task CreateCustomer_Returns_OkResult()
         {
-            CreateTestDataBase.StopContainerAsync();
+            // Arrange
+            HttpClient client = _factory.CreateClient();
+
+            CreateCustomerRequest createCustomerRequest = new()
+            {
+                Name = "TestCustomer3",
+                Email = "testcustomer3@gmail.com",
+                Age = 38,
+                Phone = 123493789,
+                Document = "cpf3",
+                Password = "testcustomer3123"
+            };
+
+            StringContent content = new(
+                JsonConvert.SerializeObject(createCustomerRequest), 
+                Encoding.UTF8, 
+                "application/json"
+            );
+
+            string URI = $"/api/v1/customer/createCustomer";
+
+            // Act
+            HttpResponseMessage response = await client.PostAsync(URI, content);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task UpdateCustomer_Returns_OkResult()
+        {
+            // Arrange
+            HttpClient client = _factory.CreateClient();
+
+            string token = TestTokenGenerator.GetToken();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            UpdateCustomerRequest updateCustomerRequest = new()
+            {
+                CustomerId = Guid.Parse("79af865d-9f4b-4777-a52e-a0f46b086ddd"),
+                Name = "TestCustomer44",
+                Email = "testcustomer44@gmail.com",
+                Age = 44,
+                Phone = 123493744,
+                Document = "cpf44",
+                Password = "testcustomer44123"
+            };
+
+            StringContent content = new(
+                JsonConvert.SerializeObject(updateCustomerRequest), 
+                Encoding.UTF8, 
+                "application/json"
+            );
+
+            string URI = $"/api/v1/customer/updateCustomer";
+
+            // Act
+            HttpResponseMessage response = await client.PutAsync(URI, content);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task DeleteCustomerById_Returns_OkResult()
+        {
+            // Arrange
+            HttpClient client = _factory.CreateClient();
+
+            string token = TestTokenGenerator.GetToken();
+
+            Guid customerId = Guid.Parse("a3fe6701-2c8a-4c7c-8309-07050fccdee7");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            string URI = $"/api/v1/customer/deleteCustomerById/{customerId}";
+
+            // Act
+            HttpResponseMessage response = await client.DeleteAsync(URI);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }

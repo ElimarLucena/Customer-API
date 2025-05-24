@@ -84,7 +84,7 @@ CREATE TABLE TB_CUSTOMERS (
   <p><strong>1.1 - Navigate to test project directory:</strong></p>
   
 ```PowerShell
-  cd .\tests\UnitTests\
+  cd ./tests/UnitTests
 ```
   <p><strong>1.2 - Run command:</strong></p>
   
@@ -102,7 +102,7 @@ CREATE TABLE TB_CUSTOMERS (
   <p><strong>1.1 - Navigate to test project directory:</strong></p>
   
 ```PowerShell
-  cd .\tests\IntegrationTests\
+  cd ./tests/IntegrationTests
 ```
   <p><strong>1.2 - Run command:</strong></p>
   

@@ -1,5 +1,5 @@
 ﻿using Infra.Data.DbContext;
-using IntegrationTests.Util;
+using IntegrationTests.util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -7,10 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Text;
+using Xunit;
 
 namespace IntegrationTests
 {
-    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram 
+    [CollectionDefinition("CustomWebApplicationFactory collection")]
+    public class CustomWebApplicationFactoryCollection : ICollectionFixture<CustomWebApplicationFactory<Program>>
+    {
+    }
+
+    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram
                                                        : class
     {
         private string _connectionString { get; set; } = string.Empty;
@@ -44,6 +50,12 @@ namespace IntegrationTests
                     };
                 });
             });
+        }
+
+        public override async ValueTask DisposeAsync()
+        {
+            CreateTestDataBase.StopContainerAsync();
+            await base.DisposeAsync();
         }
     }
 }
