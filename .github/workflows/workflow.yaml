@@ -101,5 +101,3 @@ jobs:
         run: dotnet test ./tests/IntegrationTests/IntegrationTests.csproj
       - name: Cleanup Docker Containers
         run: docker container prune --f
-      - name: Cleanup Docker Images
-        run: docker image prune --f
