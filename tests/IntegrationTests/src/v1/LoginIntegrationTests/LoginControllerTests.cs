@@ -8,7 +8,8 @@ using Xunit;
 
 namespace IntegrationTests.src.v1.LoginIntegrationTests
 {
-    public class LoginControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    [Collection("CustomWebApplicationFactory collection")]
+    public class LoginControllerTests
     {
         private readonly CustomWebApplicationFactory<Program> _factory;
 

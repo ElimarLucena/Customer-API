@@ -10,7 +10,8 @@ using System.Text;
 
 namespace IntegrationTests.src.v1.CustomerIntegrationTests
 {
-    public class CustomerControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    [Collection("CustomWebApplicationFactory collection")]
+    public class CustomerControllerTests
     {
         private readonly CustomWebApplicationFactory<Program> _factory;
 

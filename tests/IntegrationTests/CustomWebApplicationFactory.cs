@@ -11,10 +11,18 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram>, IAsyncLifetime where TProgram
+    [CollectionDefinition("CustomWebApplicationFactory collection")]
+    public class CustomWebApplicationFactoryCollection : ICollectionFixture<CustomWebApplicationFactory<Program>>
+    {
+    }
+
+    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram
                                                        : class
     {
         private string _connectionString { get; set; } = string.Empty;
+
+        public CustomWebApplicationFactory()
+            => _connectionString = CreateTestDataBase.GetConnectionString();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -44,16 +52,10 @@ namespace IntegrationTests
             });
         }
 
-        public Task InitializeAsync()
-        {
-            _connectionString = CreateTestDataBase.GetConnectionString();
-            return Task.CompletedTask;
-        }
-
-        public Task DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             CreateTestDataBase.StopContainerAsync();
-            return Task.CompletedTask;
+            await base.DisposeAsync();
         }
     }
 }
