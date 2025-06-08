@@ -68,7 +68,7 @@ CREATE TABLE TB_CUSTOMERS (
   docker-compose -f "docker-compose.yml" up -d --build
 ```
 > Attention! Before making requests, make sure that the database and its tables have been created correctly.
-  <p><strong>1.2 - Run Link in your browser:</strong></p>
+  <p><strong>1.2 - Access the Link in your browser:</strong></p>
   
 ```js
   http://localhost:8080/swagger/index.html
@@ -81,15 +81,10 @@ CREATE TABLE TB_CUSTOMERS (
     <h3>:test_tube: Run Unit Tests</h3>
   </summary>
   <p><strong>Steps:</strong></p>
-  <p><strong>1.1 - Navigate to test project directory:</strong></p>
-  
-```PowerShell
-  cd ./tests/UnitTests
-```
-  <p><strong>1.2 - Run command:</strong></p>
+  <p><strong>1.1 - Run command:</strong></p>
   
 ```csharp
-  dotnet test
+  dotnet test ./tests/UnitTests/UnitTests.csproj
 ```
 </details>
 
@@ -99,14 +94,9 @@ CREATE TABLE TB_CUSTOMERS (
     <h3>:test_tube: Run Integration Tests</h3>
   </summary>
   <p><strong>Steps:</strong></p>
-  <p><strong>1.1 - Navigate to test project directory:</strong></p>
-  
-```PowerShell
-  cd ./tests/IntegrationTests
-```
-  <p><strong>1.2 - Run command:</strong></p>
+  <p><strong>1.1 - Run command:</strong></p>
   
 ```csharp
-  dotnet test
+  dotnet test ./tests/IntegrationTests/IntegrationTests.csproj
 ```
 </details>
