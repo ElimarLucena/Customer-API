@@ -40,7 +40,7 @@ namespace Infra.Data.Repositories
             return response!;
         }
 
-        public async Task CreateCustomer(Customer customer)
+        public async Task<int> CreateCustomer(Customer customer)
         {
             DynamicParameters parameters = new();
 
@@ -54,10 +54,12 @@ namespace Infra.Data.Repositories
 
             string command = SqlServer.CreateCustomer_Command();
 
-            await _dbContext.Connection.ExecuteAsync(command, parameters);
+            int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
+
+            return response;
         }
 
-        public async Task UpdateCustomer(Customer customer)
+        public async Task<int> UpdateCustomer(Customer customer)
         {
             DynamicParameters parameters = new();
 
@@ -71,14 +73,22 @@ namespace Infra.Data.Repositories
 
             string command = SqlServer.UpdateCustomer_Command();
 
-            await _dbContext.Connection.ExecuteAsync(command, parameters);
+            int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
+
+            return response;
         }
 
-        public async Task DeleteCustomer(Guid customerId)
+        public async Task<int> DeleteCustomer(Guid customerId)
         {
             string command = SqlServer.DeleteCustomer_Command();
 
-            await _dbContext.Connection.ExecuteAsync(command, new { CustomerId = customerId });
+            DynamicParameters parameters = new();
+
+            parameters.Add("customerId", customerId, DbType.Guid);
+
+            int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
+
+            return response;
         }
     }
 }

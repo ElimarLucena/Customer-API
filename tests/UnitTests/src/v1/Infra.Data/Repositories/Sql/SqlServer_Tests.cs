@@ -90,7 +90,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "DELETE FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE CustomerId = @CustomerId;";
+                "DELETE FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE CustomerId = @customerId;";
 
             // Act
             string command = SqlServer.DeleteCustomer_Command();

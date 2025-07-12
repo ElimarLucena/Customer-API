@@ -18,7 +18,7 @@
             "UPDATE [CUSTOMER].[dbo].[TB_CUSTOMERS] SET Name = @name, Email = @email, Document = @document, Phone = @phone, Age =  @age, Password = @password WHERE CustomerId = @customerId;";
 
         public static string DeleteCustomer_Command() =>
-            "DELETE FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE CustomerId = @CustomerId;";
+            "DELETE FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE CustomerId = @customerId;";
 
         public static string GetCustomerByEmailPassword_Query() =>
            "SELECT [CustomerId], [Name], [Email], [Age], [Phone], [Document] FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE Email = @email AND Password = @password;";
