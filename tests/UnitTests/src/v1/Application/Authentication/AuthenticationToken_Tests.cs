@@ -10,10 +10,6 @@ namespace UnitTests.src.v1.Application.Authentication
 {
     public class AuthenticationToken_Tests
     {
-        private readonly Mock<IAuthenticationToken> _authenticationToken;
-
-        public AuthenticationToken_Tests() => _authenticationToken = new Mock<IAuthenticationToken>();
-
         [Fact]
         public void GenerateToken_Returns_WithToken()
         {
