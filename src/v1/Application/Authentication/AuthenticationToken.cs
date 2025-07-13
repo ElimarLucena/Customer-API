@@ -24,6 +24,7 @@ namespace Application.Authentication
                     new(ClaimTypes.NameIdentifier, customer.CustomerId.ToString()),
                     new(ClaimTypes.Name, customer.Name.ToString())
                 }),
+                NotBefore = DateTime.UtcNow,
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials
                 (

@@ -19,6 +19,7 @@ namespace IntegrationTests.util
                     new(ClaimTypes.Name, "TestCustomer"),
                     new(ClaimTypes.Role, "Admin")
                 }),
+                NotBefore = DateTime.UtcNow,
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials
                 (
