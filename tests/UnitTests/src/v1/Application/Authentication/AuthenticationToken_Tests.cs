@@ -1,8 +1,6 @@
 ﻿using Application.Authentication;
-using Application.Interfaces;
 using Domain.Entities;
 using FluentAssertions;
-using Moq;
 using UnitTests.util;
 using UnitTests.util.Models.JwtModels;
 
