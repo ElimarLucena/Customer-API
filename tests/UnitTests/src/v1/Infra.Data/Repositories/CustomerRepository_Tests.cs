@@ -157,6 +157,26 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
         }
 
         [Fact]
+        public async Task GetCustomerByDocument_Returns_WithoutCustomer()
+        {
+            // Arrange
+            string document = "cpf";
+
+            _mockConnection.SetupDapperAsync(moq => moq.QuerySingleOrDefaultAsync<Customer>(It.IsAny<string>(), null, null, null, null))
+                           .ReturnsAsync(() => null);
+
+            _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
+
+            CustomerRepository customerRepository = new(_sqlServerDataBaseContext.Object);
+
+            // Act
+            Customer? getCustomerByDocument = await customerRepository.GetCustomerByDocument(document);
+
+            // Assert
+            getCustomerByDocument.Should().BeNull();
+        }
+
+        [Fact]
         public async Task CreateCustomer_With_Success()
         {
             // Arrange
