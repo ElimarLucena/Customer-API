@@ -20,7 +20,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
             _sqlServerDataBaseContext = new Mock<ISqlServerDataBaseContext>();
             _mockConnection = new Mock<IDbConnection>();
         }
-        
+
         [Fact]
         public async Task GetAllCustomers_Returns_AllCustomers()
         {
@@ -125,6 +125,35 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
 
             // Assert
             getCustomerById.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetCustomerByDocument_Returns_Customer()
+        {
+            // Arrange
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
+
+            string document = "cpf";
+
+            _mockConnection.SetupDapperAsync(moq => moq.QuerySingleOrDefaultAsync<Customer>(It.IsAny<string>(), null, null, null, null))
+                           .ReturnsAsync(customerDBMock[0]);
+
+            _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
+
+            CustomerRepository customerRepository = new(_sqlServerDataBaseContext.Object);
+
+            // Act
+            Customer? getCustomerByDocument = await customerRepository.GetCustomerByDocument(document);
+
+            // Assert
+            getCustomerByDocument.CustomerId.Should().Be(customerDBMock[0].CustomerId);
+            getCustomerByDocument.Name.Should().Be("User_1");
+            getCustomerByDocument.Email.Should().Be("User_1@gmail.com");
+            getCustomerByDocument.Email.Should().Match("*@*.com");
+            getCustomerByDocument.Age.Should().Be(20);
+            getCustomerByDocument.Phone.Should().Be(123456789);
+            getCustomerByDocument.Document.Should().Be("cpf");
+            getCustomerByDocument.Password.Should().Be("123");
         }
     }
 }
