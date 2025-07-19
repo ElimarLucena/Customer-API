@@ -243,5 +243,49 @@ namespace UnitTests.src.v1.Infra.Data.Repositories
             // Assert
             response.Should().Be(0);
         }
+
+        [Fact]
+        public async Task DeleteCustomer_With_Success()
+        {
+            // Arrange
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
+
+            int numberLinesChanged = 1;
+
+            _mockConnection.SetupDapperAsync(moq => moq.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>(), null, null, null))
+                           .ReturnsAsync(numberLinesChanged);
+
+            _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
+
+            CustomerRepository customerRepository = new(_sqlServerDataBaseContext.Object);
+
+            // Act
+            int response = await customerRepository.DeleteCustomer(customerDBMock[0].CustomerId);
+
+            // Assert
+            response.Should().Be(1);
+        }
+
+        [Fact]
+        public async Task DeleteCustomer_Without_Success()
+        {
+            // Arrange
+            List<Customer> customerDBMock = DataBaseMock.CustomerDBMock();
+
+            int numberLinesChanged = 0;
+
+            _mockConnection.SetupDapperAsync(moq => moq.ExecuteAsync(It.IsAny<string>(), It.IsAny<object>(), null, null, null))
+                           .ReturnsAsync(numberLinesChanged);
+
+            _sqlServerDataBaseContext.Setup(moq => moq.Connection).Returns(_mockConnection.Object);
+
+            CustomerRepository customerRepository = new(_sqlServerDataBaseContext.Object);
+
+            // Act
+            int response = await customerRepository.DeleteCustomer(customerDBMock[0].CustomerId);
+
+            // Assert
+            response.Should().Be(0);
+        }
     }
 }
