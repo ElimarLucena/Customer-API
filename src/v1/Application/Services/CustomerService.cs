@@ -68,7 +68,9 @@ namespace Application.Services
                 Age = command.Age,
                 Phone = command.Phone,
                 Document = command.Document,
-                Password = command.Password
+                Password = command.Password,
+                CreatedAt = DateTime.Now,
+                UdatedAt = DateTime.Now
             };
 
             await _customerRepository.CreateCustomer(newCustomer);
@@ -84,7 +86,8 @@ namespace Application.Services
                 Age = command.Age,
                 Phone = command.Phone,
                 Document = command.Document,
-                Password = command.Password
+                Password = command.Password,
+                UdatedAt = DateTime.Now
             };
 
             await _customerRepository.UpdateCustomer(updateCustomer);
