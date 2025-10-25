@@ -26,7 +26,7 @@ namespace Infra.Data.Repositories
         {
             string query = SqlServer.GetCustomerByIdQuery();
 
-            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CustomerId = customerId });
+            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CUSTOMER_ID = customerId });
 
             return response!;
         }
@@ -35,7 +35,7 @@ namespace Infra.Data.Repositories
         {
             string query = SqlServer.GetCustomerByDocumentQuery();
 
-            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { Document = document });
+            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { DOCUMENT = document });
 
             return response!;
         }
@@ -44,13 +44,15 @@ namespace Infra.Data.Repositories
         {
             DynamicParameters parameters = new();
 
-            parameters.Add("customerId", customer.CustomerId, DbType.Guid);
-            parameters.Add("name", customer.Name, DbType.String);
-            parameters.Add("email", customer.Email, DbType.String);
-            parameters.Add("document", customer.Document, DbType.String);
-            parameters.Add("phone", customer.Phone, DbType.Int64);
-            parameters.Add("age", customer.Age, DbType.Int32);
-            parameters.Add("password", customer.Password, DbType.String);
+            parameters.Add("CUSTOMER_ID", customer.CustomerId, DbType.Guid);
+            parameters.Add("NAME", customer.Name, DbType.String);
+            parameters.Add("EMAIL", customer.Email, DbType.String);
+            parameters.Add("DOCUMENT", customer.Document, DbType.String);
+            parameters.Add("PHONE", customer.Phone, DbType.Int64);
+            parameters.Add("AGE", customer.Age, DbType.Int32);
+            parameters.Add("PASSWORD", customer.Password, DbType.String);
+            parameters.Add("CREATED_AT", customer.CreatedAt, DbType.DateTime);
+            parameters.Add("UPDATED_AT", customer.UdatedAt, DbType.DateTime);
 
             string command = SqlServer.CreateCustomerCommand();
 
@@ -63,13 +65,14 @@ namespace Infra.Data.Repositories
         {
             DynamicParameters parameters = new();
 
-            parameters.Add("customerId", customer.CustomerId, DbType.Guid);
-            parameters.Add("name", customer.Name, DbType.String);
-            parameters.Add("email", customer.Email, DbType.String);
-            parameters.Add("document", customer.Document, DbType.String);
-            parameters.Add("phone", customer.Phone, DbType.Int64);
-            parameters.Add("age", customer.Age, DbType.Int32);
-            parameters.Add("password", customer.Password, DbType.String);
+            parameters.Add("CUSTOMER_ID", customer.CustomerId, DbType.Guid);
+            parameters.Add("NAME", customer.Name, DbType.String);
+            parameters.Add("EMAIL", customer.Email, DbType.String);
+            parameters.Add("DOCUMENT", customer.Document, DbType.String);
+            parameters.Add("PHONE", customer.Phone, DbType.Int64);
+            parameters.Add("AGE", customer.Age, DbType.Int32);
+            parameters.Add("PASSWORD", customer.Password, DbType.String);
+            parameters.Add("UPDATED_AT", customer.UdatedAt, DbType.DateTime);
 
             string command = SqlServer.UpdateCustomerCommand();
 
@@ -84,7 +87,7 @@ namespace Infra.Data.Repositories
 
             DynamicParameters parameters = new();
 
-            parameters.Add("customerId", customerId, DbType.Guid);
+            parameters.Add("CUSTOMER_ID", customerId, DbType.Guid);
 
             int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
 

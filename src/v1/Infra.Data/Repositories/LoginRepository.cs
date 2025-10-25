@@ -16,7 +16,7 @@ namespace Infra.Data.Repositories
         {
             string query = SqlServer.GetCustomerByEmailPasswordQuery();
 
-            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { Email = email, Password = password });
+            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { EMAIL = email, PASSWORD = password });
 
             return response!;
         }
