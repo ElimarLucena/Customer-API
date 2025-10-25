@@ -15,7 +15,7 @@ namespace Infra.Data.Repositories
 
         public async Task<List<Customer>> GetAllCustomers()
         {
-            string query = SqlServer.GetAllCustomers_Query();
+            string query = SqlServer.GetAllCustomersQuery();
 
             IEnumerable<Customer> response = await _dbContext.Connection.QueryAsync<Customer>(query);
 
@@ -24,7 +24,7 @@ namespace Infra.Data.Repositories
 
         public async Task<Customer> GetCustomerById(Guid customerId)
         {
-            string query = SqlServer.GetCustomerById_Query();
+            string query = SqlServer.GetCustomerByIdQuery();
 
             Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CustomerId = customerId });
 
@@ -33,7 +33,7 @@ namespace Infra.Data.Repositories
 
         public async Task<Customer> GetCustomerByDocument(string document)
         {
-            string query = SqlServer.GetCustomerByDocument_Query();
+            string query = SqlServer.GetCustomerByDocumentQuery();
 
             Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { Document = document });
 
@@ -52,7 +52,7 @@ namespace Infra.Data.Repositories
             parameters.Add("age", customer.Age, DbType.Int32);
             parameters.Add("password", customer.Password, DbType.String);
 
-            string command = SqlServer.CreateCustomer_Command();
+            string command = SqlServer.CreateCustomerCommand();
 
             int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
 
@@ -71,7 +71,7 @@ namespace Infra.Data.Repositories
             parameters.Add("age", customer.Age, DbType.Int32);
             parameters.Add("password", customer.Password, DbType.String);
 
-            string command = SqlServer.UpdateCustomer_Command();
+            string command = SqlServer.UpdateCustomerCommand();
 
             int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
 
@@ -80,7 +80,7 @@ namespace Infra.Data.Repositories
 
         public async Task<int> DeleteCustomer(Guid customerId)
         {
-            string command = SqlServer.DeleteCustomer_Command();
+            string command = SqlServer.DeleteCustomerCommand();
 
             DynamicParameters parameters = new();
 
