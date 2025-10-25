@@ -2,7 +2,7 @@
 
 namespace Infra.Data.DbContext
 {
-    public interface ISqlServerDataBaseContext
+    public interface ISqlServerDataBaseContext : IDisposable
     {
         IDbConnection Connection { get; }
     }

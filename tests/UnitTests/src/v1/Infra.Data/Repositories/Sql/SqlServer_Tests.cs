@@ -10,10 +10,10 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "SELECT [CustomerId], [Name], [Email], [Age], [Phone], [Document] FROM [CUSTOMER].[dbo].[TB_CUSTOMERS];";
+                "SELECT [CUSTOMER_ID] AS CustomerId, [NAME] AS Name, [EMAIL] AS Email, [AGE] AS Age, [PHONE] AS Phone, [DOCUMENT] AS Document, [CREATED_AT] AS CreatedAt, [UPDATED_AT] AS UdatedAt FROM [CUSTOMER].[dbo].[TB_CUSTOMERS];";
 
             // Act
-            string query = SqlServer.GetAllCustomers_Query();
+            string query = SqlServer.GetAllCustomersQuery();
 
             // Assert
             query.Should().Be(sqlQuery);
@@ -26,10 +26,10 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "SELECT [CustomerId], [Name], [Email], [Age], [Phone], [Document] FROM  [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE CustomerId = @customerId;";
+                "SELECT [CUSTOMER_ID] AS CustomerId, [NAME] AS Name, [EMAIL] AS Email, [AGE] AS Age, [PHONE] AS Phone, [DOCUMENT] AS Document, [CREATED_AT] AS CreatedAt, [UPDATED_AT] AS UdatedAt FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE CUSTOMER_ID = @CUSTOMER_ID;";
 
             // Act
-            string query = SqlServer.GetCustomerById_Query();
+            string query = SqlServer.GetCustomerByIdQuery();
 
             // Assert
             query.Should().Be(sqlQuery);
@@ -42,10 +42,10 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "SELECT [CustomerId], [Name], [Email], [Age], [Phone], [Document] FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE Document = @document;";
+                "SELECT [CUSTOMER_ID] AS CustomerId, [NAME] AS Name, [EMAIL] AS Email, [AGE] AS Age, [PHONE] AS Phone, [DOCUMENT] AS Document, [CREATED_AT] AS CreatedAt, [UPDATED_AT] AS UdatedAt FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE DOCUMENT = @DOCUMENT;";
 
             // Act
-            string query = SqlServer.GetCustomerByDocument_Query();
+            string query = SqlServer.GetCustomerByDocumentQuery();
 
             // Assert
             query.Should().Be(sqlQuery);
@@ -58,10 +58,10 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "INSERT INTO [CUSTOMER].[dbo].[TB_CUSTOMERS](CustomerId, Name, Email, Document, Phone, Age, Password) VALUES (@customerId, @name, @email, @document, @phone, @age, @password);";
+                "INSERT INTO [CUSTOMER].[dbo].[TB_CUSTOMERS](CUSTOMER_ID, NAME, EMAIL, DOCUMENT, PHONE, AGE, PASSWORD, CREATED_AT, UPDATED_AT) VALUES (@CUSTOMER_ID, @NAME, @EMAIL, @DOCUMENT, @PHONE, @AGE, @PASSWORD, @CREATED_AT, @UPDATED_AT);";
 
             // Act
-            string command = SqlServer.CreateCustomer_Command();
+            string command = SqlServer.CreateCustomerCommand();
 
             // Assert
             command.Should().Be(sqlQuery);
@@ -74,10 +74,10 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "UPDATE [CUSTOMER].[dbo].[TB_CUSTOMERS] SET Name = @name, Email = @email, Document = @document, Phone = @phone, Age =  @age, Password = @password WHERE CustomerId = @customerId;";
+                "UPDATE [CUSTOMER].[dbo].[TB_CUSTOMERS] SET NAME = @NAME, EMAIL = @EMAIL, DOCUMENT = @DOCUMENT, PHONE = @PHONE, AGE =  @AGE, PASSWORD = @PASSWORD, UPDATED_AT = @UPDATED_AT WHERE CUSTOMER_ID = @CUSTOMER_ID;";
 
             // Act
-            string command = SqlServer.UpdateCustomer_Command();
+            string command = SqlServer.UpdateCustomerCommand();
 
             // Assert
             command.Should().Be(sqlQuery);
@@ -90,10 +90,10 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "DELETE FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE CustomerId = @CustomerId;";
+                "DELETE FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE CUSTOMER_ID = @CUSTOMER_ID;";
 
             // Act
-            string command = SqlServer.DeleteCustomer_Command();
+            string command = SqlServer.DeleteCustomerCommand();
 
             // Assert
             command.Should().Be(sqlQuery);
@@ -106,10 +106,10 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         {
             // Arrange
             string sqlQuery =
-                "SELECT [CustomerId], [Name], [Email], [Age], [Phone], [Document] FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE Email = @email AND Password = @password;";
+                "SELECT [CUSTOMER_ID] AS CustomerId, [NAME] AS Name, [EMAIL] AS Email, [AGE] AS Age, [PHONE] AS Phone, [DOCUMENT] AS Document, [CREATED_AT] AS CreatedAt, [UPDATED_AT] AS UdatedAt FROM [CUSTOMER].[dbo].[TB_CUSTOMERS] WHERE EMAIL = @EMAIL AND PASSWORD = @PASSWORD;";
 
             // Act
-            string query = SqlServer.GetCustomerByEmailPassword_Query();
+            string query = SqlServer.GetCustomerByEmailPasswordQuery();
 
             // Assert
             query.Should().Be(sqlQuery);

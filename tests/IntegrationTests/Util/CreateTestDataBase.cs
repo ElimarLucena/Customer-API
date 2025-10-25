@@ -29,33 +29,29 @@ namespace IntegrationTests.util
         {
             List<string> queries =
             [
-                @"IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'CUSTOMER')
-                BEGIN
-                    CREATE DATABASE CUSTOMER;
-                END;",
+                @"CREATE DATABASE CUSTOMER;",
 
                 "USE CUSTOMER;",
 
-                $@"IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'TB_CUSTOMERS')
-                BEGIN
-                    CREATE TABLE TB_CUSTOMERS (
-                        CustomerId UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-                        Name NVARCHAR(255) NOT NULL,
-                        Email NVARCHAR(255) NOT NULL,
-                        Age INT NOT NULL,
-                        Phone INT NOT NULL,
-                        Document NVARCHAR(255) NOT NULL,
-                        Password NVARCHAR(255) NOT NULL
-                    );
+                @"CREATE TABLE TB_CUSTOMERS (
+                    CUSTOMER_ID UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+                    NAME NVARCHAR(255) NOT NULL,
+                    EMAIL NVARCHAR(255) NOT NULL,
+                    AGE INT NOT NULL,
+                    PHONE INT NOT NULL,
+                    DOCUMENT NVARCHAR(255) NOT NULL,
+                    PASSWORD NVARCHAR(255) NOT NULL,
+                    CREATED_AT DATETIME2 DEFAULT GETDATE(),
+                    UPDATED_AT DATETIME2
+                );",
 
-                    INSERT INTO [CUSTOMER].[dbo].[TB_CUSTOMERS]
-                        (CustomerId, Name, Email, Document, Phone, Age, Password)
-                    VALUES 
-                        ('{Guid.Parse("3b848ecb-8611-409c-b741-634f8f053ba6")}', 'TestCustomer', 'testcustomer@gmail.com', 'cpf', 123456789, 26, 'testcustomer123'),
-                        ('{Guid.Parse("b5125fed-3c62-4809-af18-8e201beaf4ec")}', 'TestCustomer2', 'testcustomer2@gmail.com', 'cpf2', 123493789, 37, 'testcustomer2123'),
-                        ('{Guid.Parse("79af865d-9f4b-4777-a52e-a0f46b086ddd")}', 'TestCustomer4', 'testcustomer4@gmail.com', 'cpf4', 123456789, 22, 'testcustomer4123'),
-                        ('{Guid.Parse("a3fe6701-2c8a-4c7c-8309-07050fccdee7")}', 'TestCustomer5', 'testcustomer5@gmail.com', 'cpf5', 123493789, 18, 'testcustomer5123');
-                END;"
+                $@"INSERT INTO [CUSTOMER].[dbo].[TB_CUSTOMERS]
+                    (CUSTOMER_ID, NAME, EMAIL, DOCUMENT, PHONE, AGE, PASSWORD, CREATED_AT, UPDATED_AT)
+                VALUES 
+                    ('{Guid.Parse("3b848ecb-8611-409c-b741-634f8f053ba6")}', 'TestCustomer', 'testcustomer@gmail.com', 'cpf', 123456789, 26, 'testcustomer123', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'),
+                    ('{Guid.Parse("b5125fed-3c62-4809-af18-8e201beaf4ec")}', 'TestCustomer2', 'testcustomer2@gmail.com', 'cpf2', 123493789, 37, 'testcustomer2123', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'),
+                    ('{Guid.Parse("79af865d-9f4b-4777-a52e-a0f46b086ddd")}', 'TestCustomer4', 'testcustomer4@gmail.com', 'cpf4', 123456789, 22, 'testcustomer4123', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'),
+                    ('{Guid.Parse("a3fe6701-2c8a-4c7c-8309-07050fccdee7")}', 'TestCustomer5', 'testcustomer5@gmail.com', 'cpf5', 123493789, 18, 'testcustomer5123', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}');"
             ];
 
             SqlConnection connection = new(connectionString);
