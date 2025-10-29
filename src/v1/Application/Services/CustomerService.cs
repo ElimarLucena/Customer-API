@@ -14,21 +14,23 @@ namespace Application.Services
 
         public async Task<List<GetAllCustomersResponse>> GetAllCustomers()
         {
-            List<GetAllCustomersResponse> response = new();
+            List<GetAllCustomersResponse> response = [];
 
             List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
 
             if (allCustomers.Any())
                 foreach (Customer customer in allCustomers)
-                    response.Add(new GetAllCustomersResponse() 
-                                {
-                                    CustomerId = customer.CustomerId,
-                                    Name = customer.Name,
-                                    Email = customer.Email,
-                                    Age = customer.Age,
-                                    Phone = customer.Phone,
-                                    Document = customer.Document
-                                });
+                    response.Add(new GetAllCustomersResponse()
+                    {
+                        CustomerId = customer.CustomerId,
+                        Name = customer.Name,
+                        Email = customer.Email,
+                        Age = customer.Age,
+                        Phone = customer.Phone,
+                        Document = customer.Document,
+                        CreatedAt = customer.CreatedAt,
+                        UdatedAt = customer.UdatedAt
+                    });
 
             return response;
         }
@@ -47,7 +49,9 @@ namespace Application.Services
                 Email = customer.Email,
                 Age = customer.Age,
                 Phone = customer.Phone,
-                Document = customer.Document
+                Document = customer.Document,
+                CreatedAt = customer.CreatedAt,
+                UdatedAt = customer.UdatedAt
             };
 
             return response;
