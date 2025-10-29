@@ -8,5 +8,7 @@
         public int Age { get; set; }
         public long Phone { get; set; }
         public string Document { get; set; } = string.Empty;
+        public DateTime? CreatedAt { get; set; }
+        public DateTime UdatedAt { get; set; }
     }
 }
