@@ -49,7 +49,7 @@ public class CustomerService(
         if (customer == null)
         {
             _logger.LogWarning($"class: {nameof(CustomerService)}, method: {nameof(GetCustomerById)}, customer not found: {customerId}.");
-            throw new Exception($"customer not found: {customerId}.");
+            throw new Exception("customer not found.");
         }
 
         GetCustomerByIdResponse response = new()

@@ -3,6 +3,7 @@ using Application.Services;
 using Domain.Entities;
 using Domain.Interfaces;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using UnitTests.util;
 
@@ -10,9 +11,14 @@ namespace UnitTests.src.v1.Application.Services
 {
     public class CustomerService_Tests
     {
+        private readonly Mock<ILogger<CustomerService>> _logger = new();
         private readonly Mock<ICustomerRepository> _customerRepository;
 
-        public CustomerService_Tests() => _customerRepository = new Mock<ICustomerRepository>();
+        public CustomerService_Tests() 
+        {
+            _logger = new Mock<ILogger<CustomerService>>();
+            _customerRepository = new Mock<ICustomerRepository>();
+        }
 
         [Fact]
         public async Task GetAllCustomers_Returns_AllCustomers()
@@ -23,7 +29,7 @@ namespace UnitTests.src.v1.Application.Services
             _customerRepository.Setup(moq => moq.GetAllCustomers())
                                .ReturnsAsync(customerDBMock);
 
-            CustomerService customerService = new(_customerRepository.Object);
+            CustomerService customerService = new(_logger.Object, _customerRepository.Object);
 
             // Act
             List<GetAllCustomersResponse> getAllCustomers = await customerService.GetAllCustomers();
@@ -42,7 +48,7 @@ namespace UnitTests.src.v1.Application.Services
 
             _customerRepository.Setup(moq => moq.GetAllCustomers()).ReturnsAsync(customerList);
 
-            CustomerService customerService = new(_customerRepository.Object);
+            CustomerService customerService = new(_logger.Object, _customerRepository.Object);
 
             // Act
             List<GetAllCustomersResponse> getAllCustomers = await customerService.GetAllCustomers();
@@ -62,7 +68,7 @@ namespace UnitTests.src.v1.Application.Services
             _customerRepository.Setup(moq => moq.GetCustomerById(customerId))
                                .ReturnsAsync(customerDBMock[0]);
 
-            CustomerService customerService = new(_customerRepository.Object);
+            CustomerService customerService = new(_logger.Object, _customerRepository.Object);
 
             // Act
             GetCustomerByIdResponse getCustomerByIdResponse = await customerService.GetCustomerById(customerId);
@@ -86,7 +92,7 @@ namespace UnitTests.src.v1.Application.Services
 
             _customerRepository.Setup(moq => moq.GetCustomerById(customerId)).ReturnsAsync(() => null!);
 
-            CustomerService customerService = new(_customerRepository.Object);
+            CustomerService customerService = new(_logger.Object, _customerRepository.Object);
 
             // Act
             Func<Task<GetCustomerByIdResponse>> getCustomerByIdResponse = async () => await customerService.GetCustomerById(customerId);
@@ -94,7 +100,7 @@ namespace UnitTests.src.v1.Application.Services
             // Assert
             await getCustomerByIdResponse.Should()
                                          .ThrowAsync<Exception>()
-                                         .WithMessage("Ops! this customer not found.");
+                                         .WithMessage("customer not found.");
         }
     }
 }
