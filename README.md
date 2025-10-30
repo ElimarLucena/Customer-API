@@ -109,7 +109,7 @@ CREATE TABLE TB_CUSTOMERS (
   </summary>
   <details>
   <summary>
-    <h3>Jaeger</h3>
+    <h3>👣 Jaeger</h3>
   </summary>
   <p><strong>1.1 - Access the documentation:</strong></p>
     <a href="https://www.jaegertracing.io/" target="_blank" title="https://www.jaegertracing.io/">
@@ -117,8 +117,9 @@ CREATE TABLE TB_CUSTOMERS (
     </a>
     <p></p>
   <p><strong>1.2 - Access the Jaeger UI:</strong></p>
-  <a href="http://localhost:16686" target="_blank" title="http://localhost:16686">
-        http://localhost:16686
-  </a>
+    
+  ```
+    http://localhost:16686
+  ```
   </details>
 </details>
