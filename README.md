@@ -102,3 +102,28 @@ CREATE TABLE TB_CUSTOMERS (
   dotnet test ./tests/IntegrationTests/IntegrationTests.csproj
 ```
 </details>
+
+<details>
+  <summary>
+    <h3>🕵️ Observability</h3>
+  </summary>
+  <details>
+  <summary>
+    <h3>Jaeger</h3>
+  </summary>
+  <p><strong>1.1 - Access the documentation:</strong></p>
+
+  ```
+  https://www.jaegertracing.io/
+  ```
+    
+  <p><strong>1.2 - Access the Jaeger UI:</strong></p>
+      
+  ```js
+  <a href="https://azure.microsoft.com/pt-br/products/data-studio" target="_blank" title="https://azure.microsoft.com/pt-br/products/data-studio">
+        Azure Data Studio
+      </a>
+    http://localhost:16686
+  ```
+  </details>
+</details>
