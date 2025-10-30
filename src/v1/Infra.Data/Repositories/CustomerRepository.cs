@@ -19,7 +19,7 @@ namespace Infra.Data.Repositories
 
             IEnumerable<Customer> response = await _dbContext.Connection.QueryAsync<Customer>(query);
 
-            return response.ToList();
+            return [.. response];
         }
 
         public async Task<Customer> GetCustomerById(Guid customerId)
