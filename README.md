@@ -109,6 +109,15 @@ CREATE TABLE TB_CUSTOMERS (
   </summary>
   <details>
   <summary>
+    <h3>🔭 OpenTelemetry</h3>
+  </summary>
+  <p><strong>1.1 - Access the documentation:</strong></p>
+    <a href="https://opentelemetry.io/" target="_blank" title="https://opentelemetry.io/">
+         https://opentelemetry.io/
+    </a>
+  </details>
+  <details>
+  <summary>
     <h3>👣 Jaeger</h3>
   </summary>
   <p><strong>1.1 - Access the documentation:</strong></p>
@@ -121,14 +130,5 @@ CREATE TABLE TB_CUSTOMERS (
   ```
     http://localhost:16686
   ```
-  </details>
-  <details>
-  <summary>
-    <h3>🔭 OpenTelemetry</h3>
-  </summary>
-  <p><strong>1.1 - Access the documentation:</strong></p>
-    <a href="https://opentelemetry.io/" target="_blank" title="https://opentelemetry.io/">
-         https://opentelemetry.io/
-    </a>
   </details>
 </details>
