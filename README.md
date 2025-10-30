@@ -112,18 +112,13 @@ CREATE TABLE TB_CUSTOMERS (
     <h3>Jaeger</h3>
   </summary>
   <p><strong>1.1 - Access the documentation:</strong></p>
-
-  ```
-  https://www.jaegertracing.io/
-  ```
-    
+    <a href="https://www.jaegertracing.io/" target="_blank" title="https://www.jaegertracing.io/">
+          https://www.jaegertracing.io/
+    </a>
+    <p></p>
   <p><strong>1.2 - Access the Jaeger UI:</strong></p>
-      
-  ```js
-  <a href="https://azure.microsoft.com/pt-br/products/data-studio" target="_blank" title="https://azure.microsoft.com/pt-br/products/data-studio">
-        Azure Data Studio
-      </a>
-    http://localhost:16686
-  ```
+  <a href="http://localhost:16686" target="_blank" title="http://localhost:16686">
+        http://localhost:16686
+  </a>
   </details>
 </details>
