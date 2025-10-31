@@ -2,6 +2,7 @@ using Application.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -68,21 +69,38 @@ builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionSt
 builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
 string serviceName = "CustomerAPI";
+string collectorUrl = builder.Configuration["OpenTelemetry:CollectorUrl"]!;
 builder.Logging.AddOpenTelemetry(options =>
 {
     options
         .SetResourceBuilder(
             ResourceBuilder.CreateDefault().AddService(serviceName))
-        .AddConsoleExporter();
+        .AddConsoleExporter()
+        .AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri(collectorUrl);
+            options.Protocol = OtlpExportProtocol.Grpc;
+        });
 });
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService(serviceName))
     .WithTracing(tracing => tracing
         .AddAspNetCoreInstrumentation()
-        .AddConsoleExporter())
+        .AddConsoleExporter()
+        .AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri(collectorUrl);
+            options.Protocol = OtlpExportProtocol.Grpc;
+            options.ExportProcessorType = OpenTelemetry.ExportProcessorType.Batch;
+        }))
     .WithMetrics(metrics => metrics
         .AddAspNetCoreInstrumentation()
-        .AddConsoleExporter());
+        .AddConsoleExporter()
+        .AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri(collectorUrl);
+            options.Protocol = OtlpExportProtocol.Grpc;
+        }));
 
 var app = builder.Build();
 
