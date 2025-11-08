@@ -109,7 +109,7 @@ CREATE TABLE TB_CUSTOMERS (
   </summary>
   <details>
   <summary>
-    🔭 <strong>OpenTelemetry</strong>
+    :telescope: <strong>OpenTelemetry</strong>
   </summary>
   <p>1.1 - Access the documentation:</p>
     <a href="https://opentelemetry.io/" target="_blank" title="https://opentelemetry.io/">
@@ -129,6 +129,37 @@ CREATE TABLE TB_CUSTOMERS (
     
   ```
     http://localhost:16686
+  ```
+  </details>
+  <details>
+  <summary>
+    :low_brightness: <strong>Grafana</strong>
+  </summary>
+  <p>1.1 - Access the documentation:</p>
+    <a href="https://grafana.com/" target="_blank" title="https://grafana.com/">
+          https://grafana.com/
+    </a>
+    <p></p>
+  <p>1.2 - Access the Grafana UI:</p>
+    
+  ```
+    http://localhost:3000/login
+  ```
+> Note! Username: admin Password: admin
+  </details>
+  <details>
+  <summary>
+    :fire: <strong>Prometheus</strong>
+  </summary>
+  <p>1.1 - Access the documentation:</p>
+    <a href="https://prometheus.io/" target="_blank" title="https://prometheus.io/">
+          https://prometheus.io/
+    </a>
+    <p></p>
+  <p>1.2 - Access the Prometheus UI:</p>
+    
+  ```
+    http://localhost:9090/
   ```
   </details>
 </details>
