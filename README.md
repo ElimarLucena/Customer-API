@@ -109,23 +109,23 @@ CREATE TABLE TB_CUSTOMERS (
   </summary>
   <details>
   <summary>
-    <h3>🔭 OpenTelemetry</h3>
+    🔭 <strong>OpenTelemetry</strong>
   </summary>
-  <p><strong>1.1 - Access the documentation:</strong></p>
+  <p>1.1 - Access the documentation:</p>
     <a href="https://opentelemetry.io/" target="_blank" title="https://opentelemetry.io/">
          https://opentelemetry.io/
     </a>
   </details>
   <details>
   <summary>
-    <h3>👣 Jaeger</h3>
+    👣 <strong>Jaeger</strong>
   </summary>
-  <p><strong>1.1 - Access the documentation:</strong></p>
+  <p>1.1 - Access the documentation:</p>
     <a href="https://www.jaegertracing.io/" target="_blank" title="https://www.jaegertracing.io/">
           https://www.jaegertracing.io/
     </a>
     <p></p>
-  <p><strong>1.2 - Access the Jaeger UI:</strong></p>
+  <p>1.2 - Access the Jaeger UI:</p>
     
   ```
     http://localhost:16686
