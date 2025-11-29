@@ -109,26 +109,57 @@ CREATE TABLE TB_CUSTOMERS (
   </summary>
   <details>
   <summary>
-    <h3>🔭 OpenTelemetry</h3>
+    :telescope: <strong>OpenTelemetry</strong>
   </summary>
-  <p><strong>1.1 - Access the documentation:</strong></p>
+  <p>1.1 - Access the documentation:</p>
     <a href="https://opentelemetry.io/" target="_blank" title="https://opentelemetry.io/">
          https://opentelemetry.io/
     </a>
   </details>
   <details>
   <summary>
-    <h3>👣 Jaeger</h3>
+    👣 <strong>Jaeger</strong>
   </summary>
-  <p><strong>1.1 - Access the documentation:</strong></p>
+  <p>1.1 - Access the documentation:</p>
     <a href="https://www.jaegertracing.io/" target="_blank" title="https://www.jaegertracing.io/">
           https://www.jaegertracing.io/
     </a>
     <p></p>
-  <p><strong>1.2 - Access the Jaeger UI:</strong></p>
+  <p>1.2 - Access the Jaeger UI:</p>
     
   ```
     http://localhost:16686
+  ```
+  </details>
+  <details>
+  <summary>
+    :low_brightness: <strong>Grafana</strong>
+  </summary>
+  <p>1.1 - Access the documentation:</p>
+    <a href="https://grafana.com/" target="_blank" title="https://grafana.com/">
+          https://grafana.com/
+    </a>
+    <p></p>
+  <p>1.2 - Access the Grafana UI:</p>
+    
+  ```
+    http://localhost:3000/login
+  ```
+> Note! Username: admin Password: admin
+  </details>
+  <details>
+  <summary>
+    :fire: <strong>Prometheus</strong>
+  </summary>
+  <p>1.1 - Access the documentation:</p>
+    <a href="https://prometheus.io/" target="_blank" title="https://prometheus.io/">
+          https://prometheus.io/
+    </a>
+    <p></p>
+  <p>1.2 - Access the Prometheus UI:</p>
+    
+  ```
+    http://localhost:9090/
   ```
   </details>
 </details>
