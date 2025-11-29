@@ -162,4 +162,19 @@ CREATE TABLE TB_CUSTOMERS (
     http://localhost:9090/
   ```
   </details>
+  <details>
+  <summary>
+    :fire: <strong>Pyroscope</strong>
+  </summary>
+  <p>1.1 - Access the documentation:</p>
+    <a href="https://pyroscope.io/" target="_blank" title="https://pyroscope.io/">
+          https://pyroscope.io/
+    </a>
+    <p></p>
+  <p>1.2 - Access the Pyroscope UI:</p>
+    
+  ```
+    http://localhost:4040/
+  ```
+  </details>
 </details>
