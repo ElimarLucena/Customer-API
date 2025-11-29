@@ -1,8 +1,5 @@
 version: '3.4'
 
-networks:
-  customerapi:
-
 services:
   webapi:
     container_name: customer_api
@@ -20,6 +17,8 @@ services:
       - DB_NAME=CUSTOMER
       - DB_SA_PASSWORD=password@12345#
       - ASPNETCORE_ENVIRONMENT=Development
+      - PYROSCOPE_APPLICATION_NAME=customer_api
+      - PYROSCOPE_SERVER_ADDRESS=http://pyroscope:4040
     networks: 
       - customerapi
   db:
@@ -62,3 +61,39 @@ services:
       - 9411:9411
     networks: 
       - customerapi
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:main
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
+    ports:
+      - 9090:9090
+    networks: 
+      - customerapi
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    environment:
+      - GF_METRICS_PROMETHEUS_URL=http://prometheus:9090
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+    networks: 
+      - customerapi
+  pyroscope:
+    container_name: pyroscope
+    image: pyroscope/pyroscope:latest
+    command:
+      - "server"
+    ports:
+      - 4040:4040
+    networks: 
+      - customerapi
+
+networks:
+  customerapi:
+    driver: bridge

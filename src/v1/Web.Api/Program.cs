@@ -7,6 +7,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using System.Diagnostics;
 using System.Text;
 using Web.Api.Middlewares;
 
@@ -100,6 +101,7 @@ builder.Services.AddOpenTelemetry()
         {
             options.Endpoint = new Uri(collectorUrl);
             options.Protocol = OtlpExportProtocol.Grpc;
+            options.ExportProcessorType = OpenTelemetry.ExportProcessorType.Batch;
         }));
 
 var app = builder.Build();
