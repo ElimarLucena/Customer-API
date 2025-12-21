@@ -21,11 +21,17 @@ public class LoginHandler(
         using Activity? trace = Traces.ActivitySource.StartActivity("GetCustomerToken");
         trace?.SetTag("customer.email", request.Email);
 
-        _logger.LogInformation($"class: {nameof(LoginHandler)}, method: {nameof(Handle)}, trying to login customer with email: {request.Email}.");
+        _logger.LogInformation("class: {LoginHandler}, method: {Handle}, trying to login customer with email: {Email}.",
+            nameof(LoginHandler),
+            nameof(Handle),
+            request.Email);
 
         LoginCustomerResponse response = await _loginService.GetCustomerToken(request);
 
-        _logger.LogInformation($"class: {nameof(LoginHandler)}, method: {nameof(Handle)}, customer with email: {request.Email} logged in successfully.");
+        _logger.LogInformation("class: {LoginHandler}, method: {Handle}, customer with email: {Email} logged in successfully.",
+            nameof(LoginHandler),
+            nameof(Handle),
+            request.Email);
 
         return response;
     }
