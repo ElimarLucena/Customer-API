@@ -11,7 +11,7 @@ namespace UnitTests.src.v1.Application.Services
 {
     public class CustomerService_Tests
     {
-        private readonly Mock<ILogger<CustomerService>> _logger = new();
+        private readonly Mock<ILogger<CustomerService>> _logger;
         private readonly Mock<ICustomerRepository> _customerRepository;
 
         public CustomerService_Tests() 
