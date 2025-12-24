@@ -6,7 +6,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
     public class SqlServerTests
     {
         [Fact]
-        public static void Test_GetAllCustomers_Query_ShouldReturnExpectedQuery()
+        public static void GetAllCustomers_Query_ShouldReturnExpectedQuery()
         {
             // Arrange
             string sqlQuery =
@@ -22,7 +22,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         }
 
         [Fact]
-        public static void Test_GetCustomerById_Query_ShouldReturnExpectedQuery()
+        public static void GetCustomerById_Query_ShouldReturnExpectedQuery()
         {
             // Arrange
             string sqlQuery =
@@ -38,7 +38,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         }
 
         [Fact]
-        public static void Test_GetCustomerByDocument_Query_ShouldReturnExpectedQuery()
+        public static void GetCustomerByDocument_Query_ShouldReturnExpectedQuery()
         {
             // Arrange
             string sqlQuery =
@@ -54,7 +54,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         }
 
         [Fact]
-        public static void Test_CreateCustomer_Command_ShouldReturnExpectedQuery()
+        public static void CreateCustomer_Command_ShouldReturnExpectedQuery()
         {
             // Arrange
             string sqlQuery =
@@ -70,7 +70,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         }
 
         [Fact]
-        public static void Test_UpdateCustomer_Command_ShouldReturnExpectedQuery()
+        public static void UpdateCustomer_Command_ShouldReturnExpectedQuery()
         {
             // Arrange
             string sqlQuery =
@@ -86,7 +86,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         }
 
         [Fact]
-        public static void Test_DeleteCustomer_Command_ShouldReturnExpectedQuery()
+        public static void DeleteCustomer_Command_ShouldReturnExpectedQuery()
         {
             // Arrange
             string sqlQuery =
@@ -102,7 +102,7 @@ namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
         }
 
         [Fact]
-        public static void Test_GetCustomerByEmailPassword_Query_ShouldReturnExpectedQuery()
+        public static void GetCustomerByEmailPassword_Query_ShouldReturnExpectedQuery()
         {
             // Arrange
             string sqlQuery =
