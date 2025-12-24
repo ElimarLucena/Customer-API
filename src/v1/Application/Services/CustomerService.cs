@@ -21,7 +21,10 @@ public class CustomerService(
 
         List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
 
-        _logger.LogInformation($"class: {nameof(CustomerService)}, method: {nameof(GetAllCustomers)}, customers found: {allCustomers.Count}.");
+        _logger.LogInformation("class: {CustomerService}, method: {GetAllCustomers}, customers found: {allCustomers.Count}.",
+            nameof(CustomerService), 
+            nameof(GetAllCustomers),
+            allCustomers.Count);
 
         if (allCustomers.Any())
             foreach (Customer customer in allCustomers)
@@ -44,11 +47,18 @@ public class CustomerService(
     {
         Customer customer = await _customerRepository.GetCustomerById(customerId);
 
-        _logger.LogInformation($"class: {nameof(CustomerService)}, method: {nameof(GetCustomerById)}, customer found: {customerId}.");
+        _logger.LogInformation("class: {CustomerService}, method: {GetCustomerById}, customer found: {customerId}.",
+            nameof(CustomerService), 
+            nameof(GetCustomerById),
+            customerId);
 
         if (customer == null)
         {
-            _logger.LogWarning($"class: {nameof(CustomerService)}, method: {nameof(GetCustomerById)}, customer not found: {customerId}.");
+            _logger.LogWarning("class: {CustomerService}, method: {GetCustomerById}, customer not found: {customerId}.",
+                nameof(CustomerService), 
+                nameof(GetCustomerById),
+                customerId);
+
             throw new Exception("customer not found.");
         }
 
