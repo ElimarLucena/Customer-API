@@ -8,12 +8,12 @@ using Moq;
 
 namespace UnitTests.src.v1.Application.UseCases.Handlers;
 
-public class LoginHandler_Tests
+public class LoginHandlerTests
 {
     private readonly Mock<ILogger<LoginHandler>> _logger;
     private readonly Mock<ILoginService> _loginService;
 
-    public LoginHandler_Tests()
+    public LoginHandlerTests()
     {
         _logger = new Mock<ILogger<LoginHandler>>();
         _loginService = new Mock<ILoginService>();

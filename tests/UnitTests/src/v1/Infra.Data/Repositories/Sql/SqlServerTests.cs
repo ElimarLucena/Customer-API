@@ -3,7 +3,7 @@ using Infra.Data.Repositories.Sql;
 
 namespace UnitTests.src.v1.Infra.Data.Repositories.Sql
 {
-    public class SqlServer_Tests
+    public class SqlServerTests
     {
         [Fact]
         public static void Test_GetAllCustomers_Query_ShouldReturnExpectedQuery()

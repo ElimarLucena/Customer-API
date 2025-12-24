@@ -9,11 +9,11 @@ using Web.Api.Controllers.v1;
 
 namespace UnitTests.src.v1.Web.Api.Controllers.v1
 {
-    public class CustomerController_Tests
+    public class CustomerControllerTests
     {
         private readonly Mock<IMediator> _mockMediator;
 
-        public CustomerController_Tests() => _mockMediator = new Mock<IMediator>();
+        public CustomerControllerTests() => _mockMediator = new Mock<IMediator>();
 
         [Fact]
         public async Task GetAllCustomers_ReturnsOkResult_WithAllCustomers()

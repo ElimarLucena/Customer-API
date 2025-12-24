@@ -9,12 +9,12 @@ using UnitTests.util;
 
 namespace UnitTests.src.v1.Application.Services
 {
-    public class CustomerService_Tests
+    public class CustomerServiceTests
     {
         private readonly Mock<ILogger<CustomerService>> _logger;
         private readonly Mock<ICustomerRepository> _customerRepository;
 
-        public CustomerService_Tests() 
+        public CustomerServiceTests() 
         {
             _logger = new Mock<ILogger<CustomerService>>();
             _customerRepository = new Mock<ICustomerRepository>();

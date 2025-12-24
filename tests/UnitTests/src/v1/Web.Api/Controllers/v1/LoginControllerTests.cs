@@ -8,11 +8,11 @@ using Web.Api.Controllers.v1;
 
 namespace UnitTests.src.v1.Web.Api.Controllers.v1
 {
-    public class LoginController_Tests
+    public class LoginControllerTests
     {
         private readonly Mock<IMediator> _mockMediator;
 
-        public LoginController_Tests() => _mockMediator = new Mock<IMediator>();
+        public LoginControllerTests() => _mockMediator = new Mock<IMediator>();
 
         [Fact]
         public async Task LoginToken_ReturnsOkResult_WithToken()
