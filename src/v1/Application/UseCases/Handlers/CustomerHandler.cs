@@ -3,56 +3,55 @@ using Application.Interfaces;
 using Application.Models.CustomerModels.Request;
 using Application.Models.CustomerModels.Response;
 
-namespace Application.UseCases.Handlers
+namespace Application.UseCases.Handlers;
+
+public class CustomerHandler(
+    ICustomerService customerService
+) : IRequestHandler<GetAllCustomersRequest, List<GetAllCustomersResponse>>,
+    IRequestHandler<CreateCustomerRequest, CreateCustomerResponse>,
+    IRequestHandler<GetCustomerByIdRequest, GetCustomerByIdResponse>,
+    IRequestHandler<UpdateCustomerRequest, UpdateCustomerResponse>,
+    IRequestHandler<DeleteCustomerByIdRequest, DeleteCustomerByIdResponse>
 {
-    public class CustomerHandler : IRequestHandler<GetAllCustomersRequest, List<GetAllCustomersResponse>>,
-                                   IRequestHandler<CreateCustomerRequest, CreateCustomerResponse>,
-                                   IRequestHandler<GetCustomerByIdRequest, GetCustomerByIdResponse>,
-                                   IRequestHandler<UpdateCustomerRequest, UpdateCustomerResponse>,
-                                   IRequestHandler<DeleteCustomerByIdRequest, DeleteCustomerByIdResponse>
+    private readonly ICustomerService _customerService = customerService;
+
+    public async Task<List<GetAllCustomersResponse>> Handle(GetAllCustomersRequest request,
+                                                            CancellationToken cancellationToken)
     {
-        private readonly ICustomerService _customerService;
+        List<GetAllCustomersResponse> response = await _customerService.GetAllCustomers();
 
-        public CustomerHandler(ICustomerService customerService) => _customerService = customerService;
+        return response;
+    }
 
-        public async Task<List<GetAllCustomersResponse>> Handle(GetAllCustomersRequest request,
-                                                               CancellationToken cancellationToken)
-        {
-            List<GetAllCustomersResponse> response = await _customerService.GetAllCustomers();
+    public async Task<GetCustomerByIdResponse> Handle(GetCustomerByIdRequest request,
+                                                        CancellationToken cancellationToken)
+    {
+        GetCustomerByIdResponse response = await _customerService.GetCustomerById(request.CustomerId);
 
-            return response;
-        }
+        return response;
+    }
 
-        public async Task<GetCustomerByIdResponse> Handle(GetCustomerByIdRequest request,
-                                                          CancellationToken cancellationToken)
-        {
-            GetCustomerByIdResponse response = await _customerService.GetCustomerById(request.CustomerId);
+    public async Task<CreateCustomerResponse> Handle(CreateCustomerRequest command,
+                                                        CancellationToken cancellationToken)
+    {
+        await _customerService.CreateCustomer(command);
 
-            return response;
-        }
+        return new CreateCustomerResponse();
+    }
 
-        public async Task<CreateCustomerResponse> Handle(CreateCustomerRequest command,
-                                                         CancellationToken cancellationToken)
-        {
-            await _customerService.CreateCustomer(command);
+    public async Task<UpdateCustomerResponse> Handle(UpdateCustomerRequest command,
+                                                        CancellationToken cancellationToken)
+    {
+        await _customerService.UpdateCustomer(command);
 
-            return new CreateCustomerResponse();
-        }
+        return new UpdateCustomerResponse();
+    }
 
-        public async Task<UpdateCustomerResponse> Handle(UpdateCustomerRequest command,
-                                                         CancellationToken cancellationToken)
-        {
-            await _customerService.UpdateCustomer(command);
+    public async Task<DeleteCustomerByIdResponse> Handle(DeleteCustomerByIdRequest commad,
+                                                            CancellationToken cancellationToken)
+    {
+        await _customerService.DeleteCustomer(commad.CustomerId);
 
-            return new UpdateCustomerResponse();
-        }
-
-        public async Task<DeleteCustomerByIdResponse> Handle(DeleteCustomerByIdRequest commad,
-                                                             CancellationToken cancellationToken)
-        {
-            await _customerService.DeleteCustomer(commad.CustomerId);
-
-            return new DeleteCustomerByIdResponse();
-        }
+        return new DeleteCustomerByIdResponse();
     }
 }
