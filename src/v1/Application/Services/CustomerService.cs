@@ -19,6 +19,8 @@ public class CustomerService(
 
     public async Task<List<GetAllCustomersResponse>> GetAllCustomers()
     {
+        using Activity? trace = Traces.ActivitySource.StartActivity("GetAllCustomersService");
+
         List<GetAllCustomersResponse> response = [];
 
         List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
@@ -47,6 +49,9 @@ public class CustomerService(
 
     public async Task<GetCustomerByIdResponse> GetCustomerById(Guid customerId)
     {
+        using Activity? trace = Traces.ActivitySource.StartActivity("GetCustomerByIdService");
+        trace?.SetTag("customer.id", customerId.ToString());
+
         Customer customer = await _customerRepository.GetCustomerById(customerId);
 
         _logger.LogInformation("class: {CustomerService}, method: {GetCustomerById}, customer found: {customerId}.",
@@ -120,6 +125,9 @@ public class CustomerService(
 
     public async Task UpdateCustomer(UpdateCustomerRequest command)
     {
+        using Activity? trace = Traces.ActivitySource.StartActivity("UpdateCustomerService");
+        trace?.SetTag("customer.id", command.CustomerId.ToString());
+
         Customer updateCustomer = new()
         {
             CustomerId = command.CustomerId,
@@ -132,11 +140,26 @@ public class CustomerService(
             UdatedAt = DateTime.Now
         };
 
-        await _customerRepository.UpdateCustomer(updateCustomer);
+        int result = await _customerRepository.UpdateCustomer(updateCustomer);
+
+        if (result <= 0)
+            _logger.LogError("class: {CustomerService}, method: {UpdateCustomer}, error updating customer: {CustomerId}.",
+                nameof(CustomerService), 
+                nameof(UpdateCustomer),
+                command.CustomerId);
     }
 
     public async Task DeleteCustomer(Guid customerId)
     {
-        await _customerRepository.DeleteCustomer(customerId);
+        using Activity? trace = Traces.ActivitySource.StartActivity("DeleteCustomerService");
+        trace?.SetTag("customer.id", customerId.ToString());
+
+        int result = await _customerRepository.DeleteCustomer(customerId);
+
+        if (result <= 0)
+            _logger.LogError("class: {CustomerService}, method: {DeleteCustomer}, error deleting customer: {CustomerId}.",
+                nameof(CustomerService), 
+                nameof(DeleteCustomer),
+                customerId);
     }
 }
