@@ -59,7 +59,7 @@ public class CustomerService(
             nameof(GetCustomerById),
             customerId);
 
-        if (customer == null)
+        if (customer is null)
         {
             _logger.LogWarning("class: {CustomerService}, method: {GetCustomerById}, customer not found: {customerId}.",
                 nameof(CustomerService), 
