@@ -4,94 +4,111 @@ using Domain.Interfaces;
 using Infra.Data.DbContext;
 using Infra.Data.Repositories.Sql;
 using System.Data;
+using System.Diagnostics;
 
-namespace Infra.Data.Repositories
+namespace Infra.Data.Repositories;
+
+public class CustomerRepository(
+    ISqlServerDataBaseContext dbContext
+) : ICustomerRepository
 {
-    public class CustomerRepository : ICustomerRepository
+    private readonly ISqlServerDataBaseContext _dbContext = dbContext;
+
+    public async Task<List<Customer>> GetAllCustomers()
     {
-        private readonly ISqlServerDataBaseContext _dbContext;
+        using Activity? trace = Traces.Traces.ActivitySource.StartActivity("GetAllCustomersRepository");
 
-        public CustomerRepository(ISqlServerDataBaseContext dbContext) => _dbContext = dbContext;
+        string query = SqlServer.GetAllCustomersQuery();
 
-        public async Task<List<Customer>> GetAllCustomers()
-        {
-            string query = SqlServer.GetAllCustomersQuery();
+        IEnumerable<Customer> response = await _dbContext.Connection.QueryAsync<Customer>(query);
 
-            IEnumerable<Customer> response = await _dbContext.Connection.QueryAsync<Customer>(query);
+        return [.. response];
+    }
 
-            return [.. response];
-        }
+    public async Task<Customer> GetCustomerById(Guid customerId)
+    {
+        using Activity? trace = Traces.Traces.ActivitySource.StartActivity("GetCustomerByIdRepository");
+        trace?.SetTag("customer.id", customerId.ToString());
 
-        public async Task<Customer> GetCustomerById(Guid customerId)
-        {
-            string query = SqlServer.GetCustomerByIdQuery();
+        string query = SqlServer.GetCustomerByIdQuery();
 
-            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CUSTOMER_ID = customerId });
+        Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { CUSTOMER_ID = customerId });
 
-            return response!;
-        }
+        return response!;
+    }
 
-        public async Task<Customer> GetCustomerByDocument(string document)
-        {
-            string query = SqlServer.GetCustomerByDocumentQuery();
+    public async Task<Customer> GetCustomerByDocument(string document)
+    {
+        using Activity? trace = Traces.Traces.ActivitySource.StartActivity("GetCustomerByDocumentRepository");
+        trace?.SetTag("customer.document", document);
 
-            Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { DOCUMENT = document });
+        string query = SqlServer.GetCustomerByDocumentQuery();
 
-            return response!;
-        }
+        Customer? response = await _dbContext.Connection.QuerySingleOrDefaultAsync<Customer>(query, new { DOCUMENT = document });
 
-        public async Task<int> CreateCustomer(Customer customer)
-        {
-            DynamicParameters parameters = new();
+        return response!;
+    }
 
-            parameters.Add("CUSTOMER_ID", customer.CustomerId, DbType.Guid);
-            parameters.Add("NAME", customer.Name, DbType.String);
-            parameters.Add("EMAIL", customer.Email, DbType.String);
-            parameters.Add("DOCUMENT", customer.Document, DbType.String);
-            parameters.Add("PHONE", customer.Phone, DbType.Int64);
-            parameters.Add("AGE", customer.Age, DbType.Int32);
-            parameters.Add("PASSWORD", customer.Password, DbType.String);
-            parameters.Add("CREATED_AT", customer.CreatedAt, DbType.DateTime);
-            parameters.Add("UPDATED_AT", customer.UdatedAt, DbType.DateTime);
+    public async Task<int> CreateCustomer(Customer customer)
+    {
+        using Activity? trace = Traces.Traces.ActivitySource.StartActivity("InsertCustomerRepository");
+        trace?.SetTag("customer.id", customer.CustomerId.ToString());
 
-            string command = SqlServer.CreateCustomerCommand();
+        DynamicParameters parameters = new();
 
-            int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
+        parameters.Add("CUSTOMER_ID", customer.CustomerId, DbType.Guid);
+        parameters.Add("NAME", customer.Name, DbType.String);
+        parameters.Add("EMAIL", customer.Email, DbType.String);
+        parameters.Add("DOCUMENT", customer.Document, DbType.String);
+        parameters.Add("PHONE", customer.Phone, DbType.Int64);
+        parameters.Add("AGE", customer.Age, DbType.Int32);
+        parameters.Add("PASSWORD", customer.Password, DbType.String);
+        parameters.Add("CREATED_AT", customer.CreatedAt, DbType.DateTime);
+        parameters.Add("UPDATED_AT", customer.UdatedAt, DbType.DateTime);
 
-            return response;
-        }
+        string command = SqlServer.CreateCustomerCommand();
 
-        public async Task<int> UpdateCustomer(Customer customer)
-        {
-            DynamicParameters parameters = new();
+        int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
 
-            parameters.Add("CUSTOMER_ID", customer.CustomerId, DbType.Guid);
-            parameters.Add("NAME", customer.Name, DbType.String);
-            parameters.Add("EMAIL", customer.Email, DbType.String);
-            parameters.Add("DOCUMENT", customer.Document, DbType.String);
-            parameters.Add("PHONE", customer.Phone, DbType.Int64);
-            parameters.Add("AGE", customer.Age, DbType.Int32);
-            parameters.Add("PASSWORD", customer.Password, DbType.String);
-            parameters.Add("UPDATED_AT", customer.UdatedAt, DbType.DateTime);
+        return response;
+    }
 
-            string command = SqlServer.UpdateCustomerCommand();
+    public async Task<int> UpdateCustomer(Customer customer)
+    {
+        using Activity? trace = Traces.Traces.ActivitySource.StartActivity("UpdateCustomerRepository");
+        trace?.SetTag("customer.id", customer.CustomerId.ToString());
 
-            int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
+        DynamicParameters parameters = new();
 
-            return response;
-        }
+        parameters.Add("CUSTOMER_ID", customer.CustomerId, DbType.Guid);
+        parameters.Add("NAME", customer.Name, DbType.String);
+        parameters.Add("EMAIL", customer.Email, DbType.String);
+        parameters.Add("DOCUMENT", customer.Document, DbType.String);
+        parameters.Add("PHONE", customer.Phone, DbType.Int64);
+        parameters.Add("AGE", customer.Age, DbType.Int32);
+        parameters.Add("PASSWORD", customer.Password, DbType.String);
+        parameters.Add("UPDATED_AT", customer.UdatedAt, DbType.DateTime);
 
-        public async Task<int> DeleteCustomer(Guid customerId)
-        {
-            string command = SqlServer.DeleteCustomerCommand();
+        string command = SqlServer.UpdateCustomerCommand();
 
-            DynamicParameters parameters = new();
+        int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
 
-            parameters.Add("CUSTOMER_ID", customerId, DbType.Guid);
+        return response;
+    }
 
-            int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
+    public async Task<int> DeleteCustomer(Guid customerId)
+    {
+        using Activity? trace = Traces.Traces.ActivitySource.StartActivity("DeleteCustomerRepository");
+        trace?.SetTag("customer.id", customerId.ToString());
 
-            return response;
-        }
+        string command = SqlServer.DeleteCustomerCommand();
+
+        DynamicParameters parameters = new();
+
+        parameters.Add("CUSTOMER_ID", customerId, DbType.Guid);
+
+        int response = await _dbContext.Connection.ExecuteAsync(sql: command, param: parameters, commandTimeout: 60);
+
+        return response;
     }
 }

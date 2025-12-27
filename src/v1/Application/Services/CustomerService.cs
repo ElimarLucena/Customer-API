@@ -1,8 +1,10 @@
-﻿using Application.Interfaces;
+﻿using System.Diagnostics;
+using Application.Interfaces;
 using Application.Models.CustomerModels.Request;
 using Application.Models.CustomerModels.Response;
 using Domain.Entities;
 using Domain.Interfaces;
+using Infra.Data.Traces;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -79,10 +81,20 @@ public class CustomerService(
 
     public async Task CreateCustomer(CreateCustomerRequest command)
     {
+        using Activity? trace = Traces.ActivitySource.StartActivity("CreateCustomerService");
+        trace?.SetTag("customer.name", command.Name);
+
         Customer existCustomer = await _customerRepository.GetCustomerByDocument(command.Document);
 
         if (existCustomer != null)
+        {
+            _logger.LogWarning("class: {CustomerService}, method: {CreateCustomer}, customer already exists: {Name}.",
+                nameof(CustomerService),
+                nameof(CreateCustomer),
+                command.Name);
+
             throw new Exception("Ops! this customer already exists.");
+        }
 
         Customer newCustomer = new()
         {
@@ -97,7 +109,13 @@ public class CustomerService(
             UdatedAt = DateTime.Now
         };
 
-        await _customerRepository.CreateCustomer(newCustomer);
+        int result = await _customerRepository.CreateCustomer(newCustomer);
+
+        if (result <= 0)
+            _logger.LogError("class: {CustomerService}, method: {CreateCustomer}, error creating customer: {Name}.",
+                nameof(CustomerService), 
+                nameof(CreateCustomer),
+                command.Name);
     }
 
     public async Task UpdateCustomer(UpdateCustomerRequest command)
