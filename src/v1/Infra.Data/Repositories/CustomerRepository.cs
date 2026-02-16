@@ -64,7 +64,7 @@ public class CustomerRepository(
         parameters.Add("AGE", customer.Age, DbType.Int32);
         parameters.Add("PASSWORD", customer.Password, DbType.String);
         parameters.Add("CREATED_AT", customer.CreatedAt, DbType.DateTime);
-        parameters.Add("UPDATED_AT", customer.UdatedAt, DbType.DateTime);
+        parameters.Add("UPDATED_AT", customer.UpdatedAt, DbType.DateTime);
 
         string command = SqlServer.CreateCustomerCommand();
 
@@ -87,7 +87,7 @@ public class CustomerRepository(
         parameters.Add("PHONE", customer.Phone, DbType.Int64);
         parameters.Add("AGE", customer.Age, DbType.Int32);
         parameters.Add("PASSWORD", customer.Password, DbType.String);
-        parameters.Add("UPDATED_AT", customer.UdatedAt, DbType.DateTime);
+        parameters.Add("UPDATED_AT", customer.UpdatedAt, DbType.DateTime);
 
         string command = SqlServer.UpdateCustomerCommand();
 

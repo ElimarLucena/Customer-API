@@ -41,7 +41,7 @@ public class CustomerService(
                     Phone = customer.Phone,
                     Document = customer.Document,
                     CreatedAt = customer.CreatedAt,
-                    UdatedAt = customer.UdatedAt
+                    UdatedAt = customer.UpdatedAt
                 });
 
         return response;
@@ -78,7 +78,7 @@ public class CustomerService(
             Phone = customer.Phone,
             Document = customer.Document,
             CreatedAt = customer.CreatedAt,
-            UdatedAt = customer.UdatedAt
+            UdatedAt = customer.UpdatedAt
         };
 
         return response;
@@ -111,7 +111,7 @@ public class CustomerService(
             Document = command.Document,
             Password = command.Password,
             CreatedAt = DateTime.Now,
-            UdatedAt = DateTime.Now
+            UpdatedAt = DateTime.Now
         };
 
         int result = await _customerRepository.CreateCustomer(newCustomer);
@@ -137,7 +137,7 @@ public class CustomerService(
             Phone = command.Phone,
             Document = command.Document,
             Password = command.Password,
-            UdatedAt = DateTime.Now
+            UpdatedAt = DateTime.Now
         };
 
         int result = await _customerRepository.UpdateCustomer(updateCustomer);
