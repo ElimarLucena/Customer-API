@@ -1,8 +1,5 @@
 <h1 align="center">Customer WebApi :information_desk_person: </h1>
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/C_Sharp_wordmark.svg" alt="C# Logo" width="100" height="50">
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/DotNet_logo.svg" alt=".NET Logo" width="100" height="50">
-
 <p align="center">WebApi responsible for managing all customer information, such as registration, update, search and deletion information.</p>
 
 <details>
