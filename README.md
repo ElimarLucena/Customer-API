@@ -18,13 +18,13 @@
       </a>
     </li>
     <li>
-      <a href="https://azure.microsoft.com/pt-br/products/data-studio" target="_blank" title="https://azure.microsoft.com/pt-br/products/data-studio">
-        Azure Data Studio
+      <a href="https://dbeaver.io/" target="_blank" title="https://dbeaver.io/">
+        DBeaver
       </a>
     </li>
     <li>
-      <a href="https://www.docker.com/products/docker-desktop/" target="_blank" title="https://www.docker.com/products/docker-desktop/">
-        Docker Desktop
+      <a href="https://rancherdesktop.io/" target="_blank" title="https://rancherdesktop.io/">
+        Rancher Desktop
       </a>
     </li>
   </ul>
