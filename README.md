@@ -177,4 +177,19 @@ CREATE TABLE TB_CUSTOMERS (
     http://localhost:4040/
   ```
   </details>
+  <details>
+  <summary>
+    :fire: <strong>Grafana Loki</strong>
+  </summary>
+  <p>1.1 - Access the documentation:</p>
+    <a href="https://grafana.com/docs/loki/latest/" target="_blank" title="https://grafana.com/docs/loki/latest/">
+          https://grafana.com/docs/loki/latest
+    </a>
+    <p></p>
+  <p>1.2 - Access the Loki UI:</p>
+    
+  ```
+    http://localhost:4040/
+  ```
+  </details>
 </details>
