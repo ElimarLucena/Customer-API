@@ -10,12 +10,12 @@ using UnitTests.util;
 
 namespace UnitTests.src.v1.Application.Services
 {
-    public class LoginService_Tests
+    public class LoginServiceTests
     {
         private readonly Mock<ILoginRepository> _loginRepository;
         private readonly Mock<IAuthenticationToken> _authenticationToken;
 
-        public LoginService_Tests()
+        public LoginServiceTests()
         {
             _loginRepository = new Mock<ILoginRepository>();
             _authenticationToken = new Mock<IAuthenticationToken>();

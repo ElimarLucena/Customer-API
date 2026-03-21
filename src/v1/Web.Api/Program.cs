@@ -68,7 +68,8 @@ builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionSt
 
 builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
-string serviceName = "CustomerAPI";
+// OpenTelemetry Configuration
+string serviceName = builder.Configuration["OpenTelemetry:ServiceName"]!;
 string collectorUrl = builder.Configuration["OpenTelemetry:CollectorUrl"]!;
 builder.Logging.AddOpenTelemetry(options =>
 {
@@ -86,6 +87,8 @@ builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService(serviceName))
     .WithTracing(tracing => tracing
         .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddSource(serviceName)
         .AddConsoleExporter()
         .AddOtlpExporter(options =>
         {
@@ -100,6 +103,7 @@ builder.Services.AddOpenTelemetry()
         {
             options.Endpoint = new Uri(collectorUrl);
             options.Protocol = OtlpExportProtocol.Grpc;
+            options.ExportProcessorType = OpenTelemetry.ExportProcessorType.Batch;
         }));
 
 var app = builder.Build();

@@ -10,12 +10,12 @@ using UnitTests.util;
 
 namespace UnitTests.src.v1.Infra.Data.Repositories
 {
-    public class LoginRepository_Tests
+    public class LoginRepositoryTests
     {
         private readonly Mock<ISqlServerDataBaseContext> _sqlServerDataBaseContext;
         private readonly Mock<IDbConnection> _mockConnection;
 
-        public LoginRepository_Tests()
+        public LoginRepositoryTests()
         {
             _sqlServerDataBaseContext = new Mock<ISqlServerDataBaseContext>();
             _mockConnection = new Mock<IDbConnection>();

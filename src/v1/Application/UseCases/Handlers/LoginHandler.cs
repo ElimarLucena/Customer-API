@@ -1,21 +1,38 @@
-﻿using Application.Interfaces;
+﻿using System.Diagnostics;
+using Application.Interfaces;
 using Application.Models.LoginModels.Request;
 using Application.Models.LoginModels.Response;
+using Infra.Data.Traces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
-namespace Application.UseCases.Handlers
+namespace Application.UseCases.Handlers;
+
+public class LoginHandler(
+    ILogger<LoginHandler> logger,
+    ILoginService loginService
+) : IRequestHandler<LoginCustomerRequest, LoginCustomerResponse>
 {
-    public class LoginHandler : IRequestHandler<LoginCustomerRequest, LoginCustomerResponse>
+    private readonly ILogger<LoginHandler> _logger = logger;
+    private readonly ILoginService _loginService = loginService;
+
+    public async Task<LoginCustomerResponse> Handle(LoginCustomerRequest request, CancellationToken cancellationToken)
     {
-        private readonly ILoginService _loginService;
+        using Activity? trace = Traces.ActivitySource.StartActivity("GetCustomerToken");
+        trace?.SetTag("customer.email", request.Email);
 
-        public LoginHandler(ILoginService loginService) => _loginService = loginService;
+        _logger.LogInformation("class: {Class}, method: {Method}, trying to login customer with email: {Email}.",
+            nameof(LoginHandler),
+            nameof(Handle),
+            request.Email);
 
-        public async Task<LoginCustomerResponse> Handle(LoginCustomerRequest request, CancellationToken cancellationToken)
-        {
-            LoginCustomerResponse response = await _loginService.GetCustomerToken(request);
+        LoginCustomerResponse response = await _loginService.GetCustomerToken(request);
 
-            return response;
-        }
+        _logger.LogInformation("class: {Class}, method: {Method}, customer with email: {Email} logged in successfully.",
+            nameof(LoginHandler),
+            nameof(Handle),
+            request.Email);
+
+        return response;
     }
 }

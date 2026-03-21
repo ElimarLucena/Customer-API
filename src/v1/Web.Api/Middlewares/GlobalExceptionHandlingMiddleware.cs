@@ -30,8 +30,11 @@ public class GlobalExceptionHandlingMiddleware(
             Message = exception.Message,
             StackTrace = exception.StackTrace
         });
-        
-        _logger.LogError($"class: {nameof(GlobalExceptionHandlingMiddleware)}, method: {nameof(HandleExceptionAsync)}, exception: {response}.");
+
+        _logger.LogError("class: {Class}, method: {Method}, exception: {Response}.",
+            nameof(GlobalExceptionHandlingMiddleware),
+            nameof(HandleExceptionAsync),
+            response);
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

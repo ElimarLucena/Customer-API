@@ -8,14 +8,18 @@ receivers:
 
 processors:
   batch:
+    timeout: 10s
+    send_batch_size: 1000
+    send_batch_max_size: 2000
 
 exporters:
   otlp/tracing:
     endpoint: jaeger:4317
     tls:
       insecure: true
-  # otlp/metrics:
-  #   endpoint: "prometheus:9090"
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: default
   # otlp/logs:
   #   endpoint: "loki:4318"
 
@@ -25,10 +29,10 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlp/tracing]
-    # metrics:
-    #   receivers: [otlp]
-    #   processors: [batch]
-    #   exporters: [otlp/metrics]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus]
     # logs:
     #   receivers: [otlp]
     #   processors: [batch]

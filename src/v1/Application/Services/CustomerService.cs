@@ -1,8 +1,10 @@
-﻿using Application.Interfaces;
+﻿using System.Diagnostics;
+using Application.Interfaces;
 using Application.Models.CustomerModels.Request;
 using Application.Models.CustomerModels.Response;
 using Domain.Entities;
 using Domain.Interfaces;
+using Infra.Data.Traces;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
@@ -17,11 +19,16 @@ public class CustomerService(
 
     public async Task<List<GetAllCustomersResponse>> GetAllCustomers()
     {
+        using Activity? trace = Traces.ActivitySource.StartActivity("GetAllCustomersService");
+
         List<GetAllCustomersResponse> response = [];
 
         List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
 
-        _logger.LogInformation($"class: {nameof(CustomerService)}, method: {nameof(GetAllCustomers)}, customers found: {allCustomers.Count}.");
+        _logger.LogInformation("class: {Class}, method: {Method}, customers found: {Count}.",
+            nameof(CustomerService),
+            nameof(GetAllCustomers),
+            allCustomers.Count);
 
         if (allCustomers.Any())
             foreach (Customer customer in allCustomers)
@@ -34,7 +41,7 @@ public class CustomerService(
                     Phone = customer.Phone,
                     Document = customer.Document,
                     CreatedAt = customer.CreatedAt,
-                    UdatedAt = customer.UdatedAt
+                    UdatedAt = customer.UpdatedAt
                 });
 
         return response;
@@ -42,14 +49,24 @@ public class CustomerService(
 
     public async Task<GetCustomerByIdResponse> GetCustomerById(Guid customerId)
     {
+        using Activity? trace = Traces.ActivitySource.StartActivity("GetCustomerByIdService");
+        trace?.SetTag("customer.id", customerId.ToString());
+
         Customer customer = await _customerRepository.GetCustomerById(customerId);
 
-        _logger.LogInformation($"class: {nameof(CustomerService)}, method: {nameof(GetCustomerById)}, customer found: {customerId}.");
+        _logger.LogInformation("class: {Class}, method: {Method}, customer found: {Id}.",
+            nameof(CustomerService), 
+            nameof(GetCustomerById),
+            customerId);
 
-        if (customer == null)
+        if (customer is null)
         {
-            _logger.LogWarning($"class: {nameof(CustomerService)}, method: {nameof(GetCustomerById)}, customer not found: {customerId}.");
-            throw new Exception("customer not found.");
+            _logger.LogWarning("class: {Class}, method: {Method}, customer not found: {Id}.",
+                nameof(CustomerService), 
+                nameof(GetCustomerById),
+                customerId);
+
+            throw new Exception("Customer not found.");
         }
 
         GetCustomerByIdResponse response = new()
@@ -61,7 +78,7 @@ public class CustomerService(
             Phone = customer.Phone,
             Document = customer.Document,
             CreatedAt = customer.CreatedAt,
-            UdatedAt = customer.UdatedAt
+            UdatedAt = customer.UpdatedAt
         };
 
         return response;
@@ -69,10 +86,20 @@ public class CustomerService(
 
     public async Task CreateCustomer(CreateCustomerRequest command)
     {
+        using Activity? trace = Traces.ActivitySource.StartActivity("CreateCustomerService");
+        trace?.SetTag("customer.name", command.Name);
+
         Customer existCustomer = await _customerRepository.GetCustomerByDocument(command.Document);
 
         if (existCustomer != null)
+        {
+            _logger.LogWarning("class: {Class}, method: {Method}, customer already exists: {Name}.",
+                nameof(CustomerService),
+                nameof(CreateCustomer),
+                command.Name);
+
             throw new Exception("Ops! this customer already exists.");
+        }
 
         Customer newCustomer = new()
         {
@@ -84,14 +111,23 @@ public class CustomerService(
             Document = command.Document,
             Password = command.Password,
             CreatedAt = DateTime.Now,
-            UdatedAt = DateTime.Now
+            UpdatedAt = DateTime.Now
         };
 
-        await _customerRepository.CreateCustomer(newCustomer);
+        int result = await _customerRepository.CreateCustomer(newCustomer);
+
+        if (result <= 0)
+            _logger.LogError("class: {Class}, method: {Method}, error creating customer: {Name}.",
+                nameof(CustomerService), 
+                nameof(CreateCustomer),
+                command.Name);
     }
 
     public async Task UpdateCustomer(UpdateCustomerRequest command)
     {
+        using Activity? trace = Traces.ActivitySource.StartActivity("UpdateCustomerService");
+        trace?.SetTag("customer.id", command.CustomerId.ToString());
+
         Customer updateCustomer = new()
         {
             CustomerId = command.CustomerId,
@@ -101,14 +137,29 @@ public class CustomerService(
             Phone = command.Phone,
             Document = command.Document,
             Password = command.Password,
-            UdatedAt = DateTime.Now
+            UpdatedAt = DateTime.Now
         };
 
-        await _customerRepository.UpdateCustomer(updateCustomer);
+        int result = await _customerRepository.UpdateCustomer(updateCustomer);
+
+        if (result <= 0)
+            _logger.LogError("class: {Class}, method: {Method}, error updating customer: {Id}.",
+                nameof(CustomerService), 
+                nameof(UpdateCustomer),
+                command.CustomerId);
     }
 
     public async Task DeleteCustomer(Guid customerId)
     {
-        await _customerRepository.DeleteCustomer(customerId);
+        using Activity? trace = Traces.ActivitySource.StartActivity("DeleteCustomerService");
+        trace?.SetTag("customer.id", customerId.ToString());
+
+        int result = await _customerRepository.DeleteCustomer(customerId);
+
+        if (result <= 0)
+            _logger.LogError("class: {Class}, method: {Method}, error deleting customer: {Id}.",
+                nameof(CustomerService), 
+                nameof(DeleteCustomer),
+                customerId);
     }
 }

@@ -6,7 +6,7 @@ using UnitTests.util.Models.JwtModels;
 
 namespace UnitTests.src.v1.Application.Authentication
 {
-    public class AuthenticationToken_Tests
+    public class AuthenticationTokenTests
     {
         [Fact]
         public void GenerateToken_Returns_WithToken()
