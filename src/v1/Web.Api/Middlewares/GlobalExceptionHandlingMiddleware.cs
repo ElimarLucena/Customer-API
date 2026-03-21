@@ -31,7 +31,7 @@ public class GlobalExceptionHandlingMiddleware(
             StackTrace = exception.StackTrace
         });
 
-        _logger.LogError("class: {GlobalExceptionHandlingMiddleware}, method: {HandleExceptionAsync}, exception: {response}.",
+        _logger.LogError("class: {Class}, method: {Method}, exception: {Response}.",
             nameof(GlobalExceptionHandlingMiddleware),
             nameof(HandleExceptionAsync),
             response);

@@ -25,8 +25,8 @@ public class CustomerService(
 
         List<Customer> allCustomers = await _customerRepository.GetAllCustomers();
 
-        _logger.LogInformation("class: {CustomerService}, method: {GetAllCustomers}, customers found: {allCustomers.Count}.",
-            nameof(CustomerService), 
+        _logger.LogInformation("class: {Class}, method: {Method}, customers found: {Count}.",
+            nameof(CustomerService),
             nameof(GetAllCustomers),
             allCustomers.Count);
 
@@ -54,19 +54,19 @@ public class CustomerService(
 
         Customer customer = await _customerRepository.GetCustomerById(customerId);
 
-        _logger.LogInformation("class: {CustomerService}, method: {GetCustomerById}, customer found: {customerId}.",
+        _logger.LogInformation("class: {Class}, method: {Method}, customer found: {Id}.",
             nameof(CustomerService), 
             nameof(GetCustomerById),
             customerId);
 
         if (customer is null)
         {
-            _logger.LogWarning("class: {CustomerService}, method: {GetCustomerById}, customer not found: {customerId}.",
+            _logger.LogWarning("class: {Class}, method: {Method}, customer not found: {Id}.",
                 nameof(CustomerService), 
                 nameof(GetCustomerById),
                 customerId);
 
-            throw new Exception("customer not found.");
+            throw new Exception("Customer not found.");
         }
 
         GetCustomerByIdResponse response = new()
@@ -93,7 +93,7 @@ public class CustomerService(
 
         if (existCustomer != null)
         {
-            _logger.LogWarning("class: {CustomerService}, method: {CreateCustomer}, customer already exists: {Name}.",
+            _logger.LogWarning("class: {Class}, method: {Method}, customer already exists: {Name}.",
                 nameof(CustomerService),
                 nameof(CreateCustomer),
                 command.Name);
@@ -117,7 +117,7 @@ public class CustomerService(
         int result = await _customerRepository.CreateCustomer(newCustomer);
 
         if (result <= 0)
-            _logger.LogError("class: {CustomerService}, method: {CreateCustomer}, error creating customer: {Name}.",
+            _logger.LogError("class: {Class}, method: {Method}, error creating customer: {Name}.",
                 nameof(CustomerService), 
                 nameof(CreateCustomer),
                 command.Name);
@@ -143,7 +143,7 @@ public class CustomerService(
         int result = await _customerRepository.UpdateCustomer(updateCustomer);
 
         if (result <= 0)
-            _logger.LogError("class: {CustomerService}, method: {UpdateCustomer}, error updating customer: {CustomerId}.",
+            _logger.LogError("class: {Class}, method: {Method}, error updating customer: {Id}.",
                 nameof(CustomerService), 
                 nameof(UpdateCustomer),
                 command.CustomerId);
@@ -157,7 +157,7 @@ public class CustomerService(
         int result = await _customerRepository.DeleteCustomer(customerId);
 
         if (result <= 0)
-            _logger.LogError("class: {CustomerService}, method: {DeleteCustomer}, error deleting customer: {CustomerId}.",
+            _logger.LogError("class: {Class}, method: {Method}, error deleting customer: {Id}.",
                 nameof(CustomerService), 
                 nameof(DeleteCustomer),
                 customerId);
