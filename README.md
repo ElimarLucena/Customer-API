@@ -18,13 +18,13 @@
       </a>
     </li>
     <li>
-      <a href="https://azure.microsoft.com/pt-br/products/data-studio" target="_blank" title="https://azure.microsoft.com/pt-br/products/data-studio">
-        Azure Data Studio
+      <a href="https://dbeaver.io/" target="_blank" title="https://dbeaver.io/">
+        DBeaver
       </a>
     </li>
     <li>
-      <a href="https://www.docker.com/products/docker-desktop/" target="_blank" title="https://www.docker.com/products/docker-desktop/">
-        Docker Desktop
+      <a href="https://rancherdesktop.io/" target="_blank" title="https://rancherdesktop.io/">
+        Rancher Desktop
       </a>
     </li>
   </ul>
@@ -172,6 +172,21 @@ CREATE TABLE TB_CUSTOMERS (
     </a>
     <p></p>
   <p>1.2 - Access the Pyroscope UI:</p>
+    
+  ```
+    http://localhost:4040/
+  ```
+  </details>
+  <details>
+  <summary>
+    :fire: <strong>Grafana Loki</strong>
+  </summary>
+  <p>1.1 - Access the documentation:</p>
+    <a href="https://grafana.com/docs/loki/latest/" target="_blank" title="https://grafana.com/docs/loki/latest/">
+          https://grafana.com/docs/loki/latest
+    </a>
+    <p></p>
+  <p>1.2 - Access the Loki UI:</p>
     
   ```
     http://localhost:4040/
