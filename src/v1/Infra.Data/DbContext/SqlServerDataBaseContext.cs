@@ -3,7 +3,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Infra.Data.DbContext
 {
-    public class SqlServerDataBaseContext : ISqlServerDataBaseContext
+    public class SqlServerDataBaseContext : ISqlServerDataBaseContext, IDisposable
     {
         private readonly IDbConnection _connection;
 
@@ -23,6 +23,9 @@ namespace Infra.Data.DbContext
             } 
         }
 
-        public void Dispose() => Connection.Dispose();
+        public void Dispose()
+        {
+            Connection.Dispose();
+        }
     }
 }
